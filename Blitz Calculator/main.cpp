@@ -3,7 +3,6 @@
 int main() {
 
   string response;
-  bool winner = false;
   bool verbose;
   int rounds = 0;
   int wins = 0;
@@ -77,7 +76,6 @@ int main() {
         cout << "Points: " << points << endl << endl;
       }
       if (points == 31) {
-        winner = true;
         wins++;
       }
     }
