@@ -9,10 +9,11 @@ int main() {
   int wins = 0;
   int target;
 
-  cout << "How many rounds would you like to simulate? ";
+  cout << "How many rounds would you like to simulate? "; // How many rounds to simulate before printing results
   cin >> target;
-  cout << "Would you like a verbose output? (y/n): ";
+  cout << "Would you like a verbose output? (y/n): "; // Check if user wants everything to output information (slows WAAAAY down)
   cin >> response;
+
   if (response == "y" || response == "Y") {
     verbose = true;
   }
@@ -20,6 +21,7 @@ int main() {
     verbose = false;
   }
 
+  // Begin actual simulation
 
   while (rounds < target) {
 
@@ -27,6 +29,7 @@ int main() {
     Deck discard(vector<string> {}); // Discard pile
     int players;
     vector<vector<Card>> playerHands; // List of each player's hand
+    Card lowestCard = Card("BLANK", "NONE", 0);
 
     // Collect number of players (how many hands to fill)
     //cout << "Input the number of players: ";
@@ -61,7 +64,13 @@ int main() {
           cout << "Added " << drawnCard.cardInfo() << endl;
         }
       }
-      
+
+      lowestCard = findLowestCard(thisHand);
+
+      if (verbose) {
+        cout << "Worst Card: " << findLowestCard(thisHand).cardInfo() << endl;
+      }
+
       // Find the point value of each player's hand
       double points = calculatePoints(thisHand);
       if (verbose) {
@@ -74,6 +83,8 @@ int main() {
     }
     rounds++;
   }
-  cout << setprecision(4) << "After " << rounds << " rounds, the calculated chance of being dealt a 31 is " << (static_cast<double>(wins)/static_cast<double>(rounds))*100 <<  "%, with " << wins << " wins out of " << rounds << " rounds.\n\n";
+  
+  //cout << setprecision(4) << "After " << rounds << " rounds, the calculated chance of being dealt a 31 is " << (static_cast<double>(wins)/static_cast<double>(rounds))*100 <<  "%, with " << wins << " wins out of " << rounds << " rounds.\n\n";
+  
   return 0;
 }

@@ -1,5 +1,6 @@
 #include "playing_cards.h"
 
+
 Card::Card(string newName = "BLANK", string newSuit = "NONE", int newValue = 0) {
     name = newName;
     suit = newSuit;
@@ -166,4 +167,27 @@ double calculatePoints(vector<Card> hand) {
         }
         return static_cast<double>(*max_element(suitPoints.begin(), suitPoints.end()));
     }
+}
+
+Card findLowestCard(vector<Card> hand) {
+    vector<Card> temp = hand;
+    int size = temp.size();
+    float max = 0;
+    float tempValue = 0;
+    Card lowestCard = Card();
+
+    for (int j = 0; j < size; j++) {
+        temp = hand;
+        temp.erase(temp.begin()+j);
+        tempValue = calculatePoints(temp);
+
+        // cout << "(" << tempValue << ")" << endl << "====\n";
+
+        if (tempValue > max) {
+            max = tempValue;
+            lowestCard = hand[0+j];
+        }
+    }
+        
+    return lowestCard; 
 }

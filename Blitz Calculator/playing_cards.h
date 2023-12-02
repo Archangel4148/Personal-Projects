@@ -25,7 +25,7 @@ class Card {
         int value;
         
         string cardInfo();
-
+        
 };
 
 class Deck {
@@ -50,5 +50,6 @@ class Deck {
 };
 
 double calculatePoints(vector<Card> hand);
+Card findLowestCard(vector<Card> hand);
 
 #endif
