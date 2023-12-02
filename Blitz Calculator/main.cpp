@@ -14,7 +14,7 @@ int main() {
   cout << "Would you like a verbose output? (y/n): "; // Check if user wants everything to output information (slows WAAAAY down)
   cin >> response;
 
-  if (response == "y" || response == "Y") {
+  if (response == "y" || response == "Y") { 
     verbose = true;
   }
   if (response == "n" || response == "N") {
