@@ -40,6 +40,7 @@ class Deck {
         Card drawCard();
         void shuffle();
         void resetDeck();
+        void emptyDeck();
         void addTop(Card topCard);
         Card getTop();
         int getSize();
@@ -51,5 +52,8 @@ class Deck {
 
 double calculatePoints(vector<Card> hand);
 Card findLowestCard(vector<Card> hand);
+int getCardIndex(vector<Card> v, Card target);
+
+string printCardVector(vector<Card> v);
 
 #endif

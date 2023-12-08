@@ -15,10 +15,10 @@ string Card::cardInfo() {
 
 Deck::Deck() {
     string suits[4] = {"clubs", "spades", "diamonds", "hearts"};
-    string names[14] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
-    int values[14] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+    string names[13] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+    int values[13] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
     for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 14; ++j) {
+        for (int j = 0; j < 13; ++j) {
             Card newCard(names[j], suits[i], values[j]);
             cards.push_back(newCard);
         }
@@ -123,14 +123,24 @@ void Deck::shuffle() { // Implementing Fisher-Yates shuffle algorithm
 }
 
 void Deck::resetDeck() {
-    Deck newDeck;
-    for (int i = 0; i < 52; i++) {
-        cards[i] = newDeck.cards[i]; //Perform a deep copy of the template deck to reset the deck
+    cards.clear();
+    string suits[4] = {"clubs", "spades", "diamonds", "hearts"};
+    string names[13] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+    int values[13] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11};
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 13; ++j) {
+            Card newCard(names[j], suits[i], values[j]);
+            cards.push_back(newCard);
+        }
     }
-    cardCount = 52;
-    shuffle();
+    shuffle(); //Shuffles deck once it is initialized
+}
+
+void Deck::emptyDeck() {
+    cards.clear();
     return;
 }
+
 
 void Deck::printDeck() {
     for (int i = 0; i < cardCount; i++) {
@@ -172,22 +182,45 @@ double calculatePoints(vector<Card> hand) {
 Card findLowestCard(vector<Card> hand) {
     vector<Card> temp = hand;
     int size = temp.size();
-    float max = 0;
+    float best = 0;  // Assuming the maximum value for a card is 10
     float tempValue = 0;
     Card lowestCard = Card();
 
     for (int j = 0; j < size; j++) {
         temp = hand;
-        temp.erase(temp.begin()+j);
-        tempValue = calculatePoints(temp);
+        temp.erase(temp.begin() + j); // Remove the jth card
+        tempValue = calculatePoints(temp); // Calculate the score without that card
 
-        // cout << "(" << tempValue << ")" << endl << "====\n";
-
-        if (tempValue > max) {
-            max = tempValue;
-            lowestCard = hand[0+j];
+        if (tempValue > best && tempValue != best) {
+            best = tempValue;
+            lowestCard = hand[j];
+        }
+        else if (tempValue == best) {
+            if (hand[j].value < lowestCard.value) {
+                lowestCard = hand[j];
+            }
         }
     }
-        
-    return lowestCard; 
+
+    return lowestCard;
+}
+
+int getCardIndex(vector<Card> v, Card target) {
+    for (int i = 0; i < v.size(); i++) {
+        if (v[i].cardInfo() == target.cardInfo()) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+string printCardVector(vector<Card> v) {
+    string output = "[";
+    for (int i = 0; i < v.size(); i++) {
+        output += v[i].cardInfo();
+        if (i < v.size() - 1) 
+            output += ", ";
+    }
+    output += "]";
+    return output;
 }
