@@ -2,7 +2,7 @@
 
 // ---- FUNCTION IMPLEMENTATION ----
 
-vector<string> splitTerms(const string input, char delim) {
+vector<string> splitString(const string input, char delim) {
   vector<string> terms;
   string tempTerm = "";
   char character;

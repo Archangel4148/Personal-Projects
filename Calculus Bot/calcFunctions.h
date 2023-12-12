@@ -10,7 +10,7 @@ using namespace std;
 // ---- FUNCTION DEFINITIONS ----
 
 // Splits a provided polynomial into a vector of its component terms
-vector<string> splitTerms(const string input, char delim);
+vector<string> splitString(const string input, char delim);
 
 
 // Computes the derivative of the provided function

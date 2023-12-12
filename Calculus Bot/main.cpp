@@ -8,7 +8,7 @@ int main() {
   cout << "Enter a function to differentiate: ";
   getline(cin, function);
 
-  terms = splitTerms(function, ' ');
+  terms = splitString(function, ' ');
 
   cout << "Terms: " << terms << endl;
 
