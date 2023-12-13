@@ -3,6 +3,7 @@
 int main() {
 
   string function;
+  string operators = "+-*/";
   vector<string> terms;
 
   cout << "Enter a function to differentiate: ";
@@ -10,7 +11,9 @@ int main() {
 
   terms = splitString(function, ' ');
 
-  cout << "Terms: " << terms << endl;
+  cout << "Terms: " << terms << endl << endl;
+
+  cout << "Derivative: " << differentiate(terms) << endl;
 
   return 0;
 }
