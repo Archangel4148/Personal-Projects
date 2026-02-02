@@ -22,7 +22,7 @@ def model(params, x):
 
 
 def binary_cross_entropy_per_sample(y_hat, y):
-    eps = 1e-7
+    eps = 1e-8
     return -(
             y * torch.log(y_hat + eps) + (1 - y) * torch.log(1 - y_hat + eps)
     )
@@ -32,6 +32,12 @@ def loss_per_sample(y_hat, y):
     return binary_cross_entropy_per_sample(y_hat, y)
 
 
-def loss_fn(params, x, y):
+def loss_fn(params, x, y, lambda_l1=0.00, lambda_l2=0.00):
+    w, _ = params
     y_hat = model(params, x)
-    return torch.mean(loss_per_sample(y_hat, y))
+    loss = torch.mean(loss_per_sample(y_hat, y))
+    # Add L2 (Ridge) regularization term
+    l2_loss = lambda_l2 * torch.sum(w ** 2)
+    # Add L1 (Lasso) regularization term
+    l1_loss = lambda_l1 * torch.sum(torch.abs(w))
+    return loss + l1_loss + l2_loss

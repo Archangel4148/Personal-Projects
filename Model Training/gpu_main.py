@@ -18,7 +18,7 @@ def vprint(*args, **kwargs):
 # Hyperparameters
 LEARNING_RATE = 0.05
 NUM_STEPS = 100
-DATA_POINTS = generate_dummy_data(n_features=2, n_points=100, seed=1, pattern="linear")
+DATA_POINTS = generate_dummy_data(n_features=1, n_points=100, seed=1, pattern="linear")
 
 def y_hat_func(*args) -> np.ndarray:
     """Wrapper for y-hat calculation to match format of plotting functions"""
@@ -67,7 +67,7 @@ def main():
 
     for step in range(NUM_STEPS):
         # Backward pass
-        loss = loss_fn(params, X_train_tensor, y_train_tensor)
+        loss = loss_fn(params, X_train_tensor, y_train_tensor, lambda_l1=0.0, lambda_l2=0.0)
         loss.backward()
 
         # Gradient descent step
@@ -79,6 +79,7 @@ def main():
 
     # Get the data ready for evaluation/plotting
     training_data = [list(x_row) + [y] for x_row, y in zip(X_train_norm, y_train)]
+    testing_data = [list(x_row) + [y] for x_row, y in zip(X_test_norm, y_test)]
     w_learned = w.cpu().detach().numpy()
     b_learned = b.item()
 
@@ -108,7 +109,7 @@ def main():
 
     # If possible, plot the resulting model
     if feature_count == 1:
-        plot_2d(data_points=training_data, w_val=w_learned, b_val=b_learned, y_hat_func=y_hat_func)
+        plot_2d(training_points=training_data, w_val=w_learned, b_val=b_learned, y_hat_func=y_hat_func, test_points=testing_data)
     elif feature_count == 2:
         plot_3d(data_points=training_data, w_vals=w_learned, b_val=b_learned, y_hat_func=y_hat_func)
 

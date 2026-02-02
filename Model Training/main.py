@@ -15,7 +15,7 @@ def vprint(*args, **kwargs):
 # Hyperparameters
 LEARNING_RATE = 0.05
 NUM_STEPS = 100
-DATA_POINTS = generate_dummy_data(n_features=2, n_points=100, seed=1, pattern="linear")
+DATA_POINTS = generate_dummy_data(n_features=1, n_points=100, seed=1, pattern="linear")
 
 
 def main():
@@ -129,7 +129,7 @@ def main():
 
     # If possible, plot the resulting model
     if feature_count == 1:
-        plot_2d(data_points=training_data, w_val=w_learned, b_val=b_learned, y_hat_func=y_hat_func)
+        plot_2d(training_points=training_data, w_val=w_learned, b_val=b_learned, y_hat_func=y_hat_func)
     elif feature_count == 2:
         plot_3d(data_points=training_data, w_vals=w_learned, b_val=b_learned, y_hat_func=y_hat_func)
 

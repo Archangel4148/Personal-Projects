@@ -34,25 +34,49 @@ def generate_dummy_data(n_features=1, n_points=50, pattern="linear", seed=None):
     return data_points
 
 
-def plot_2d(data_points, w_val, b_val, y_hat_func):
+def plot_2d(training_points, w_val, b_val, y_hat_func, test_points=None):
     import matplotlib.pyplot as plt
 
     # Generate smooth x range
     x_plot = np.linspace(
-        min(p[0] for p in data_points) - 0.5,
-        max(p[0] for p in data_points) + 0.5,
+        min(p[0] for p in training_points) - 0.5,
+        max(p[0] for p in training_points) + 0.5,
         200
     )
 
     y_plot = y_hat_func(x_plot, w_val[0], b_val)
 
-    # Plot data points
-    for px, py in data_points:
-        color = "r" if py > 0.5 else "b"
+    # Plot training data points
+    for px, py in training_points:
+        color = "orange" if py > 0.5 else "b"
         plt.scatter(px, py, c=color, zorder=3)
+
+    # Plot test points (if any)
+    if test_points:
+        for tx, ty in test_points:
+            y_pred = y_hat_func(np.array([tx]), w_val[0], b_val)[0]
+            if (y_pred > 0.5) == bool(ty):
+                marker = "^"  # green triangle for correct
+                color = "g"
+            else:
+                marker = "x"  # red x for wrong
+                color = "r"
+            plt.scatter(tx, ty, c=color, marker=marker, s=80, zorder=4, label="_nolegend_")
 
     # Plot learned curve
     plt.plot(x_plot, y_plot, label="Learned model", zorder=2)
+
+    # Plot decision boundary (where y_hat = 0.5)
+    if w_val[0] != 0:
+        x_boundary = -b_val / w_val[0]
+        plt.axvline(x=x_boundary, color="k", linestyle="--", label="Decision boundary")
+
+    # Placeholder scatter points to add more to the legend
+    plt.scatter([], [], c='b', label='Training Class 0')
+    plt.scatter([], [], c='orange', label='Training Class 1')
+    if test_points:
+        plt.scatter([], [], c='g', marker='^', s=80, label='Test Correct')
+        plt.scatter([], [], c='r', marker='x', s=80, label='Test Incorrect')
 
     # Set up plot
     plt.xlabel("x")
