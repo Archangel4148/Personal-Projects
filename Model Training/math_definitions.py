@@ -32,6 +32,9 @@ def binary_cross_entropy_per_sample(y_hat, y):
 def mse_per_sample(y_hat, y):
     return torch.mean((y_hat - y)**2)
 
+def rmse_per_sample(y_hat, y):
+    return torch.sqrt(torch.mean((y_hat - y) ** 2))
+
 def loss_per_sample(y_hat, y):
     # return binary_cross_entropy_per_sample(y_hat, y), "Binary Cross Entropy"
     return mse_per_sample(y_hat, y), "MSE"

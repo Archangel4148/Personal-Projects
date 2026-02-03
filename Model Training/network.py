@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
 
-from math_definitions import relu, sigmoid, loss_fn_general, loss_per_sample
+from math_definitions import relu, rmse_per_sample, sigmoid, loss_fn_general, loss_per_sample
 from tools import generate_dummy_data, generate_polynomial_data, plot_2d_new
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -78,8 +78,8 @@ def main():
     num_steps = 2000
     learning_rate = 0.05
     feature_count = 1
-    # data = generate_dummy_data(n_features=feature_count, n_points=100, seed=None, pattern="linear", task="classification" if is_classifier else "regression")
-    data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=5, task="classification" if is_classifier else "regression")
+    # data = generate_dummy_data(n_features=feature_count, n_points=100, seed=1, pattern="linear", task="classification" if is_classifier else "regression")
+    data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=3, task="classification" if is_classifier else "regression")
 
     # Build the network
     # network = Network(node_counts=[feature_count, 1], activations=[sigmoid], initializations=[None])  # Logistic regression
@@ -103,22 +103,28 @@ def main():
     X_train_norm = (X_train - mean_vals) / (std_vals + 1e-8)
     X_test_norm = (X_test - mean_vals) / (std_vals + 1e-8)
 
-    # Normalize target points (to avoid exploding outputs)
-    y_mean = y_train.mean()
-    y_std = y_train.std()
-    y_train_norm = (y_train - y_mean) / y_std
-    y_test_norm = (y_test - y_mean) / y_std
+    # For regression models, normalize target points (to avoid exploding outputs)
+    if is_classifier:
+        y_train_norm = y_train
+        y_test_norm = y_test
+    else:
+        y_mean = y_train.mean()
+        y_std = y_train.std()
+        y_train_norm = (y_train - y_mean) / y_std
+        y_test_norm = (y_test - y_mean) / y_std
 
     # Convert to tensors for GPU acceleration
     X_train_tensor = torch.tensor(X_train_norm, dtype=torch.float32, device=device)
     X_test_tensor = torch.tensor(X_test_norm, dtype=torch.float32, device=device)
-    y_train_tensor = torch.tensor(y_train_norm, dtype=torch.float32, device=device).view(-1, 1)
-    y_test_tensor = torch.tensor(y_test_norm, dtype=torch.float32, device=device).view(-1, 1)
+    y_train_tensor_norm = torch.tensor(y_train_norm, dtype=torch.float32, device=device).view(-1, 1)
+    y_train_tensor = torch.tensor(y_train, dtype=torch.float32, device=device).view(-1, 1)
+    y_test_tensor_norm = torch.tensor(y_test_norm, dtype=torch.float32, device=device).view(-1, 1)
+    y_test_tensor = torch.tensor(y_test, dtype=torch.float32, device=device).view(-1, 1)
 
     # Training loop
     for _ in range(num_steps):
         y_hat = network.forward(X_train_tensor)
-        loss, _ = loss_fn_general(y_hat, y_train_tensor, network.parameters(), lambda_l1=0.0, lambda_l2=0.0)
+        loss, _ = loss_fn_general(y_hat, y_train_tensor_norm, network.parameters(), lambda_l1=0.0, lambda_l2=0.0)
         loss.backward()
 
         # Apply gradient descent to each parameter
@@ -134,33 +140,45 @@ def main():
         print(f"Layer {i}:")
         print(f"  W = {W.flatten()}")
         print(f"  b = {b.flatten()}")
+    print()
 
     with torch.no_grad():
         y_hat_train = network.forward(X_train_tensor)
         y_hat_test = network.forward(X_test_tensor)
         
-        y_hat_train_rescaled = y_hat_train * y_std + y_mean
-        y_hat_test_rescaled = y_hat_test * y_std + y_mean
-
         if is_classifier:
-            # Test predictions (only for classification model)
-            y_pred = decision_func(y_hat_test).int()
-            accuracy = (y_pred == y_test_tensor.int()).float().mean().item()
-            print(f"Test Accuracy: {round(accuracy * 100, 3)}%")
+            y_hat_train_rescaled = y_hat_train
+            y_hat_test_rescaled = y_hat_test
+        else:
+            y_hat_train_rescaled = y_hat_train * y_std + y_mean
+            y_hat_test_rescaled = y_hat_test * y_std + y_mean
 
         # Training loss
-        train_losses, loss_label = loss_per_sample(y_hat_train_rescaled, torch.tensor(y_train, dtype=torch.float32, device=device).view(-1,1))
+        train_losses, loss_label = loss_per_sample(y_hat_train_rescaled, y_train_tensor)
         mean_train_loss = torch.mean(train_losses).item()
         print(f"Training {loss_label} (mean): {mean_train_loss}")
 
         # Test loss
-        test_losses, loss_label = loss_per_sample(y_hat_test_rescaled, torch.tensor(y_test, dtype=torch.float32, device=device).view(-1,1))
+        test_losses, loss_label = loss_per_sample(y_hat_test_rescaled, y_test_tensor)
         mean_test_loss = torch.mean(test_losses).item()
         print(f"Test {loss_label} (mean): {mean_test_loss}")
 
+        if is_classifier:
+            # Test predictions (only for classification model)
+            y_pred = decision_func(y_hat_test).int()
+            accuracy = (y_pred == y_test_tensor_norm.int()).float().mean().item()
+            print(f"Test Accuracy: {round(accuracy * 100, 3)}%")
+        else:
+            # RMSE
+            train_rmse = rmse_per_sample(y_hat_train_rescaled, y_train_tensor).item()
+            test_rmse = rmse_per_sample(y_hat_test_rescaled, y_test_tensor).item()
+
+            print(f"Training RMSE: {train_rmse}")
+            print(f"Test RMSE: {test_rmse}")
+
     # Prepare plotting data
-    training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor.cpu().numpy()])
-    testing_data = np.hstack([X_test_tensor.cpu().numpy(), y_test_tensor.cpu().numpy()])
+    training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()])
+    testing_data = np.hstack([X_test_tensor.cpu().numpy(), y_test_tensor_norm.cpu().numpy()])
 
     # If possible, plot the resulting model
     if feature_count == 1:
