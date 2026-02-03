@@ -58,6 +58,39 @@ def generate_dummy_data(
     np.random.shuffle(data_points)
     return data_points
 
+def generate_polynomial_data(
+    n_features=1,
+    n_points=50,
+    degree=2,
+    task="regression",
+    noise_std=0.1,
+    seed=None,
+):
+    if seed is not None:
+        np.random.seed(seed)
+
+    data_points = []
+
+    # Random coefficients for each feature and each degree
+    coeffs = np.random.uniform(-1, 1, size=(n_features, degree))
+    bias = np.random.uniform(-0.5, 0.5)
+
+    for _ in range(n_points):
+        x = np.random.uniform(-5, 5, size=n_features)
+        y_raw = sum(coeffs[i, d] * (x[i] ** (d + 1)) for i in range(n_features) for d in range(degree)) + bias
+
+        if task == "classification":
+            y = int(y_raw > 0)
+        elif task == "regression":
+            y = y_raw + np.random.normal(0, noise_std)
+        else:
+            raise ValueError(f"Unknown task: {task}")
+
+        data_points.append(list(x) + [y])
+
+    np.random.shuffle(data_points)
+    return data_points
+
 
 def plot_2d(training_points, w_val, b_val, y_hat_func, test_points=None):
     import matplotlib.pyplot as plt
@@ -175,7 +208,7 @@ def plot_2d_new(training_points, test_points=None, y_hat_func=None, is_classifie
             color = "orange" if decision_function(y) else "b"
         else:
             color = "k"
-        plt.scatter(x, y, c=color, alpha=0.5, zorder=3)
+        plt.scatter(x, y, c=color, alpha=0.5, zorder=1)
 
     # Plot test points
     if test_points is not None:
@@ -194,10 +227,10 @@ def plot_2d_new(training_points, test_points=None, y_hat_func=None, is_classifie
                 color = "b"
                 marker = "^"
 
-            plt.scatter(x, y_true, c=color, marker=marker, s=80, zorder=4)
+            plt.scatter(x, y_true, c=color, marker=marker, s=80, zorder=2)
 
     # Plot learned curve
-    plt.plot(x_plot, y_plot, label="Model prediction", zorder=2)
+    plt.plot(x_plot, y_plot, label="Model prediction", zorder=3)
 
     # Legend helpers
     if is_classifier:

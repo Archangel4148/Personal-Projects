@@ -14,6 +14,8 @@ import torch
 def sigmoid(z):
     return 1 / (1 + torch.exp(-z))
 
+def relu(z):
+    return torch.clamp(z, min=0.0)
 
 def model(params, x):
     w, b = params
@@ -31,23 +33,25 @@ def mse_per_sample(y_hat, y):
     return torch.mean((y_hat - y)**2)
 
 def loss_per_sample(y_hat, y):
-    return binary_cross_entropy_per_sample(y_hat, y)
-    # return mse_per_sample(y_hat, y)
+    # return binary_cross_entropy_per_sample(y_hat, y), "Binary Cross Entropy"
+    return mse_per_sample(y_hat, y), "MSE"
 
 
 def loss_fn(params, x, y, lambda_l1=0.00, lambda_l2=0.00):
     w, _ = params
     y_hat = model(params, x)
-    loss = torch.mean(loss_per_sample(y_hat, y))
+    sample_loss, label = loss_per_sample(y_hat, y)
+    loss = torch.mean(sample_loss)
     # Add L2 (Ridge) regularization term
     l2_loss = lambda_l2 * torch.sum(w ** 2)
     # Add L1 (Lasso) regularization term
     l1_loss = lambda_l1 * torch.sum(torch.abs(w))
-    return loss + l1_loss + l2_loss
+    return loss + l1_loss + l2_loss, label
 
 def loss_fn_general(y_hat, y, parameters, lambda_l1=0.0, lambda_l2=0.0):
     # Base data loss
-    data_loss = torch.mean(loss_per_sample(y_hat, y))
+    sample_loss, label = loss_per_sample(y_hat, y)
+    data_loss = torch.mean(sample_loss)
 
     l1_loss = 0.0
     l2_loss = 0.0
@@ -58,4 +62,4 @@ def loss_fn_general(y_hat, y, parameters, lambda_l1=0.0, lambda_l2=0.0):
             l1_loss += torch.sum(torch.abs(p))
             l2_loss += torch.sum(p ** 2)
 
-    return data_loss + lambda_l1 * l1_loss + lambda_l2 * l2_loss
+    return data_loss + lambda_l1 * l1_loss + lambda_l2 * l2_loss, label
