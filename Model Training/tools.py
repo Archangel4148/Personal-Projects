@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 def generate_dummy_data(n_features=1, n_points=50, pattern="linear", seed=None):
@@ -86,6 +87,7 @@ def plot_2d(training_points, w_val, b_val, y_hat_func, test_points=None):
     plt.grid(True)
     plt.show()
 
+
 def plot_3d(data_points, w_vals, b_val, y_hat_func):
     import matplotlib.pyplot as plt
 
@@ -125,6 +127,63 @@ def plot_3d(data_points, w_vals, b_val, y_hat_func):
     ax.set_zlabel("ŷ")
 
     plt.show()
+
+
+def plot_2d_new(training_points, test_points=None, y_hat_func=None):
+    training_points = np.asarray(training_points)
+
+    X_train = training_points[:, 0]
+
+    # Generate smooth x range
+    x_plot = np.linspace(
+        X_train.min() - 0.5,
+        X_train.max() + 0.5,
+        300
+    )
+
+    # Model prediction (black box)
+    y_plot = y_hat_func(x_plot)
+    y_plot = np.asarray(y_plot).reshape(-1)
+
+    # Plot training data
+    for x, y in training_points:
+        color = "orange" if y > 0.5 else "b"
+        plt.scatter(x, y, c=color, zorder=3)
+
+    # Plot test points (correct / incorrect)
+    if test_points is not None:
+        test_points = np.asarray(test_points)
+        X_test = test_points[:, 0]
+        y_test = test_points[:, 1]
+
+        y_test_hat = y_hat_func(X_test)
+
+        for x, y_true, y_pred in zip(X_test, y_test, y_test_hat):
+            correct = (y_pred > 0.5) == bool(y_true)
+            marker = "^" if correct else "x"
+            color = "g" if correct else "r"
+            plt.scatter(x, y_true, c=color, marker=marker, s=80, zorder=4)
+
+    # Plot learned curve
+    plt.plot(x_plot, y_plot, label="Model prediction", zorder=2)
+
+    # Decision boundary (implicit)
+    plt.axvline(0.5, color="k", linestyle="--", label="ŷ = 0.5")
+
+    # Legend helpers
+    plt.scatter([], [], c="b", label="Training Class 0")
+    plt.scatter([], [], c="orange", label="Training Class 1")
+    if test_points is not None:
+        plt.scatter([], [], c="g", marker="^", s=80, label="Test Correct")
+        plt.scatter([], [], c="r", marker="x", s=80, label="Test Incorrect")
+
+    plt.xlabel("x")
+    plt.ylabel("ŷ")
+    plt.ylim(-0.1, 1.1)
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 
 def compute_dataset_loss(dataset, w_vals, b_val, loss_func):
     # Apply the loss function to the whole dataset using the provided parameters

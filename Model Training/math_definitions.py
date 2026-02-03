@@ -41,3 +41,18 @@ def loss_fn(params, x, y, lambda_l1=0.00, lambda_l2=0.00):
     # Add L1 (Lasso) regularization term
     l1_loss = lambda_l1 * torch.sum(torch.abs(w))
     return loss + l1_loss + l2_loss
+
+def loss_fn_general(y_hat, y, parameters, lambda_l1=0.0, lambda_l2=0.0):
+    # Base data loss
+    data_loss = torch.mean(loss_per_sample(y_hat, y))
+
+    l1_loss = 0.0
+    l2_loss = 0.0
+
+    for p in parameters:
+        # Skip biases if you want (optional, but common)
+        if p.ndim > 1:
+            l1_loss += torch.sum(torch.abs(p))
+            l2_loss += torch.sum(p ** 2)
+
+    return data_loss + lambda_l1 * l1_loss + lambda_l2 * l2_loss
