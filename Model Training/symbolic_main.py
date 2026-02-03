@@ -15,7 +15,7 @@ def vprint(*args, **kwargs):
 # Hyperparameters
 LEARNING_RATE = 0.05
 NUM_STEPS = 100
-DATA_POINTS = generate_dummy_data(n_features=1, n_points=100, seed=1, pattern="linear")
+DATA_POINTS = generate_dummy_data(n_features=1, n_points=100, seed=1, pattern="linear", task="classification")
 
 
 def main():

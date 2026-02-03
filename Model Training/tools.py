@@ -1,33 +1,57 @@
+from typing import Callable
 import numpy as np
 from matplotlib import pyplot as plt
 
 
-def generate_dummy_data(n_features=1, n_points=50, pattern="linear", seed=None):
+def generate_dummy_data(
+    n_features=1,
+    n_points=50,
+    pattern="linear",
+    task="classification",   # "classification" | "regression"
+    noise_std=0.1,
+    seed=None,
+):
+    """
+    Generates synthetic datasets for classification or regression.
+
+    Returns:
+        List[List[float]] where last element is the target y
+    """
     if seed is not None:
         np.random.seed(seed)
 
     data_points = []
 
     if pattern == "linear":
-        # Linear separation: random hyperplane
+        # Shared ground-truth model
         w = np.random.uniform(-1, 1, size=n_features)
         b = np.random.uniform(-0.5, 0.5)
+
         for _ in range(n_points):
             x = np.random.uniform(-5, 5, size=n_features)
-            y = int(np.dot(w, x) + b > 0)
+            y_raw = np.dot(w, x) + b
+
+            if task == "classification":
+                y = int(y_raw > 0)
+            elif task == "regression":
+                y = y_raw + np.random.normal(0, noise_std)
+            else:
+                raise ValueError(f"Unknown task: {task}")
+
             data_points.append(list(x) + [y])
 
     elif pattern == "clusters":
-        # Gaussian clusters for each class
+        if task != "classification":
+            raise ValueError("Cluster pattern is only meaningful for classification")
+
         n_clusters_per_class = 2
         for class_label in [0, 1]:
             for _ in range(n_clusters_per_class):
-                # Random cluster center
                 center = np.random.uniform(-3, 3, size=n_features)
-                # Generate points around center
                 for _ in range(n_points // (2 * n_clusters_per_class)):
                     x = center + np.random.normal(0, 0.5, size=n_features)
                     data_points.append(list(x) + [class_label])
+
     else:
         raise ValueError(f"Unknown pattern: {pattern}")
 
@@ -129,7 +153,7 @@ def plot_3d(data_points, w_vals, b_val, y_hat_func):
     plt.show()
 
 
-def plot_2d_new(training_points, test_points=None, y_hat_func=None):
+def plot_2d_new(training_points, test_points=None, y_hat_func=None, is_classifier: bool = True, decision_function: Callable = None):
     training_points = np.asarray(training_points)
 
     X_train = training_points[:, 0]
@@ -141,16 +165,19 @@ def plot_2d_new(training_points, test_points=None, y_hat_func=None):
         300
     )
 
-    # Model prediction (black box)
+    # Model prediction
     y_plot = y_hat_func(x_plot)
     y_plot = np.asarray(y_plot).reshape(-1)
 
     # Plot training data
     for x, y in training_points:
-        color = "orange" if y > 0.5 else "b"
-        plt.scatter(x, y, c=color, zorder=3)
+        if is_classifier:
+            color = "orange" if decision_function(y) else "b"
+        else:
+            color = "k"
+        plt.scatter(x, y, c=color, alpha=0.5, zorder=3)
 
-    # Plot test points (correct / incorrect)
+    # Plot test points
     if test_points is not None:
         test_points = np.asarray(test_points)
         X_test = test_points[:, 0]
@@ -159,27 +186,33 @@ def plot_2d_new(training_points, test_points=None, y_hat_func=None):
         y_test_hat = y_hat_func(X_test)
 
         for x, y_true, y_pred in zip(X_test, y_test, y_test_hat):
-            correct = (y_pred > 0.5) == bool(y_true)
-            marker = "^" if correct else "x"
-            color = "g" if correct else "r"
+            if is_classifier:
+                correct = decision_function(y_pred) == bool(y_true)
+                marker = "^" if correct else "x"
+                color = "g" if correct else "r"
+            else:
+                color = "b"
+                marker = "^"
+
             plt.scatter(x, y_true, c=color, marker=marker, s=80, zorder=4)
 
     # Plot learned curve
     plt.plot(x_plot, y_plot, label="Model prediction", zorder=2)
 
-    # Decision boundary (implicit)
-    plt.axvline(0.5, color="k", linestyle="--", label="ŷ = 0.5")
-
     # Legend helpers
-    plt.scatter([], [], c="b", label="Training Class 0")
-    plt.scatter([], [], c="orange", label="Training Class 1")
-    if test_points is not None:
-        plt.scatter([], [], c="g", marker="^", s=80, label="Test Correct")
-        plt.scatter([], [], c="r", marker="x", s=80, label="Test Incorrect")
+    if is_classifier:
+        plt.scatter([], [], c="b", label="Training Class 0")
+        plt.scatter([], [], c="orange", label="Training Class 1")
+        if test_points is not None:
+            plt.scatter([], [], c="g", marker="^", s=80, label="Test Correct")
+            plt.scatter([], [], c="r", marker="x", s=80, label="Test Incorrect")
+    else:
+        plt.scatter([], [], c="k", alpha=0.5, label="Training Data")
+        plt.scatter([], [], c="b", marker="^", label="Test Data")
+
 
     plt.xlabel("x")
     plt.ylabel("ŷ")
-    plt.ylim(-0.1, 1.1)
     plt.legend()
     plt.grid(True)
     plt.show()
