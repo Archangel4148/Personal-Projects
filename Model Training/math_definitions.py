@@ -35,9 +35,21 @@ def mse_per_sample(y_hat, y):
 def rmse_per_sample(y_hat, y):
     return torch.sqrt(torch.mean((y_hat - y) ** 2))
 
+def softmax_cross_entropy_per_sample(logits, y):
+    eps = 1e-8
+
+    shifted_logits = logits - torch.max(logits, dim=1, keepdim=True).values
+    exp_logits = torch.exp(shifted_logits)
+    probs = exp_logits / torch.sum(exp_logits, dim=1, keepdim=True)
+
+    correct_class_probs = probs[torch.arange(y.shape[0]), y]
+    return -torch.log(correct_class_probs + eps)
+
 def loss_per_sample(y_hat, y):
     # return binary_cross_entropy_per_sample(y_hat, y), "Binary Cross Entropy"
-    return mse_per_sample(y_hat, y), "MSE"
+    # return mse_per_sample(y_hat, y), "MSE"
+    return softmax_cross_entropy_per_sample(y_hat, y), "Cross Entropy"
+
 
 
 def loss_fn(params, x, y, lambda_l1=0.00, lambda_l2=0.00):
