@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import torch
 from matplotlib import pyplot as plt
+from numpy import ndarray
 from sklearn.model_selection import train_test_split
 
 from math_definitions import relu, rmse_per_sample, sigmoid, loss_fn_general, loss_per_sample
@@ -112,6 +113,61 @@ def y_hat_network(network, x):
         return y_hat.cpu().numpy().squeeze()
 
 
+def parse_data(features: ndarray, labels: ndarray, is_classifier: bool, early_stop_enabled: bool = True,
+               test_ratio: float = 0.2, validation_ratio: float = 0.5, split_random_state=None):
+    """Parse the input features and labels into usable data for training, testing, and (optionally) validation"""
+
+    # Initialize optional validation variables to empty
+    x_val, y_val, x_val_norm, y_val_norm, x_val_tensor_norm, y_val_tensor_norm = None, None, None, None, None, None
+
+    # Split into training set and "temporary set"
+    x_train, x_temp, y_train, y_temp = train_test_split(
+        features, labels, test_size=test_ratio, random_state=split_random_state
+    )
+    if early_stop_enabled:
+        # For early stopping, split temporary set into validation and test set
+        x_val, x_test, y_val, y_test = train_test_split(
+            x_temp, y_temp, test_size=validation_ratio, random_state=split_random_state
+        )
+    else:
+        # Otherwise, use the full temporary set as a test set
+        x_test, y_test = x_temp, y_temp
+
+    # Normalize the training points (only based on the training data to avoid data leakage)
+    mean_vals = x_train.mean(axis=0)
+    std_vals = x_train.std(axis=0)
+    x_train_norm = (x_train - mean_vals) / (std_vals + 1e-8)
+    x_test_norm = (x_test - mean_vals) / (std_vals + 1e-8)
+    if early_stop_enabled:
+        x_val_norm = (x_val - mean_vals) / (std_vals + 1e-8)
+
+    # For regression models, normalize target points (to avoid exploding outputs)
+    if is_classifier:
+        y_train_norm = y_train
+        y_test_norm = y_test
+        if early_stop_enabled:
+            y_val_norm = y_val
+    else:
+        y_mean = y_train.mean()
+        y_std = y_train.std()
+        y_train_norm = (y_train - y_mean) / y_std
+        y_test_norm = (y_test - y_mean) / y_std
+        if early_stop_enabled:
+            y_val_norm = (y_val - y_mean) / y_std
+
+    # Convert to tensors for GPU acceleration
+    x_train_tensor_norm = torch.tensor(x_train_norm, dtype=torch.float32, device=device)
+    x_test_tensor_norm = torch.tensor(x_test_norm, dtype=torch.float32, device=device)
+    y_train_tensor = torch.tensor(y_train, dtype=torch.long, device=device)
+    y_train_tensor_norm = torch.tensor(y_train_norm, dtype=torch.long, device=device)
+    y_test_tensor = torch.tensor(y_test, dtype=torch.long, device=device)
+    y_test_tensor_norm = torch.tensor(y_test_norm, dtype=torch.long, device=device)
+    if early_stop_enabled:
+        x_val_tensor_norm = torch.tensor(x_val_norm, dtype=torch.float32, device=device)
+        y_val_tensor_norm = torch.tensor(y_val_norm, dtype=torch.long, device=device)
+    return x_test_tensor_norm, x_train_tensor_norm, x_val_tensor_norm, y_mean, y_std, y_test_tensor, y_test_tensor_norm, y_train_tensor, y_train_tensor_norm, y_val_tensor_norm
+
+
 def main():
     # Model hyperparameters
     is_classifier = True
@@ -155,49 +211,19 @@ def main():
         # Prepare the data
         # features = np.array([p[:-1] for p in data], dtype=float)
         # labels = np.array([p[-1] for p in data], dtype=float)
-        X_train, X_temp, y_train, y_temp = train_test_split(
-            features, labels, test_size=0.2, random_state=42
-        )
-        if early_stop_enabled:
-            # Split into validation and test set
-            X_val, X_test, y_val, y_test = train_test_split(
-                X_temp, y_temp, test_size=0.5, random_state=42
-            )
-        else:
-            X_test, y_test = X_temp, y_temp
-
-        # Normalize the training points (only based on the training data to avoid data leakage)
-        mean_vals = X_train.mean(axis=0)
-        std_vals = X_train.std(axis=0)
-        X_train_norm = (X_train - mean_vals) / (std_vals + 1e-8)
-        X_test_norm = (X_test - mean_vals) / (std_vals + 1e-8)
-        if early_stop_enabled:
-            X_val_norm = (X_val - mean_vals) / (std_vals + 1e-8)
-
-        # For regression models, normalize target points (to avoid exploding outputs)
-        if is_classifier:
-            y_train_norm = y_train
-            y_test_norm = y_test
-            if early_stop_enabled:
-                y_val_norm = y_val
-        else:
-            y_mean = y_train.mean()
-            y_std = y_train.std()
-            y_train_norm = (y_train - y_mean) / y_std
-            y_test_norm = (y_test - y_mean) / y_std
-            if early_stop_enabled:
-                y_val_norm = (y_val - y_mean) / y_std
-
-        # Convert to tensors for GPU acceleration
-        X_train_tensor = torch.tensor(X_train_norm, dtype=torch.float32, device=device)
-        X_test_tensor = torch.tensor(X_test_norm, dtype=torch.float32, device=device)
-        y_train_tensor = torch.tensor(y_train, dtype=torch.long, device=device)
-        y_train_tensor_norm = torch.tensor(y_train_norm, dtype=torch.long, device=device)
-        y_test_tensor = torch.tensor(y_test, dtype=torch.long, device=device)
-        y_test_tensor_norm = torch.tensor(y_test_norm, dtype=torch.long, device=device)
-        if early_stop_enabled:
-            X_val_tensor = torch.tensor(X_val_norm, dtype=torch.float32, device=device)
-            y_val_tensor_norm = torch.tensor(y_val_norm, dtype=torch.long, device=device)
+        (
+            x_test_tensor_norm,
+            x_train_tensor_norm,
+            x_val_tensor_norm,
+            y_mean,
+            y_std,
+            y_test_tensor,
+            y_test_tensor_norm,
+            y_train_tensor,
+            y_train_tensor_norm,
+            y_val_tensor_norm
+        ) = parse_data(
+            features, labels, is_classifier, early_stop_enabled)
 
         # Tracking variables for loss tracking and early stopping
         train_loss_history = []
@@ -214,21 +240,21 @@ def main():
             if step % eval_every == 0:
                 with torch.no_grad():
                     # Training loss
-                    y_hat_train = network.forward(X_train_tensor)
+                    y_hat_train = network.forward(x_train_tensor_norm)
                     train_loss, _ = loss_fn_general(
                         y_hat_train, y_train_tensor_norm, network.parameters(),
                         lambda_l1=0.0, lambda_l2=0.0
                     )
 
                     # Test loss
-                    y_hat_test = network.forward(X_test_tensor)
+                    y_hat_test = network.forward(x_test_tensor_norm)
                     test_loss, _ = loss_fn_general(
                         y_hat_test, y_test_tensor_norm, network.parameters(),
                         lambda_l1=0.0, lambda_l2=0.0
                     )
                     if early_stop_enabled:
                         # Validation loss
-                        y_hat_val = network.forward(X_val_tensor)
+                        y_hat_val = network.forward(x_val_tensor_norm)
                         val_loss, _ = loss_fn_general(
                             y_hat_val, y_val_tensor_norm, network.parameters(),
                             lambda_l1=0.0, lambda_l2=0.0
@@ -254,7 +280,7 @@ def main():
                 test_loss_history.append(test_loss.item())
                 step_history.append(step)
 
-            y_hat = network.forward(X_train_tensor)
+            y_hat = network.forward(x_train_tensor_norm)
             loss, _ = loss_fn_general(y_hat, y_train_tensor_norm, network.parameters(), lambda_l1=0.0, lambda_l2=0.0)
             loss.backward()
 
@@ -281,8 +307,8 @@ def main():
         print()
 
         with torch.no_grad():
-            y_hat_train = network.forward(X_train_tensor)
-            y_hat_test = network.forward(X_test_tensor)
+            y_hat_train = network.forward(x_train_tensor_norm)
+            y_hat_test = network.forward(x_test_tensor_norm)
 
             if is_classifier:
                 y_hat_train_rescaled = y_hat_train
@@ -318,10 +344,8 @@ def main():
         network.save("trained_models/model_weights.pt")
 
         # Prepare plotting data
-        # training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()])
-        # testing_data = np.hstack([X_test_tensor.cpu().numpy(), y_test_tensor_norm.cpu().numpy()])
-        training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()[:, None]])
-        testing_data = np.hstack([X_test_tensor.cpu().numpy(), y_test_tensor_norm.cpu().numpy()[:, None]])
+        training_data = np.hstack([x_train_tensor_norm.cpu().numpy(), y_train_tensor_norm.cpu().numpy()[:, None]])
+        testing_data = np.hstack([x_test_tensor_norm.cpu().numpy(), y_test_tensor_norm.cpu().numpy()[:, None]])
 
         # Plot training & test loss vs steps
         plt.figure(figsize=(8, 5))
