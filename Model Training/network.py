@@ -315,7 +315,7 @@ def main():
                 print(f"Test RMSE: {test_rmse}")
 
         # Save learned weights
-        network.save("model_weights.pt")
+        network.save("trained_models/model_weights.pt")
 
         # Prepare plotting data
         # training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()])
