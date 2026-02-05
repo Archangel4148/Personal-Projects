@@ -102,7 +102,6 @@ class Network:
             activations=activations,
             initializations=save_dict["initializations"]
         )
-        net.load_parameters(save_dict["parameters"])
         return net
 
 
@@ -149,7 +148,7 @@ def main():
         )
 
         # Function to make final classification decision
-        def decision_func(y: torch.tensor) -> bool:
+        def decision_func(y):
             # return y > 0.5
             return torch.argmax(y, dim=1)
 
