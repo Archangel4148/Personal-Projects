@@ -4,13 +4,14 @@ import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
 
-from math_definitions import relu, rmse_per_sample, sigmoid, loss_fn_general, loss_per_sample
-from tools import generate_dummy_data, generate_polynomial_data, plot_2d_new
+from math_definitions import rmse_per_sample, sigmoid, loss_fn_general, loss_per_sample, relu
+from tools import generate_dummy_data, plot_2d_new, plot_3d_new, generate_polynomial_data
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class Layer:
-    def __init__(self, in_features: int, out_features: int, activation: Callable | None, initialization: str=None, device=None):
+    def __init__(self, in_features: int, out_features: int, activation: Callable | None, initialization: str = None,
+                 device=None):
         device = device or torch.device("cpu")
         if initialization == "kaiming":
             self.W = torch.randn(in_features, out_features, device=device) * np.sqrt(2 / in_features)
@@ -38,7 +39,7 @@ class Network:
         # Validate inputs
         assert (len(node_counts) - 1) == len(activations) == len(initializations)  # Lists must be same size
         assert len(node_counts) >= 2  # Need at least input + output nodes
-        
+
         # Construct the layers
         self.layers = []
         for i in range(len(node_counts) - 1):
@@ -66,26 +67,24 @@ class Network:
         return params
 
 
-def y_hat_network(network, x):
+def y_hat_network(network, x, dim: int):
     with torch.no_grad():
-        x_t = torch.tensor(x, dtype=torch.float32).view(-1, 1)
+        x_t = torch.tensor(x, dtype=torch.float32, device=device).view(-1, dim)
         y_hat = network.forward(x_t)
         return y_hat.cpu().numpy().squeeze()
 
 
 def main():
-    is_classifier = False
+    is_classifier = True
     num_steps = 2000
     learning_rate = 0.05
     feature_count = 1
-    # data = generate_dummy_data(n_features=feature_count, n_points=100, seed=1, pattern="linear", task="classification" if is_classifier else "regression")
-    data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=3, task="classification" if is_classifier else "regression")
+    data = generate_dummy_data(n_features=feature_count, n_points=100, seed=1, pattern="linear", task="classification" if is_classifier else "regression")
+    # data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=3, task="classification" if is_classifier else "regression")
 
     # Build the network
-    # network = Network(node_counts=[feature_count, 1], activations=[sigmoid], initializations=[None])  # Logistic regression
-    
-    # Network that can learn "any" shape
-    network = Network(node_counts=[feature_count, 8, 8, 1], activations=[relu, relu, None], initializations=["kaiming", "kaiming", None])
+    network = Network(node_counts=[feature_count, 1], activations=[sigmoid], initializations=[None])
+    # network = Network(node_counts=[feature_count, 8, 8, 1], activations=[relu, relu, None], initializations=["kaiming", "kaiming", None])
 
     # Function to make final classification decision
     def decision_func(x: float) -> bool:
@@ -94,14 +93,14 @@ def main():
     # Prepare the data
     features = np.array([p[:-1] for p in data], dtype=float)
     labels = np.array([p[-1] for p in data], dtype=float)
-    X_train, X_test, y_train, y_test = train_test_split(
+    x_train, x_test, y_train, y_test = train_test_split(
         features, labels, test_size=0.2, random_state=42
     )
     # Normalize the training points (only based on the training data to avoid data leakage)
-    mean_vals = X_train.mean(axis=0)
-    std_vals = X_train.std(axis=0)
-    X_train_norm = (X_train - mean_vals) / (std_vals + 1e-8)
-    X_test_norm = (X_test - mean_vals) / (std_vals + 1e-8)
+    mean_vals = x_train.mean(axis=0)
+    std_vals = x_train.std(axis=0)
+    x_train_norm = (x_train - mean_vals) / (std_vals + 1e-8)
+    x_test_norm = (x_test - mean_vals) / (std_vals + 1e-8)
 
     # For regression models, normalize target points (to avoid exploding outputs)
     if is_classifier:
@@ -114,8 +113,8 @@ def main():
         y_test_norm = (y_test - y_mean) / y_std
 
     # Convert to tensors for GPU acceleration
-    X_train_tensor = torch.tensor(X_train_norm, dtype=torch.float32, device=device)
-    X_test_tensor = torch.tensor(X_test_norm, dtype=torch.float32, device=device)
+    x_train_tensor = torch.tensor(x_train_norm, dtype=torch.float32, device=device)
+    x_test_tensor = torch.tensor(x_test_norm, dtype=torch.float32, device=device)
     y_train_tensor_norm = torch.tensor(y_train_norm, dtype=torch.float32, device=device).view(-1, 1)
     y_train_tensor = torch.tensor(y_train, dtype=torch.float32, device=device).view(-1, 1)
     y_test_tensor_norm = torch.tensor(y_test_norm, dtype=torch.float32, device=device).view(-1, 1)
@@ -123,7 +122,7 @@ def main():
 
     # Training loop
     for _ in range(num_steps):
-        y_hat = network.forward(X_train_tensor)
+        y_hat = network.forward(x_train_tensor)
         loss, _ = loss_fn_general(y_hat, y_train_tensor_norm, network.parameters(), lambda_l1=0.0, lambda_l2=0.0)
         loss.backward()
 
@@ -143,9 +142,9 @@ def main():
     print()
 
     with torch.no_grad():
-        y_hat_train = network.forward(X_train_tensor)
-        y_hat_test = network.forward(X_test_tensor)
-        
+        y_hat_train = network.forward(x_train_tensor)
+        y_hat_test = network.forward(x_test_tensor)
+
         if is_classifier:
             y_hat_train_rescaled = y_hat_train
             y_hat_test_rescaled = y_hat_test
@@ -177,15 +176,18 @@ def main():
             print(f"Test RMSE: {test_rmse}")
 
     # Prepare plotting data
-    training_data = np.hstack([X_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()])
-    testing_data = np.hstack([X_test_tensor.cpu().numpy(), y_test_tensor_norm.cpu().numpy()])
+    training_data = np.hstack([x_train_tensor.cpu().numpy(), y_train_tensor_norm.cpu().numpy()])
+    testing_data = np.hstack([x_test_tensor.cpu().numpy(), y_test_tensor_norm.cpu().numpy()])
 
     # If possible, plot the resulting model
     if feature_count == 1:
         plot_2d_new(training_points=training_data, test_points=testing_data,
-                    y_hat_func=lambda x: y_hat_network(network, x), is_classifier=is_classifier, decision_function=decision_func)
-    # elif feature_count == 2:
-    #     plot_3d_new(data_points=training_data, y_hat_func=lambda x: y_hat_network(network, x))
+                    y_hat_func=lambda x: y_hat_network(network, x, 1), is_classifier=is_classifier,
+                    decision_function=decision_func)
+    elif feature_count == 2:
+        plot_3d_new(training_points=training_data, test_points=testing_data,
+                    y_hat_func=lambda x: y_hat_network(network, x, 2), is_classifier=is_classifier,
+                    decision_function=decision_func)
 
 
 if __name__ == '__main__':
