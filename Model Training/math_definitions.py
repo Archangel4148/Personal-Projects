@@ -23,21 +23,21 @@ def model(params, x):
     return sigmoid(z)
 
 
-def binary_cross_entropy_per_sample(y_hat, y):
+def binary_cross_entropy(y_hat, y):
     eps = 1e-8
     return -(
             y * torch.log(y_hat + eps) + (1 - y) * torch.log(1 - y_hat + eps)
     )
 
-def mse_per_sample(y_hat, y):
+def mse(y_hat, y):
     return torch.mean((y_hat - y)**2)
 
-def rmse_per_sample(y_hat, y):
+def rmse(y_hat, y):
     return torch.sqrt(torch.mean((y_hat - y) ** 2))
 
 def loss_per_sample(y_hat, y):
-    # return binary_cross_entropy_per_sample(y_hat, y), "Binary Cross Entropy"
-    return mse_per_sample(y_hat, y), "MSE"
+    # return binary_cross_entropy(y_hat, y), "Binary Cross Entropy"
+    return mse(y_hat, y), "MSE"
 
 
 def loss_fn(params, x, y, lambda_l1=0.00, lambda_l2=0.00):
@@ -60,7 +60,6 @@ def loss_fn_general(y_hat, y, parameters, lambda_l1=0.0, lambda_l2=0.0):
     l2_loss = 0.0
 
     for p in parameters:
-        # Skip biases if you want (optional, but common)
         if p.ndim > 1:
             l1_loss += torch.sum(torch.abs(p))
             l2_loss += torch.sum(p ** 2)

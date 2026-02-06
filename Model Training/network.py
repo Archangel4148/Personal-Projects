@@ -6,7 +6,7 @@ import torch
 from sklearn.model_selection import train_test_split
 from torch import Tensor
 
-from math_definitions import rmse_per_sample, sigmoid, loss_fn_general, loss_per_sample, relu
+from math_definitions import rmse, sigmoid, loss_fn_general, loss_per_sample, relu
 from tools import generate_dummy_data, plot_2d_new, plot_3d_new, generate_polynomial_data
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -81,7 +81,7 @@ class LearningData:
 
     @classmethod
     def build(cls, x_train: np.ndarray, x_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray,
-              is_classifier: bool) -> tuple[Self, Callable]:
+              is_classifier: bool) -> Self:
         # Normalize the training points (only based on the training data to avoid data leakage)
         x_mean = x_train.mean(axis=0)
         x_std = x_train.std(axis=0)
@@ -92,15 +92,11 @@ class LearningData:
         if is_classifier:
             y_train_norm = y_train
             y_test_norm = y_test
-
-            denorm_y = lambda y: y
         else:
             y_mean = y_train.mean()
             y_std = y_train.std()
             y_train_norm = (y_train - y_mean) / y_std
             y_test_norm = (y_test - y_mean) / y_std
-
-            denorm_y = lambda y: y * (y_std + 1e-8) + y_mean
 
         # Convert to tensors for GPU acceleration
         x_train_tensor = torch.tensor(x_train_norm, dtype=torch.float32, device=device)
@@ -110,17 +106,15 @@ class LearningData:
         y_test_tensor_norm = torch.tensor(y_test_norm, dtype=torch.float32, device=device).view(-1, 1)
         y_test_tensor = torch.tensor(y_test, dtype=torch.float32, device=device).view(-1, 1)
 
-        return (
-            LearningData(
-                x_train_tensor_norm=x_train_tensor,
-                x_test_tensor_norm=x_test_tensor,
-                y_train_tensor_norm=y_train_tensor_norm,
-                y_train_tensor=y_train_tensor,
-                y_test_tensor_norm=y_test_tensor_norm,
-                y_test_tensor=y_test_tensor,
-            ),
-            denorm_y,
+        return LearningData(
+            x_train_tensor_norm=x_train_tensor,
+            x_test_tensor_norm=x_test_tensor,
+            y_train_tensor_norm=y_train_tensor_norm,
+            y_train_tensor=y_train_tensor,
+            y_test_tensor_norm=y_test_tensor_norm,
+            y_test_tensor=y_test_tensor,
         )
+
 
 
 def parse_data(features, labels, is_classifier: bool):
@@ -131,14 +125,14 @@ def parse_data(features, labels, is_classifier: bool):
     )
 
     # Build learning data and de-normalizing functions
-    learning_data, denorm_y = LearningData.build(
+    learning_data = LearningData.build(
         x_train=x_train,
         x_test=x_test,
         y_train=y_train,
         y_test=y_test,
         is_classifier=is_classifier
     )
-    return learning_data, denorm_y
+    return learning_data
 
 
 def y_hat_network(network, x, dim: int):
@@ -151,11 +145,11 @@ def y_hat_network(network, x, dim: int):
 def main():
     is_classifier = False
     num_steps = 2000
-    learning_rate = 0.01
+    learning_rate = 0.05
     feature_count = 1
     # data = generate_dummy_data(n_features=feature_count, n_points=100, seed=1, pattern="linear",
     #                            task="classification" if is_classifier else "regression")
-    data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=4, task="classification" if is_classifier else "regression")
+    data = generate_polynomial_data(n_features=feature_count, n_points=250, seed=None, degree=3, task="classification" if is_classifier else "regression")
 
     # Build the network
     # network = Network(node_counts=[feature_count, 1], activations=[sigmoid], initializations=[None])
@@ -170,12 +164,12 @@ def main():
     features = np.array([p[:-1] for p in data], dtype=float)
     labels = np.array([p[-1] for p in data], dtype=float)
 
-    learning_data, denorm_y = parse_data(features=features, labels=labels, is_classifier=is_classifier)
+    learning_data = parse_data(features=features, labels=labels, is_classifier=is_classifier)
 
     # Training loop
     for _ in range(num_steps):
         y_hat = network.forward(learning_data.x_train_tensor_norm)
-        loss, _ = loss_fn_general(y_hat, learning_data.y_train_tensor_norm, network.parameters(), lambda_l1=0.0, lambda_l2=0.0)
+        loss, _ = loss_fn_general(y_hat, learning_data.y_train_tensor_norm, network.parameters(), lambda_l1=0.0, lambda_l2=1e-3)
         loss.backward()
 
         # Apply gradient descent to each parameter
@@ -195,16 +189,16 @@ def main():
 
     with torch.no_grad():
         # Re-scale for evaluation/display
-        y_hat_train = denorm_y(network.forward(learning_data.x_train_tensor_norm))
-        y_hat_test = denorm_y(network.forward(learning_data.x_test_tensor_norm))
+        y_hat_train = network.forward(learning_data.x_train_tensor_norm)
+        y_hat_test = network.forward(learning_data.x_test_tensor_norm)
 
         # Training loss
-        train_losses, loss_label = loss_per_sample(y_hat_train, learning_data.y_train_tensor)
+        train_losses, loss_label = loss_per_sample(y_hat_train, learning_data.y_train_tensor_norm)
         mean_train_loss = torch.mean(train_losses).item()
         print(f"Training {loss_label} (mean): {mean_train_loss}")
 
         # Test loss
-        test_losses, loss_label = loss_per_sample(y_hat_test, learning_data.y_test_tensor)
+        test_losses, loss_label = loss_per_sample(y_hat_test, learning_data.y_test_tensor_norm)
         mean_test_loss = torch.mean(test_losses).item()
         print(f"Test {loss_label} (mean): {mean_test_loss}")
 
@@ -215,8 +209,8 @@ def main():
             print(f"Test Accuracy: {round(accuracy * 100, 3)}%")
         else:
             # RMSE
-            train_rmse = rmse_per_sample(y_hat_train, learning_data.y_train_tensor).item()
-            test_rmse = rmse_per_sample(y_hat_test, learning_data.y_test_tensor).item()
+            train_rmse = rmse(y_hat_train, learning_data.y_train_tensor_norm).item()
+            test_rmse = rmse(y_hat_test, learning_data.y_test_tensor_norm).item()
 
             print(f"Training RMSE: {train_rmse}")
             print(f"Test RMSE: {test_rmse}")
