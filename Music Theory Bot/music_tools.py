@@ -38,6 +38,20 @@ def apply_dots(base_duration: float, dot_count: int) -> float:
         add /= 2
     return total
 
+def transpose_score(
+        score: m21.stream.Score,
+        source_key: m21.key.Key,
+        target_key: m21.key.Key
+) -> m21.stream.Score:
+    """
+    Transpose score from source_key to target_key
+    """
+    interval = m21.interval.Interval(
+        source_key.tonic,
+        target_key.tonic
+    )
+    return score.transpose(interval, inPlace=False)
+
 @dataclasses.dataclass
 class Note:
     letter_name: str

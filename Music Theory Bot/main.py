@@ -8,7 +8,9 @@ environment.UserSettings()['lilypondPath'] = (
     r"D:\LilyPond\lilypond-2.24.4\bin\lilypond.exe"
 )
 
-from music_tools import ScoreData
+import music21 as m21
+
+from music_tools import ScoreData, transpose_score
 
 # def musicxml_to_pdf(musicxml_path: str, musescore_exe: str):
 #     """Use MuseScore to convert MusicXML to PDF"""
@@ -101,6 +103,11 @@ def main():
     }
     # Convert to music21 object
     score = score_obj.to_music21()
+
+    source_key = score_obj.key_signature.to_music21()
+    target_key = m21.key.Key("C", "major")
+    score = transpose_score(score, source_key, target_key)
+
 
     # Write to output files
     output_directory = Path("output/").resolve()
