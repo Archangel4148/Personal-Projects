@@ -23,7 +23,7 @@ def main():
     score = """
     Title: You're Mother | Composer: J. Robert Oppenheimer
     Melody C 4/4 treble
-    E4s F4s G4s A4s B4s C5s D5s E5s F5q - 
+    E4s F4s G4s A4s B4s C5s D5s E5s F5q F5q - 
     [B4e C5e B4e A4e] G4q (A4s B4s C5s D5s) -
     (D5s C5s B4s A4s G4s F4s E4s D4s) C4q D4q -
     (E4s F4s G4s A4s) B4h. -
