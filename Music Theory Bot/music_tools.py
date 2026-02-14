@@ -170,7 +170,7 @@ class KeySignature(enum.IntEnum):
 @dataclasses.dataclass
 class Part:
     name: str
-    measures: list[list[Note]]
+    measures: list[dict[str, list[Note]]]
     clef: str = "treble"
     chords: dict[tuple[int, float], str] | None = None
 
@@ -199,74 +199,101 @@ class ScoreData:
         part_blocks = "\n".join(lines[1:]).split("|")
         parts = []
         for part_block in part_blocks:
-            lines = part_block.strip().split("\n")
-            if not lines: 
+            block_lines = [l.strip() for l in part_block.strip().split("\n") if l.strip()]
+            if not block_lines: 
                 continue
-            header = lines[0].split()
+
+            # Parse the block header
+            header = block_lines.pop(0).split()
             part_name, key_str, time_sig = header[0], header[1], header[2]
             clef_type = header[3] if len(header) > 3 else "treble"
 
             # Build measures
-            measure_tokens = " ".join(lines[1:]).split()
-            measure_count = measure_tokens.count("-") + 1
-            measures = [[] for _ in range(measure_count)]
+            measures: list[dict[str, list[Note]]] = []
+            voice_measure_indices = {}
+            current_voice = "v1"
             
-            tie_active = False
+            tie_active = {}
             spanner_states: dict[str, int | None] = {
                 "slur": None,
                 "gliss": None
             }
             spanner_id_counter = 0
-            current_measure = 0
-            for token in measure_tokens:
-                
-                if token == "-":
-                    current_measure += 1
+
+            def ensure_measure_exists(idx):
+                while len(measures) <= idx:
+                    measures.append({})
+
+            for line in block_lines:
+                # Handle switching voices
+                if line.endswith(":"):
+                    current_voice = line[:-1]
+                    voice_measure_indices.setdefault(current_voice, 0)
+                    tie_active.setdefault(current_voice, False)
                     continue
+                    
+                voice_measure_indices.setdefault(current_voice, 0)
+                tie_active.setdefault(current_voice, False)
 
-                # Tie start
-                if token.startswith("["):
-                    note = Note.from_string(token[1:])
-                    note.tie = "start"
-                    tie_active = True
-                
-                # Tie end
-                elif token.endswith("]"):
-                    note = Note.from_string(token[:-1])
-                    # End the tie
-                    note.tie = "stop"
-                    tie_active = False
+                tokens = line.split()
+                for token in tokens:
+                    if token == "-":
+                        voice_measure_indices[current_voice] += 1
+                        continue
 
-                # Slur start
-                elif token.startswith("("):
-                    spanner_type = "slur"
-                    spanner_id_counter += 1
-                    spanner_states[spanner_type] = spanner_id_counter
-                    token = token[1:]
-                    note = Note.from_string(token)
-                    note.spanners.append((spanner_type, spanner_states[spanner_type]))
+                    measure_idx = voice_measure_indices[current_voice]
+                    ensure_measure_exists(measure_idx)
+                    measure = measures[measure_idx]
+                    measure.setdefault(current_voice, [])
 
-                # Slur end
-                elif token.endswith(")"):
-                    spanner_type = "slur"
-                    token = token[:-1]
-                    note = Note.from_string(token)
-                    if spanner_states[spanner_type]:
+                    # Tie start
+                    if token.startswith("["):
+                        note = Note.from_string(token[1:])
+                        note.tie = "start"
+                        tie_active[current_voice] = True
+                    
+                    # Tie end
+                    elif token.endswith("]"):
+                        note = Note.from_string(token[:-1])
+                        # End the tie
+                        note.tie = "stop"
+                        tie_active[current_voice] = False
+
+                    # Slur start
+                    elif token.startswith("("):
+                        spanner_type = "slur"
+                        spanner_id_counter += 1
+                        spanner_states[spanner_type] = spanner_id_counter
+                        token = token[1:]
+                        note = Note.from_string(token)
                         note.spanners.append((spanner_type, spanner_states[spanner_type]))
-                    spanner_states[spanner_type] = None
 
-                # Normal note
-                else:
-                    note = Note.from_string(token)
-                    if tie_active:
-                        note.tie = "continue"
-                    # add ongoing spanners
-                    for sp_type, sp_id in spanner_states.items():
-                        if sp_id:
-                            note.spanners.append((sp_type, sp_id))
+                    # Slur end
+                    elif token.endswith(")"):
+                        spanner_type = "slur"
+                        token = token[:-1]
+                        note = Note.from_string(token)
+                        if spanner_states[spanner_type]:
+                            note.spanners.append((spanner_type, spanner_states[spanner_type]))
+                        spanner_states[spanner_type] = None
 
-                # Add the note to the measure
-                measures[current_measure].append(note)
+                    # Normal note
+                    else:
+                        note = Note.from_string(token)
+                        if tie_active[current_voice]:
+                            note.tie = "continue"
+                        # add ongoing spanners
+                        for sp_type, sp_id in spanner_states.items():
+                            if sp_id:
+                                note.spanners.append((sp_type, sp_id))
+
+                    # Add the note to the measure
+                    measure[current_voice].append(note)
+
+            # Normalize measure counts
+            max_measures = max(voice_measure_indices.values(), default=0) + 1
+            while len(measures) < max_measures:
+                measures.append({})
 
             parts.append(
                 Part(
@@ -290,6 +317,8 @@ class ScoreData:
         score.metadata.title = self.title
         score.metadata.composer = self.composer
 
+        score.keySignature = self.key_signature.to_music21()
+
         for part_data in self.parts:
             part_stream = m21.stream.Part()
             part_stream.id = part_data.name
@@ -307,21 +336,47 @@ class ScoreData:
                     else:
                         meas.append(m21.clef.TrebleClef())
 
-                # Add notes
-                for n in measure_notes:
-                    meas.append(n.to_music21())
+                bar_duration = m21.meter.TimeSignature(self.time_signature).barDuration.quarterLength
+
+                # Add notes for each voice
+                for voice_name, notes in measure_notes.items():
+                    voice_stream = m21.stream.Voice()
+                    voice_stream.id = voice_name
+                    
+                    total_duration = 0.0
+                    for n in notes:
+                        m21_note = n.to_music21()
+                        total_duration += m21_note.duration.quarterLength
+                        voice_stream.append(m21_note)
+                    
+                    space_to_fill = bar_duration - total_duration
+                    
+                    # Fill in empty space with rests
+                    if space_to_fill > 0.0001:
+                        rest = m21.note.Rest()
+                        rest.duration.quarterLength = space_to_fill
+                        voice_stream.append(rest)
+
+                    # Check for over-full measures
+                    elif space_to_fill < -0.0001:
+                        raise ValueError(
+                            f"Voice '{voice_name}' in measure {i} exceeds time signature "
+                            f"({total_duration} > {bar_duration})"
+                        )
+
+                    meas.append(voice_stream)
 
                 # Add chord letters (optional)
                 if part_data.chords:
-                    measure_length = m21.meter.TimeSignature(self.time_signature).barDuration.quarterLength
-
                     for (m_idx, offset), chord_name in part_data.chords.items():
                         if m_idx == i:
                             cs = m21.harmony.ChordSymbol(chord_name)
                             cs.writeAsChord = False
                             meas.insert(offset, cs)
+                
                 # Add the measure to the part
                 part_stream.append(meas)
+            
             # Add the part to the score
             score.append(part_stream)
 
@@ -342,6 +397,6 @@ class ScoreData:
                     s = m21.spanner.Slur(notes)
                 elif sp_type == "gliss":
                     s = m21.spanner.Glissando(notes)
-                part.insert(0.0, s)  # insert at part level
+                score.insert(0, s)
         
         return score

@@ -21,25 +21,21 @@ def musicxml_to_pdf(musicxml_path: str, musescore_exe: str):
 
 def main():
     score = """
-    Title: You're Mother | Composer: J. Robert Oppenheimer
-    Melody C 4/4 treble
-    E4s F4s G4s A4s B4s C5s D5s E5s F5q F5q - 
-    [B4e C5e B4e A4e] G4q (A4s B4s C5s D5s) -
-    (D5s C5s B4s A4s G4s F4s E4s D4s) C4q D4q -
-    (E4s F4s G4s A4s) B4h. -
-    C5s B4s A4s G4s F4s E4s D4s C4s C4h -
-    (D4e E4e F4e G4e A4e B4e C5e D5e) -
-    [E5q D5q] C5h -
-    C5w
-    | Bass C 4/4 bass
-    [C3q G2q C3q G2q] -
-    F3e E3e D3e C3e B2e A2e G2e F2e -
-    [D3q A2q D3q A2q] -
-    G2e A2e B2e C3e D3e E3e F3e G3e -
-    [C3h G2q C3q] -
-    F3s G3s A3s B3s C4s B3s A3s G3s G3h -
-    [D3q A2q] G2h -
-    C3w
+    Title: Be Thou My Vision | Composer: Unknown (Irish Melody)
+    Melody Eb 3/4 treble
+    v1:
+    Eb4q Eb4q F4e Eb4e -
+    C4q Bb3q C4q -
+    v2:
+    Bb3q Ab3q Bb3q -
+    Ab3q Bb3q C4q -
+    | Bass Eb 3/4 bass
+    v3:
+    G3q F3q Eb3q -
+    Eb3q D3q Eb3q -
+    v4:
+    Eb2q F2q G2q -
+    Ab2q Bb2q Ab2q -
     """
 
     # Parse melody string
@@ -49,24 +45,10 @@ def main():
     melody_part = score_obj.parts[0]
 
     melody_part.chords = {
-        (1, 0.0): "C",
-        (1, 2.0): "C/E",
-        (2, 0.0): "F",
-        (2, 2.0): "G",
-        (3, 0.0): "G7",
-        (3, 2.0): "C/E",
-        (4, 0.0): "Am",
-        (4, 1.0): "Dm",
-        (4, 2.0): "G",
-        (4, 3.0): "G7",
-        (5, 0.0): "Em",
-        (5, 2.0): "Am",
-        (6, 0.0): "Dm",
-        (6, 2.0): "G",
-        (7, 0.0): "C/G",
-        (7, 2.0): "F",
-        (7, 3.0): "G7",
-        (8, 0.0): "C",
+        (1, 0.0): "E-",
+        (2, 0.0): "A-",
+        (3, 0.0): "Cm",
+        (3, 2.0): "B-/D",
     }
     # Convert to music21 object
     score = score_obj.to_music21()
@@ -75,7 +57,7 @@ def main():
     output_directory = Path("output/").resolve()
     os.makedirs(output_directory, exist_ok=True)
     score.write("musicxml", output_directory / "sheet_music")
-    
+
     # Convert MusicXML to PDF
     musicxml_to_pdf(
         output_directory / "sheet_music.musicxml",
