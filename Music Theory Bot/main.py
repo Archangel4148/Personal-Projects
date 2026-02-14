@@ -2,22 +2,71 @@ import os
 from pathlib import Path
 import subprocess
 
+from music21 import environment
+# ALWAYS set explicitly (do NOT guard with "if not")
+environment.UserSettings()['lilypondPath'] = (
+    r"D:\LilyPond\lilypond-2.24.4\bin\lilypond.exe"
+)
+
 from music_tools import ScoreData
 
-def musicxml_to_pdf(musicxml_path: str, musescore_exe: str):
-    """Use MuseScore to convert MusicXML to PDF"""
-    out_dir = Path(musicxml_path).resolve().parent
-    out_pdf = Path(musicxml_path).with_suffix(".pdf")
+# def musicxml_to_pdf(musicxml_path: str, musescore_exe: str):
+#     """Use MuseScore to convert MusicXML to PDF"""
+#     out_dir = Path(musicxml_path).resolve().parent
+#     out_pdf = Path(musicxml_path).with_suffix(".pdf")
+#     subprocess.run(
+#         [
+#             musescore_exe,
+#             musicxml_path,
+#             "-o",
+#             out_dir / out_pdf,
+#         ],
+#         cwd=out_dir,
+#         check=True,
+#     )
+
+
+
+def musicxml_to_pdf(musicxml_path: str, lilypond_exe: str):
+    """Use LilyPond to convert MusicXML to PDF"""
+    musicxml_path = Path(musicxml_path).resolve()
+    out_dir = musicxml_path.parent
+
+    lilypond_exe = Path(lilypond_exe).resolve()
+    bin_dir = lilypond_exe.parent
+
+    lily_python = bin_dir / "python.exe"
+    musicxml2ly = bin_dir / "musicxml2ly.py"
+
+    ly_path = musicxml_path.with_suffix(".ly")
     subprocess.run(
         [
-            musescore_exe,
-            musicxml_path,
+            str(lily_python),
+            str(musicxml2ly),
+            str(musicxml_path),
             "-o",
-            out_dir / out_pdf,
+            str(ly_path),
         ],
         cwd=out_dir,
         check=True,
     )
+    ly_text = ly_path.read_text(encoding="utf-8")
+
+    # Remove superscript chord qualifiers
+    ly_text = ly_text.replace(":5", "")
+    ly_path.write_text(ly_text, encoding="utf-8")
+
+    subprocess.run(
+        [
+            str(lilypond_exe),
+            "--pdf",
+            str(ly_path),
+        ],
+        cwd=out_dir,
+        check=True,
+    )
+
+    return ly_path.with_suffix(".pdf")
 
 def main():
     score = """
@@ -59,9 +108,13 @@ def main():
     score.write("musicxml", output_directory / "sheet_music")
 
     # Convert MusicXML to PDF
+    # musicxml_to_pdf(
+    #     output_directory / "sheet_music.musicxml",
+    #     r"D:\Musescore 4\bin\MuseScore4.exe"
+    # )
     musicxml_to_pdf(
         output_directory / "sheet_music.musicxml",
-        r"D:\Musescore 4\bin\MuseScore4.exe"
+        r"D:\LilyPond\lilypond-2.24.4\bin\lilypond.exe"
     )
 
 if __name__ == "__main__":
