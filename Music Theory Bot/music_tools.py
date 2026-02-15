@@ -52,6 +52,31 @@ def transpose_score(
     )
     return score.transpose(interval, inPlace=False)
 
+def clean_score(score: m21.stream.Score):
+    # Remove part labels
+    for part in score.parts:
+        # # Set blank names at the Part level
+        part.partName = ""
+        part.partAbbreviation = ""
+
+    score.makeMeasures(inPlace=True)
+    score.makeNotation(inPlace=True)
+    return score
+
+def manual_add_chord_symbols(score: m21.stream.Score, chord_map: dict, part_index=0):
+    """
+    chord_map: {(measure_number, beat_offset): 'ChordSymbolString'}
+    """
+    part = score.parts[part_index]
+    for (measure_no, beat), chord_text in chord_map.items():
+        measure = part.measure(measure_no)
+        if measure is None:
+            continue
+        cs = m21.harmony.ChordSymbol(chord_text)
+        cs.writeAsChord = False
+        cs.duration.quarterLength = 1
+        measure.insert(beat, cs)
+
 @dataclasses.dataclass
 class Note:
     letter_name: str
@@ -412,5 +437,5 @@ class ScoreData:
                 elif sp_type == "gliss":
                     s = m21.spanner.Glissando(notes)
                 score.insert(0, s)
-        
+
         return score
