@@ -5,6 +5,7 @@ from typing import Self
 GRAVITY_FS2 = 32.2
 # MANNINGS_CONSTANT = 1.49
 MANNINGS_CONSTANT = 1.486
+WATER_UNIT_WEIGHT = 62.4  # lb/ft^3
 
 @dataclass(kw_only=True)
 class ChannelSection:
@@ -34,7 +35,7 @@ class DataRow:
         self.conveyance: float = (MANNINGS_CONSTANT / self.section.mannings_roughness) * self.flow_area * (self.hydraulic_radius ** (2 / 3))
         self.velocity: float = self.flow_parameter_Q / self.flow_area
         self.alpha_v2_2g: float = self.section.velocity_distribution_alpha * (self.velocity ** 2) / (2 * GRAVITY_FS2)
-        self.slope_friction: float = ((self.section.mannings_roughness ** 2) * (self.velocity ** 2)) / (2.22 * (self.hydraulic_radius ** (4/3)))
+        self.slope_friction: float = ((self.section.mannings_roughness ** 2) * (self.velocity ** 2)) / ((MANNINGS_CONSTANT ** 2) * (self.hydraulic_radius ** (4/3)))
         
         # Other things I added for fun
         self.top_width: float = self.section.bottom_width + (2 * self.section.side_slope * self.depth)

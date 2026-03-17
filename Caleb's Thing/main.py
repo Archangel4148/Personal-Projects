@@ -9,6 +9,8 @@ def main():
     flow_parameter_Q = 400
     slope = 0.0169
 
+    critical_shear = 1.0
+
     # Section 3 (downstream)
     section_3 = ChannelSection(
         longitudinal_location = 0.0,
@@ -73,7 +75,7 @@ def main():
         force_repetitions=None,
         print_level=0,
     )
-    plot_flow_profile(plot_data, flow_info, skip_plot=True)
+    plot_flow_profile(plot_data, flow_info, critical_shear, skip_plot=True)
 
 
     ############# DIRECT STEP #############
@@ -113,7 +115,7 @@ def main():
         flow_parameter_Q=flow_parameter_Q,
         slope=slope,
     )
-    plot_flow_profile(plot_data, flow_info)
+    plot_flow_profile(plot_data, flow_info, critical_shear)
 
 if __name__ == "__main__":
     main()

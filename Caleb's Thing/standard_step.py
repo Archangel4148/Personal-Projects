@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing
 
-from constants import ChannelSection, DataRow
+from constants import ChannelSection, DataRow, WATER_UNIT_WEIGHT
 from flow_info import FlowInfo, calculate_critical_depth, calculate_normal_depth, classify_flow
 from visualization import PlotData
 
@@ -86,6 +86,10 @@ def full_standard_step(
     alpha_v2_points = [initial_row.alpha_v2_2g]
     froude_points = [initial_row.froude_number]
     velocity_points = [initial_row.velocity]
+    depth_points = [initial_row.depth]
+    specific_energy_points = [initial_row.specific_energy]
+    hydraulic_radius_points = [initial_row.hydraulic_radius]
+    slope_friction_points = [initial_row.slope_friction]
 
     if print_level >= 1:
         print(initial_row.header())
@@ -115,6 +119,10 @@ def full_standard_step(
         alpha_v2_points.append(converged_station.alpha_v2_2g)
         froude_points.append(converged_station.froude_number)
         velocity_points.append(converged_station.velocity)
+        depth_points.append(converged_station.depth)
+        specific_energy_points.append(converged_station.specific_energy)
+        hydraulic_radius_points.append(converged_station.hydraulic_radius)
+        slope_friction_points.append(converged_station.slope_friction)
 
     yc = calculate_critical_depth(
         flow_parameter_Q, 
@@ -132,6 +140,8 @@ def full_standard_step(
     normal_depth_line = [bed + yn for bed in bed_elevation_points]
     energy_grade_points = [wse + alpha for wse, alpha in zip(water_surface_points, alpha_v2_points)]
 
+    shear_stress_points = [WATER_UNIT_WEIGHT * r * sf for r, sf in zip(hydraulic_radius_points, slope_friction_points)]
+
     # Prepare the plot data
     plot_data = PlotData(
         plot_title="Standard Step Hydraulic Profile",
@@ -143,6 +153,9 @@ def full_standard_step(
         normal_depth_points=normal_depth_line,
         velocity_points=velocity_points,
         froude_points=froude_points,
+        depth_points=depth_points,
+        specific_energy_points=specific_energy_points,
+        shear_stress_points=shear_stress_points,
     )
 
     # Classify the flow type
