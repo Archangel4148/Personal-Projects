@@ -3,7 +3,7 @@
 from typing import Self
 
 from constants import ChannelSection, DataRow, WATER_UNIT_WEIGHT
-from flow_info import FlowInfo, calculate_critical_depth, calculate_normal_depth, classify_flow
+from flow_info import FlowInfo, classify_flow
 from visualization import PlotData
 
 
@@ -54,6 +54,7 @@ def full_direct_step(
     specific_energy_points = [initial_row.specific_energy]
     hydraulic_radius_points = [initial_row.hydraulic_radius]
     slope_friction_points = [initial_row.slope_friction]
+    specific_force_points = [initial_row.specific_force]
 
     previous_row = initial_row
 
@@ -75,20 +76,11 @@ def full_direct_step(
         specific_energy_points.append(next_row.specific_energy)
         hydraulic_radius_points.append(next_row.hydraulic_radius)
         slope_friction_points.append(next_row.slope_friction)
+        specific_force_points.append(next_row.specific_force)
 
     # Flow analysis
-    yc = calculate_critical_depth(
-        flow_parameter_Q,
-        channel_section.bottom_width,
-        channel_section.side_slope,
-    )
-    yn = calculate_normal_depth(
-        flow_parameter_Q,
-        channel_section.bottom_width,
-        channel_section.side_slope,
-        channel_section.mannings_roughness,
-        slope,
-    )
+    yc = channel_section.get_critical_depth(flow_parameter_Q)
+    yn = channel_section.get_normal_depth(flow_parameter_Q, slope)
     critical_depth_line = [bed + yc for bed in bed_elevation_points]
     normal_depth_line = [bed + yn for bed in bed_elevation_points]
     energy_grade_points = [
@@ -109,6 +101,7 @@ def full_direct_step(
         depth_points=depth_points,
         specific_energy_points=specific_energy_points,
         shear_stress_points=shear_stress_points,
+        specific_force_points=specific_force_points
     )
 
     flow_info = classify_flow(previous_row.depth, yn, yc, previous_row.froude_number)

@@ -3,7 +3,7 @@ from __future__ import annotations
 import typing
 
 from constants import ChannelSection, DataRow, WATER_UNIT_WEIGHT
-from flow_info import FlowInfo, calculate_critical_depth, calculate_normal_depth, classify_flow
+from flow_info import FlowInfo, classify_flow
 from visualization import PlotData
 
 class StandardStepRow(DataRow):
@@ -90,6 +90,7 @@ def full_standard_step(
     specific_energy_points = [initial_row.specific_energy]
     hydraulic_radius_points = [initial_row.hydraulic_radius]
     slope_friction_points = [initial_row.slope_friction]
+    specific_force_points = [initial_row.specific_force]
 
     if print_level >= 1:
         print(initial_row.header())
@@ -123,19 +124,10 @@ def full_standard_step(
         specific_energy_points.append(converged_station.specific_energy)
         hydraulic_radius_points.append(converged_station.hydraulic_radius)
         slope_friction_points.append(converged_station.slope_friction)
+        specific_force_points.append(converged_station.specific_force)
 
-    yc = calculate_critical_depth(
-        flow_parameter_Q, 
-        channel_section.bottom_width, 
-        channel_section.side_slope
-    )
-    yn = calculate_normal_depth(
-        flow_parameter_Q,
-        channel_section.bottom_width,
-        channel_section.side_slope,
-        channel_section.mannings_roughness,
-        slope
-    )
+    yc = channel_section.get_critical_depth(flow_parameter_Q)
+    yn = channel_section.get_normal_depth(flow_parameter_Q, slope)
     critical_depth_line = [bed + yc for bed in bed_elevation_points]
     normal_depth_line = [bed + yn for bed in bed_elevation_points]
     energy_grade_points = [wse + alpha for wse, alpha in zip(water_surface_points, alpha_v2_points)]
@@ -156,6 +148,7 @@ def full_standard_step(
         depth_points=depth_points,
         specific_energy_points=specific_energy_points,
         shear_stress_points=shear_stress_points,
+        specific_force_points=specific_force_points
     )
 
     # Classify the flow type
