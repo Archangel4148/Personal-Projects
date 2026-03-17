@@ -44,7 +44,7 @@ def full_direct_step(
     flow_parameter_Q: float,
     slope: float,
 ) -> tuple[PlotData, FlowInfo]:
-    station_points = [abs(initial_row.station)]
+    station_points = [initial_row.station]
     water_surface_points = [initial_row.assumed_water_surface]
     bed_elevation_points = [initial_row.bed_elevation]
     alpha_v2_points = [initial_row.alpha_v2_2g]
@@ -65,7 +65,7 @@ def full_direct_step(
         )
         previous_row = next_row
 
-        station_points.append(abs(next_row.station))
+        station_points.append(next_row.station)
         water_surface_points.append(next_row.assumed_water_surface)
         bed_elevation_points.append(next_row.bed_elevation)
         alpha_v2_points.append(next_row.alpha_v2_2g)

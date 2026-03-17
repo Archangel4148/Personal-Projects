@@ -80,7 +80,7 @@ def full_standard_step(
     force_repetitions: int | None = None,
     print_level: typing.Literal[0, 1, 2] = 0,
 ) -> tuple[PlotData, FlowInfo]:
-    station_points = [0] + stations
+    station_points = [0] + [-s for s in stations]
     water_surface_points = [initial_row.assumed_water_surface]
     bed_elevation_points = [initial_row.bed_elevation]
     alpha_v2_points = [initial_row.alpha_v2_2g]

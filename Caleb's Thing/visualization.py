@@ -68,7 +68,7 @@ def plot_flow_profile(data: PlotData, flow_info: FlowInfo, critical_shear: float
     # Combine the twin plots into one legend
     lines1, labels1 = ax2.get_legend_handles_labels()
     lines2, labels2 = ax2_fr.get_legend_handles_labels()
-    ax2.legend(lines1 + lines2, labels1 + labels2, loc="lower right")
+    ax2.legend(lines1 + lines2, labels1 + labels2)
     ax2.grid(True, alpha=0.3)
 
     # Bottom-left plot (Specific energy)
