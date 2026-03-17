@@ -5,8 +5,30 @@ from typing import Self
 import matplotlib.pyplot as plt
 
 GRAVITY_FS2 = 32.2
-MANNINGS_CONSTANT = 1.49
-# MANNINGS_CONSTANT = 1.486
+# MANNINGS_CONSTANT = 1.49
+MANNINGS_CONSTANT = 1.486
+
+def calculate_critical_depth(Q, b, z, alpha=1.0):
+    """
+    Solves for critical depth in a trapezoidal channel using iterations.
+    Formula: Q^2/g = A^3/T
+    """
+    g = 32.2
+    y = 0.5 # Initial guess
+    for _ in range(20):
+        area = (b + z * y) * y
+        top_width = b + 2 * z * y
+        # Functional value f(y) = 1 - (alpha * Q^2 * T) / (g * A^3)
+        f_y = 1 - (alpha * (Q**2) * top_width) / (g * (area**3))
+        
+        # Derivative (simplified for trapezoid)
+        df_y = -(alpha * Q**2 / g) * ( (2 * z * area**3 - 3 * area**2 * top_width**2) / (area**6) )
+        
+        y_next = y - f_y / df_y
+        if abs(y_next - y) < 0.0001:
+            return y_next
+        y = y_next
+    return y
 
 @dataclass(kw_only=True)
 class ChannelSection:
@@ -36,6 +58,12 @@ class StandardStepRow:
         self.velocity: float = self.flow_parameter_Q / self.flow_area
         self.alpha_v2_2g: float = self.section.velocity_distribution_alpha * (self.velocity ** 2) / (2 * GRAVITY_FS2)
         self.slope_friction: float = ((self.section.mannings_roughness ** 2) * (self.velocity ** 2)) / (2.22 * (self.hydraulic_radius ** (4/3)))
+        
+        # Other things I added for fun
+        self.top_width: float = self.section.bottom_width + (2 * self.section.side_slope * self.depth)
+        self.hydraulic_depth: float = self.flow_area / self.top_width
+        self.froude_number: float = self.velocity / ((GRAVITY_FS2 * self.hydraulic_depth) ** 0.5)
+        self.specific_energy: float = self.depth + self.alpha_v2_2g
         
         # Relative variables (only defined by steps)
         self.computed_water_surface: float = None
@@ -214,9 +242,14 @@ def main():
     tolerance = 0.000001
     starting_assumption = 4.99
 
+    # All data to be plotted
     station_points = [0] + STATIONS
     water_surface_points = [initial_row.assumed_water_surface]
     bed_elevation_points = [initial_row.bed_elevation]
+    alpha_v2_points = [initial_row.alpha_v2_2g]
+    froude_points = [initial_row.froude_number]
+    velocity_points = [initial_row.velocity]
+
     previous_station_result = initial_row
     for station in STATIONS:
         print("===== Station:", station, "=====")
@@ -232,21 +265,52 @@ def main():
         print(converged_station)
         starting_assumption = None
         previous_station_result = converged_station
+
+        # Add plotting data
         water_surface_points.append(converged_station.computed_water_surface)
         bed_elevation_points.append(converged_station.bed_elevation)
+        alpha_v2_points.append(converged_station.alpha_v2_2g)
+        froude_points.append(converged_station.froude_number)
+        velocity_points.append(converged_station.velocity)
 
-    # Plot the results
-    plt.figure()
+    # Calculate some other values and display
+    yc = calculate_critical_depth(
+        flow_parameter_Q, 
+        section_3.bottom_width, 
+        section_3.side_slope
+    )
+    critical_depth_line = [bed + yc for bed in bed_elevation_points]
+    energy_grade_points = [wse + alpha for wse, alpha in zip(water_surface_points, alpha_v2_points)]
 
-    plt.scatter(station_points, water_surface_points, label="Water Surface")
-    plt.scatter(station_points, bed_elevation_points, label="Bed Level")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8), gridspec_kw={'width_ratios': [4, 3]})
 
-    plt.xlabel("Location along Channel (ft)")
-    plt.ylabel("Height (ft)")
-    plt.title("Water Surface Profile (Standard Step Method)")
+    # Left plot (physical values/positions)
+    ax1.plot(station_points, bed_elevation_points, color='brown', linewidth=2, label="Channel Bed")
+    ax1.plot(station_points, water_surface_points, color='blue', linewidth=2, label="Water Surface")
+    ax1.fill_between(station_points, bed_elevation_points, water_surface_points, color='skyblue', alpha=0.4)
+    ax1.plot(station_points, energy_grade_points, color='red', linestyle='--', label="Energy Grade Line")
+    ax1.plot(station_points, critical_depth_line, color='green', linestyle=':', label="Critical Depth")
+    ax1.set_xlabel("Station / Location (ft)")
+    ax1.set_ylabel("Elevation (ft)")
+    ax1.set_title("Standard Step Method: Hydraulic Profile")
+    ax1.legend()
+    ax1.grid(True, which='both', linestyle='-', alpha=0.2)
 
-    plt.legend()
-    plt.grid(True)
+    # Right plot (non-physical values)
+    ax2.plot(station_points, velocity_points, color='purple', marker='o', label="Velocity (ft/s)")
+    ax2.set_ylabel("Velocity (ft/s)", color='purple')
+    ax2.tick_params(axis='y', labelcolor='purple')
+    ax2_fr = ax2.twinx()
+    ax2_fr.plot(station_points, froude_points, color='orange', marker='s', label="Froude No.")
+    ax2_fr.set_ylabel("Froude Number", color='orange')
+    ax2_fr.tick_params(axis='y', labelcolor='orange')
+    ax2_fr.axhline(1.0, color='black', lw=1, ls='-.', alpha=0.5, label="Critical Flow Boundary")
+    ax2.set_xlabel("Station / Location (ft)")
+    # Combine the twin plots into one legend
+    lines1, labels1 = ax2.get_legend_handles_labels()
+    lines2, labels2 = ax2_fr.get_legend_handles_labels()
+    ax2.legend(lines1 + lines2, labels1 + labels2, loc="lower right")
+    ax2.grid(True, alpha=0.3)
 
     plt.show()
 
