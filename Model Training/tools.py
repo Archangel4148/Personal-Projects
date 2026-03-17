@@ -250,6 +250,96 @@ def plot_2d_new(training_points, test_points=None, y_hat_func=None, is_classifie
     plt.grid(True)
     plt.show()
 
+def plot_3d_new(
+    training_points,
+    test_points=None,
+    y_hat_func: Callable = None,
+    is_classifier: bool = True,
+    decision_function: Callable = None,
+    surface_resolution: int = 40,
+):
+    training_points = np.asarray(training_points)
+
+    X1_train = training_points[:, 0]
+    X2_train = training_points[:, 1]
+    # y_train = training_points[:, 2]
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d")
+
+    # Create mesh grid for surface
+    x1_lin = np.linspace(X1_train.min() - 0.5, X1_train.max() + 0.5, surface_resolution)
+    x2_lin = np.linspace(X2_train.min() - 0.5, X2_train.max() + 0.5, surface_resolution)
+    X1_grid, X2_grid = np.meshgrid(x1_lin, x2_lin)
+
+    X_grid = np.column_stack([
+        X1_grid.ravel(),
+        X2_grid.ravel()
+    ])
+
+    y_hat_grid = y_hat_func(X_grid).reshape(X1_grid.shape)
+
+    # Plot training data
+    for x1, x2, y in training_points:
+        if is_classifier:
+            color = "orange" if decision_function(y) else "b"
+        else:
+            color = "k"
+
+        ax.scatter(x1, x2, y, c=color, alpha=0.6)
+
+    # Plot test points
+    if test_points is not None:
+        test_points = np.asarray(test_points)
+
+        X1_test = test_points[:, 0]
+        X2_test = test_points[:, 1]
+        y_test = test_points[:, 2]
+
+        X_test = np.column_stack([X1_test, X2_test])
+        y_test_hat = y_hat_func(X_test)
+
+        for x1, x2, y_true, y_pred in zip(X1_test, X2_test, y_test, y_test_hat):
+            if is_classifier:
+                correct = decision_function(y_pred) == bool(y_true)
+                marker = "^" if correct else "x"
+                color = "g" if correct else "r"
+            else:
+                marker = "^"
+                color = "b"
+
+            ax.scatter(x1, x2, y_true, c=color, marker=marker, s=80)
+
+    # Plot learned surface
+    ax.plot_surface(
+        X1_grid,
+        X2_grid,
+        y_hat_grid,
+        alpha=0.4,
+        cmap="viridis",
+        edgecolor="none",
+        zorder=0,
+    )
+
+    # Legend helpers
+    if is_classifier:
+        ax.scatter([], [], [], c="b", label="Training Class 0")
+        ax.scatter([], [], [], c="orange", label="Training Class 1")
+        if test_points is not None:
+            ax.scatter([], [], [], c="g", marker="^", s=80, label="Test Correct")
+            ax.scatter([], [], [], c="r", marker="x", s=80, label="Test Incorrect")
+    else:
+        ax.scatter([], [], [], c="k", alpha=0.5, label="Training Data")
+        ax.scatter([], [], [], c="b", marker="^", label="Test Data")
+
+    ax.set_xlabel("x₁")
+    ax.set_ylabel("x₂")
+    ax.set_zlabel("ŷ")
+    ax.legend()
+
+    plt.tight_layout()
+    plt.show()
+
 
 def compute_dataset_loss(dataset, w_vals, b_val, loss_func):
     # Apply the loss function to the whole dataset using the provided parameters
