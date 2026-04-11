@@ -150,7 +150,6 @@ def find_jump_station(us_data: PlotData, ds_data: PlotData):
     crossings = np.where(np.diff(np.signbit(diff)))[0]
 
     if len(crossings) == 0:
-        # If no crossing in the overlap, check if one force is always higher
         raise RuntimeError(f"No hydraulic jump detected between {start:.2f} and {end:.2f}")
 
     i = crossings[0]
