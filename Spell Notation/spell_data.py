@@ -24,8 +24,8 @@ def get_spell_data(url: str):
     response = requests.request("GET", url, headers=headers, data=payload).json()
     standard_fields = ["range", "ritual", "duration", "concentration", "casting_time", "level"]
     custom_fields = ["components", "damage", "area_of_effect", "school"]
-
-    return {field: response[field] for field in fields}
+    # TODO: Parse this!
+    # return {field: response[field] for field in fields}
     
 
 def main():
