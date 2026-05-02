@@ -1,0 +1,319 @@
+index,name,urlacid-arrow,Acid Arrow,/api/2014/spells/acid-arrow
+acid-splash,Acid Splash,/api/2014/spells/acid-splash
+aid,Aid,/api/2014/spells/aid
+alarm,Alarm,/api/2014/spells/alarm
+alter-self,Alter Self,/api/2014/spells/alter-self
+animal-friendship,Animal Friendship,/api/2014/spells/animal-friendship
+animal-messenger,Animal Messenger,/api/2014/spells/animal-messenger
+animal-shapes,Animal Shapes,/api/2014/spells/animal-shapes
+animate-dead,Animate Dead,/api/2014/spells/animate-dead
+animate-objects,Animate Objects,/api/2014/spells/animate-objects
+antilife-shell,Antilife Shell,/api/2014/spells/antilife-shell
+antimagic-field,Antimagic Field,/api/2014/spells/antimagic-field
+antipathy-sympathy,Antipathy/Sympathy,/api/2014/spells/antipathy-sympathy
+arcane-eye,Arcane Eye,/api/2014/spells/arcane-eye
+arcane-hand,Arcane Hand,/api/2014/spells/arcane-hand
+arcane-lock,Arcane Lock,/api/2014/spells/arcane-lock
+arcane-sword,Arcane Sword,/api/2014/spells/arcane-sword
+arcanists-magic-aura,Arcanist's Magic Aura,/api/2014/spells/arcanists-magic-aura
+astral-projection,Astral Projection,/api/2014/spells/astral-projection
+augury,Augury,/api/2014/spells/augury
+awaken,Awaken,/api/2014/spells/awaken
+bane,Bane,/api/2014/spells/bane
+banishment,Banishment,/api/2014/spells/banishment
+barkskin,Barkskin,/api/2014/spells/barkskin
+beacon-of-hope,Beacon of Hope,/api/2014/spells/beacon-of-hope
+bestow-curse,Bestow Curse,/api/2014/spells/bestow-curse
+black-tentacles,Black Tentacles,/api/2014/spells/black-tentacles
+blade-barrier,Blade Barrier,/api/2014/spells/blade-barrier
+bless,Bless,/api/2014/spells/bless
+blight,Blight,/api/2014/spells/blight
+blindness-deafness,Blindness/Deafness,/api/2014/spells/blindness-deafness
+blink,Blink,/api/2014/spells/blink
+blur,Blur,/api/2014/spells/blur
+branding-smite,Branding Smite,/api/2014/spells/branding-smite
+burning-hands,Burning Hands,/api/2014/spells/burning-hands
+call-lightning,Call Lightning,/api/2014/spells/call-lightning
+calm-emotions,Calm Emotions,/api/2014/spells/calm-emotions
+chain-lightning,Chain Lightning,/api/2014/spells/chain-lightning
+charm-person,Charm Person,/api/2014/spells/charm-person
+chill-touch,Chill Touch,/api/2014/spells/chill-touch
+circle-of-death,Circle of Death,/api/2014/spells/circle-of-death
+clairvoyance,Clairvoyance,/api/2014/spells/clairvoyance
+clone,Clone,/api/2014/spells/clone
+cloudkill,Cloudkill,/api/2014/spells/cloudkill
+color-spray,Color Spray,/api/2014/spells/color-spray
+command,Command,/api/2014/spells/command
+commune,Commune,/api/2014/spells/commune
+commune-with-nature,Commune With Nature,/api/2014/spells/commune-with-nature
+comprehend-languages,Comprehend Languages,/api/2014/spells/comprehend-languages
+compulsion,Compulsion,/api/2014/spells/compulsion
+cone-of-cold,Cone of Cold,/api/2014/spells/cone-of-cold
+confusion,Confusion,/api/2014/spells/confusion
+conjure-animals,Conjure Animals,/api/2014/spells/conjure-animals
+conjure-celestial,Conjure Celestial,/api/2014/spells/conjure-celestial
+conjure-elemental,Conjure Elemental,/api/2014/spells/conjure-elemental
+conjure-fey,Conjure Fey,/api/2014/spells/conjure-fey
+conjure-minor-elementals,Conjure Minor Elementals,/api/2014/spells/conjure-minor-elementals
+conjure-woodland-beings,Conjure Woodland Beings,/api/2014/spells/conjure-woodland-beings
+contact-other-plane,Contact Other Plane,/api/2014/spells/contact-other-plane
+contagion,Contagion,/api/2014/spells/contagion
+contingency,Contingency,/api/2014/spells/contingency
+continual-flame,Continual Flame,/api/2014/spells/continual-flame
+control-water,Control Water,/api/2014/spells/control-water
+control-weather,Control Weather,/api/2014/spells/control-weather
+counterspell,Counterspell,/api/2014/spells/counterspell
+create-food-and-water,Create Food and Water,/api/2014/spells/create-food-and-water
+create-or-destroy-water,Create or Destroy Water,/api/2014/spells/create-or-destroy-water
+create-undead,Create Undead,/api/2014/spells/create-undead
+creation,Creation,/api/2014/spells/creation
+cure-wounds,Cure Wounds,/api/2014/spells/cure-wounds
+dancing-lights,Dancing Lights,/api/2014/spells/dancing-lights
+darkness,Darkness,/api/2014/spells/darkness
+darkvision,Darkvision,/api/2014/spells/darkvision
+daylight,Daylight,/api/2014/spells/daylight
+death-ward,Death Ward,/api/2014/spells/death-ward
+delayed-blast-fireball,Delayed Blast Fireball,/api/2014/spells/delayed-blast-fireball
+demiplane,Demiplane,/api/2014/spells/demiplane
+detect-evil-and-good,Detect Evil and Good,/api/2014/spells/detect-evil-and-good
+detect-magic,Detect Magic,/api/2014/spells/detect-magic
+detect-poison-and-disease,Detect Poison and Disease,/api/2014/spells/detect-poison-and-disease
+detect-thoughts,Detect Thoughts,/api/2014/spells/detect-thoughts
+dimension-door,Dimension Door,/api/2014/spells/dimension-door
+disguise-self,Disguise Self,/api/2014/spells/disguise-self
+disintegrate,Disintegrate,/api/2014/spells/disintegrate
+dispel-evil-and-good,Dispel Evil and Good,/api/2014/spells/dispel-evil-and-good
+dispel-magic,Dispel Magic,/api/2014/spells/dispel-magic
+divination,Divination,/api/2014/spells/divination
+divine-favor,Divine Favor,/api/2014/spells/divine-favor
+divine-word,Divine Word,/api/2014/spells/divine-word
+dominate-beast,Dominate Beast,/api/2014/spells/dominate-beast
+dominate-monster,Dominate Monster,/api/2014/spells/dominate-monster
+dominate-person,Dominate Person,/api/2014/spells/dominate-person
+dream,Dream,/api/2014/spells/dream
+druidcraft,Druidcraft,/api/2014/spells/druidcraft
+earthquake,Earthquake,/api/2014/spells/earthquake
+eldritch-blast,Eldritch Blast,/api/2014/spells/eldritch-blast
+enhance-ability,Enhance Ability,/api/2014/spells/enhance-ability
+enlarge-reduce,Enlarge/Reduce,/api/2014/spells/enlarge-reduce
+entangle,Entangle,/api/2014/spells/entangle
+enthrall,Enthrall,/api/2014/spells/enthrall
+etherealness,Etherealness,/api/2014/spells/etherealness
+expeditious-retreat,Expeditious Retreat,/api/2014/spells/expeditious-retreat
+eyebite,Eyebite,/api/2014/spells/eyebite
+fabricate,Fabricate,/api/2014/spells/fabricate
+faerie-fire,Faerie Fire,/api/2014/spells/faerie-fire
+faithful-hound,Faithful Hound,/api/2014/spells/faithful-hound
+false-life,False Life,/api/2014/spells/false-life
+fear,Fear,/api/2014/spells/fear
+feather-fall,Feather Fall,/api/2014/spells/feather-fall
+feeblemind,Feeblemind,/api/2014/spells/feeblemind
+find-familiar,Find Familiar,/api/2014/spells/find-familiar
+find-steed,Find Steed,/api/2014/spells/find-steed
+find-the-path,Find the Path,/api/2014/spells/find-the-path
+find-traps,Find Traps,/api/2014/spells/find-traps
+finger-of-death,Finger of Death,/api/2014/spells/finger-of-death
+fire-bolt,Fire Bolt,/api/2014/spells/fire-bolt
+fire-shield,Fire Shield,/api/2014/spells/fire-shield
+fire-storm,Fire Storm,/api/2014/spells/fire-storm
+fireball,Fireball,/api/2014/spells/fireball
+flame-blade,Flame Blade,/api/2014/spells/flame-blade
+flame-strike,Flame Strike,/api/2014/spells/flame-strike
+flaming-sphere,Flaming Sphere,/api/2014/spells/flaming-sphere
+flesh-to-stone,Flesh to Stone,/api/2014/spells/flesh-to-stone
+floating-disk,Floating Disk,/api/2014/spells/floating-disk
+fly,Fly,/api/2014/spells/fly
+fog-cloud,Fog Cloud,/api/2014/spells/fog-cloud
+forbiddance,Forbiddance,/api/2014/spells/forbiddance
+forcecage,Forcecage,/api/2014/spells/forcecage
+foresight,Foresight,/api/2014/spells/foresight
+freedom-of-movement,Freedom of Movement,/api/2014/spells/freedom-of-movement
+freezing-sphere,Freezing Sphere,/api/2014/spells/freezing-sphere
+gaseous-form,Gaseous Form,/api/2014/spells/gaseous-form
+gate,Gate,/api/2014/spells/gate
+geas,Geas,/api/2014/spells/geas
+gentle-repose,Gentle Repose,/api/2014/spells/gentle-repose
+giant-insect,Giant Insect,/api/2014/spells/giant-insect
+glibness,Glibness,/api/2014/spells/glibness
+globe-of-invulnerability,Globe of Invulnerability,/api/2014/spells/globe-of-invulnerability
+glyph-of-warding,Glyph of Warding,/api/2014/spells/glyph-of-warding
+goodberry,Goodberry,/api/2014/spells/goodberry
+grease,Grease,/api/2014/spells/grease
+greater-invisibility,Greater Invisibility,/api/2014/spells/greater-invisibility
+greater-restoration,Greater Restoration,/api/2014/spells/greater-restoration
+guardian-of-faith,Guardian of Faith,/api/2014/spells/guardian-of-faith
+guards-and-wards,Guards and Wards,/api/2014/spells/guards-and-wards
+guidance,Guidance,/api/2014/spells/guidance
+guiding-bolt,Guiding Bolt,/api/2014/spells/guiding-bolt
+gust-of-wind,Gust of Wind,/api/2014/spells/gust-of-wind
+hallow,Hallow,/api/2014/spells/hallow
+hallucinatory-terrain,Hallucinatory Terrain,/api/2014/spells/hallucinatory-terrain
+harm,Harm,/api/2014/spells/harm
+haste,Haste,/api/2014/spells/haste
+heal,Heal,/api/2014/spells/heal
+healing-word,Healing Word,/api/2014/spells/healing-word
+heat-metal,Heat Metal,/api/2014/spells/heat-metal
+hellish-rebuke,Hellish Rebuke,/api/2014/spells/hellish-rebuke
+heroes-feast,Heroes' Feast,/api/2014/spells/heroes-feast
+heroism,Heroism,/api/2014/spells/heroism
+hideous-laughter,Hideous Laughter,/api/2014/spells/hideous-laughter
+hold-monster,Hold Monster,/api/2014/spells/hold-monster
+hold-person,Hold Person,/api/2014/spells/hold-person
+holy-aura,Holy Aura,/api/2014/spells/holy-aura
+hunters-mark,Hunter's Mark,/api/2014/spells/hunters-mark
+hypnotic-pattern,Hypnotic Pattern,/api/2014/spells/hypnotic-pattern
+ice-storm,Ice Storm,/api/2014/spells/ice-storm
+identify,Identify,/api/2014/spells/identify
+illusory-script,Illusory Script,/api/2014/spells/illusory-script
+imprisonment,Imprisonment,/api/2014/spells/imprisonment
+incendiary-cloud,Incendiary Cloud,/api/2014/spells/incendiary-cloud
+inflict-wounds,Inflict Wounds,/api/2014/spells/inflict-wounds
+insect-plague,Insect Plague,/api/2014/spells/insect-plague
+instant-summons,Instant Summons,/api/2014/spells/instant-summons
+invisibility,Invisibility,/api/2014/spells/invisibility
+irresistible-dance,Irresistible Dance,/api/2014/spells/irresistible-dance
+jump,Jump,/api/2014/spells/jump
+knock,Knock,/api/2014/spells/knock
+legend-lore,Legend Lore,/api/2014/spells/legend-lore
+lesser-restoration,Lesser Restoration,/api/2014/spells/lesser-restoration
+levitate,Levitate,/api/2014/spells/levitate
+light,Light,/api/2014/spells/light
+lightning-bolt,Lightning Bolt,/api/2014/spells/lightning-bolt
+locate-animals-or-plants,Locate Animals or Plants,/api/2014/spells/locate-animals-or-plants
+locate-creature,Locate Creature,/api/2014/spells/locate-creature
+locate-object,Locate Object,/api/2014/spells/locate-object
+longstrider,Longstrider,/api/2014/spells/longstrider
+mage-armor,Mage Armor,/api/2014/spells/mage-armor
+mage-hand,Mage Hand,/api/2014/spells/mage-hand
+magic-circle,Magic Circle,/api/2014/spells/magic-circle
+magic-jar,Magic Jar,/api/2014/spells/magic-jar
+magic-missile,Magic Missile,/api/2014/spells/magic-missile
+magic-mouth,Magic Mouth,/api/2014/spells/magic-mouth
+magic-weapon,Magic Weapon,/api/2014/spells/magic-weapon
+magnificent-mansion,Magnificent Mansion,/api/2014/spells/magnificent-mansion
+major-image,Major Image,/api/2014/spells/major-image
+mass-cure-wounds,Mass Cure Wounds,/api/2014/spells/mass-cure-wounds
+mass-heal,Mass Heal,/api/2014/spells/mass-heal
+mass-healing-word,Mass Healing Word,/api/2014/spells/mass-healing-word
+mass-suggestion,Mass Suggestion,/api/2014/spells/mass-suggestion
+maze,Maze,/api/2014/spells/maze
+meld-into-stone,Meld Into Stone,/api/2014/spells/meld-into-stone
+mending,Mending,/api/2014/spells/mending
+message,Message,/api/2014/spells/message
+meteor-swarm,Meteor Swarm,/api/2014/spells/meteor-swarm
+mind-blank,Mind Blank,/api/2014/spells/mind-blank
+minor-illusion,Minor Illusion,/api/2014/spells/minor-illusion
+mirage-arcane,Mirage Arcane,/api/2014/spells/mirage-arcane
+mirror-image,Mirror Image,/api/2014/spells/mirror-image
+mislead,Mislead,/api/2014/spells/mislead
+misty-step,Misty Step,/api/2014/spells/misty-step
+modify-memory,Modify Memory,/api/2014/spells/modify-memory
+moonbeam,Moonbeam,/api/2014/spells/moonbeam
+move-earth,Move Earth,/api/2014/spells/move-earth
+nondetection,Nondetection,/api/2014/spells/nondetection
+pass-without-trace,Pass Without Trace,/api/2014/spells/pass-without-trace
+passwall,Passwall,/api/2014/spells/passwall
+phantasmal-killer,Phantasmal Killer,/api/2014/spells/phantasmal-killer
+phantom-steed,Phantom Steed,/api/2014/spells/phantom-steed
+planar-ally,Planar Ally,/api/2014/spells/planar-ally
+planar-binding,Planar Binding,/api/2014/spells/planar-binding
+plane-shift,Plane Shift,/api/2014/spells/plane-shift
+plant-growth,Plant Growth,/api/2014/spells/plant-growth
+poison-spray,Poison Spray,/api/2014/spells/poison-spray
+polymorph,Polymorph,/api/2014/spells/polymorph
+power-word-kill,Power Word Kill,/api/2014/spells/power-word-kill
+power-word-stun,Power Word Stun,/api/2014/spells/power-word-stun
+prayer-of-healing,Prayer of Healing,/api/2014/spells/prayer-of-healing
+prestidigitation,Prestidigitation,/api/2014/spells/prestidigitation
+prismatic-spray,Prismatic Spray,/api/2014/spells/prismatic-spray
+prismatic-wall,Prismatic Wall,/api/2014/spells/prismatic-wall
+private-sanctum,Private Sanctum,/api/2014/spells/private-sanctum
+produce-flame,Produce Flame,/api/2014/spells/produce-flame
+programmed-illusion,Programmed Illusion,/api/2014/spells/programmed-illusion
+project-image,Project Image,/api/2014/spells/project-image
+protection-from-energy,Protection From Energy,/api/2014/spells/protection-from-energy
+protection-from-evil-and-good,Protection from Evil and Good,/api/2014/spells/protection-from-evil-and-good
+protection-from-poison,Protection from Poison,/api/2014/spells/protection-from-poison
+purify-food-and-drink,Purify Food and Drink,/api/2014/spells/purify-food-and-drink
+raise-dead,Raise Dead,/api/2014/spells/raise-dead
+ray-of-enfeeblement,Ray of Enfeeblement,/api/2014/spells/ray-of-enfeeblement
+ray-of-frost,Ray of Frost,/api/2014/spells/ray-of-frost
+regenerate,Regenerate,/api/2014/spells/regenerate
+reincarnate,Reincarnate,/api/2014/spells/reincarnate
+remove-curse,Remove Curse,/api/2014/spells/remove-curse
+resilient-sphere,Resilient Sphere,/api/2014/spells/resilient-sphere
+resistance,Resistance,/api/2014/spells/resistance
+resurrection,Resurrection,/api/2014/spells/resurrection
+reverse-gravity,Reverse Gravity,/api/2014/spells/reverse-gravity
+revivify,Revivify,/api/2014/spells/revivify
+rope-trick,Rope Trick,/api/2014/spells/rope-trick
+sacred-flame,Sacred Flame,/api/2014/spells/sacred-flame
+sanctuary,Sanctuary,/api/2014/spells/sanctuary
+scorching-ray,Scorching Ray,/api/2014/spells/scorching-ray
+scrying,Scrying,/api/2014/spells/scrying
+secret-chest,Secret Chest,/api/2014/spells/secret-chest
+see-invisibility,See Invisibility,/api/2014/spells/see-invisibility
+seeming,Seeming,/api/2014/spells/seeming
+sending,Sending,/api/2014/spells/sending
+sequester,Sequester,/api/2014/spells/sequester
+shapechange,Shapechange,/api/2014/spells/shapechange
+shatter,Shatter,/api/2014/spells/shatter
+shield,Shield,/api/2014/spells/shield
+shield-of-faith,Shield of Faith,/api/2014/spells/shield-of-faith
+shillelagh,Shillelagh,/api/2014/spells/shillelagh
+shocking-grasp,Shocking Grasp,/api/2014/spells/shocking-grasp
+silence,Silence,/api/2014/spells/silence
+silent-image,Silent Image,/api/2014/spells/silent-image
+simulacrum,Simulacrum,/api/2014/spells/simulacrum
+sleep,Sleep,/api/2014/spells/sleep
+sleet-storm,Sleet Storm,/api/2014/spells/sleet-storm
+slow,Slow,/api/2014/spells/slow
+spare-the-dying,Spare the Dying,/api/2014/spells/spare-the-dying
+speak-with-animals,Speak with Animals,/api/2014/spells/speak-with-animals
+speak-with-dead,Speak with Dead,/api/2014/spells/speak-with-dead
+speak-with-plants,Speak with Plants,/api/2014/spells/speak-with-plants
+spider-climb,Spider Climb,/api/2014/spells/spider-climb
+spike-growth,Spike Growth,/api/2014/spells/spike-growth
+spirit-guardians,Spirit Guardians,/api/2014/spells/spirit-guardians
+spiritual-weapon,Spiritual Weapon,/api/2014/spells/spiritual-weapon
+stinking-cloud,Stinking Cloud,/api/2014/spells/stinking-cloud
+stone-shape,Stone Shape,/api/2014/spells/stone-shape
+stoneskin,Stoneskin,/api/2014/spells/stoneskin
+storm-of-vengeance,Storm of Vengeance,/api/2014/spells/storm-of-vengeance
+suggestion,Suggestion,/api/2014/spells/suggestion
+sunbeam,Sunbeam,/api/2014/spells/sunbeam
+sunburst,Sunburst,/api/2014/spells/sunburst
+symbol,Symbol,/api/2014/spells/symbol
+telekinesis,Telekinesis,/api/2014/spells/telekinesis
+telepathic-bond,Telepathic Bond,/api/2014/spells/telepathic-bond
+teleport,Teleport,/api/2014/spells/teleport
+teleportation-circle,Teleportation Circle,/api/2014/spells/teleportation-circle
+thaumaturgy,Thaumaturgy,/api/2014/spells/thaumaturgy
+thunderwave,Thunderwave,/api/2014/spells/thunderwave
+time-stop,Time Stop,/api/2014/spells/time-stop
+tiny-hut,Tiny Hut,/api/2014/spells/tiny-hut
+tongues,Tongues,/api/2014/spells/tongues
+transport-via-plants,Transport via Plants,/api/2014/spells/transport-via-plants
+tree-stride,Tree Stride,/api/2014/spells/tree-stride
+true-polymorph,True Polymorph,/api/2014/spells/true-polymorph
+true-resurrection,True Resurrection,/api/2014/spells/true-resurrection
+true-seeing,True Seeing,/api/2014/spells/true-seeing
+true-strike,True Strike,/api/2014/spells/true-strike
+unseen-servant,Unseen Servant,/api/2014/spells/unseen-servant
+vampiric-touch,Vampiric Touch,/api/2014/spells/vampiric-touch
+vicious-mockery,Vicious Mockery,/api/2014/spells/vicious-mockery
+wall-of-fire,Wall of Fire,/api/2014/spells/wall-of-fire
+wall-of-force,Wall of Force,/api/2014/spells/wall-of-force
+wall-of-ice,Wall of Ice,/api/2014/spells/wall-of-ice
+wall-of-stone,Wall of Stone,/api/2014/spells/wall-of-stone
+wall-of-thorns,Wall of Thorns,/api/2014/spells/wall-of-thorns
+warding-bond,Warding Bond,/api/2014/spells/warding-bond
+water-breathing,Water Breathing,/api/2014/spells/water-breathing
+water-walk,Water Walk,/api/2014/spells/water-walk
+web,Web,/api/2014/spells/web
+weird,Weird,/api/2014/spells/weird
+wind-walk,Wind Walk,/api/2014/spells/wind-walk
+wind-wall,Wind Wall,/api/2014/spells/wind-wall
+wish,Wish,/api/2014/spells/wish
+word-of-recall,Word of Recall,/api/2014/spells/word-of-recall
+zone-of-truth,Zone of Truth,/api/2014/spells/zone-of-truth
