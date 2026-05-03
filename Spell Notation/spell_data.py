@@ -37,12 +37,12 @@ def get_spell_data(url: str) -> pd.DataFrame:
     return parsed_data
 
 
-def load_and_get_all_spell_details(check_exists: bool = True, verbose: bool = False) -> pd.DataFrame:
+def load_all_spell_details(check_exists: bool = True, verbose: bool = False) -> pd.DataFrame:
     # Ensure data directory exists
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("spell_data", exist_ok=True)
 
     # If needed, get all spell paths
-    all_spell_path = "data/spell_paths.csv"
+    all_spell_path = "spell_data/spell_paths.csv"
     if not check_exists or not os.path.exists(all_spell_path):
         # Get spell list from API and save locally
         spell_path_data = get_all_spell_paths()
@@ -56,7 +56,7 @@ def load_and_get_all_spell_details(check_exists: bool = True, verbose: bool = Fa
             print(f"Loaded {len(spell_path_data)} spell paths from '{all_spell_path}'")
 
     # Get all spell details
-    spell_details_path = "data/spell_details.csv"
+    spell_details_path = "spell_data/spell_details.csv"
     if not check_exists or not os.path.exists(spell_details_path):
         # Get spell details from API and save locally
         paths = spell_path_data["url"]
@@ -73,7 +73,7 @@ def load_and_get_all_spell_details(check_exists: bool = True, verbose: bool = Fa
     return spell_detail_data
 
 def main():
-    load_and_get_all_spell_details(verbose=True)
+    load_all_spell_details(verbose=True)
 
 
 if __name__ == "__main__":
