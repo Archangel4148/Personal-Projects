@@ -1,0 +1,320 @@
+,index,name,range,ritual,duration,concentration,casting_time,level,components,damage_type,area_of_effect,school
+0,acid-arrow,Acid Arrow,90 feet,False,Instantaneous,False,1 action,2,VSM,Acid,,Evocation
+1,acid-splash,Acid Splash,60 feet,False,Instantaneous,False,1 action,0,VS,Acid,,Conjuration
+2,aid,Aid,30 feet,False,8 hours,False,1 action,2,VSM,,,Abjuration
+3,alarm,Alarm,30 feet,True,8 hours,False,1 minute,1,VSM,,cube20,Abjuration
+4,alter-self,Alter Self,Self,False,Up to 1 hour,True,1 action,2,VS,,,Transmutation
+5,animal-friendship,Animal Friendship,30 feet,False,24 hours,False,1 action,1,VSM,,,Enchantment
+6,animal-messenger,Animal Messenger,30 feet,True,24 hours,False,1 action,2,VSM,,,Enchantment
+7,animal-shapes,Animal Shapes,30 feet,False,Up to 24 hours,True,1 action,8,VS,,,Transmutation
+8,animate-dead,Animate Dead,10 feet,False,Instantaneous,False,1 minute,3,VSM,,,Necromancy
+9,animate-objects,Animate Objects,120 feet,False,Up to 1 minute,True,1 action,5,VS,,,Transmutation
+10,antilife-shell,Antilife Shell,Self,False,Up to 1 hour,True,1 action,5,VS,,sphere10,Abjuration
+11,antimagic-field,Antimagic Field,Self,False,Up to 1 hour,True,1 action,8,VSM,,sphere10,Abjuration
+12,antipathy-sympathy,Antipathy/Sympathy,60 feet,False,10 days,False,1 hour,8,VSM,,cube200,Enchantment
+13,arcane-eye,Arcane Eye,30 feet,False,Up to 1 hour,True,1 action,4,VSM,,sphere30,Divination
+14,arcane-hand,Arcane Hand,120 feet,False,Up to 1 minute,True,1 action,5,VSM,,,Evocation
+15,arcane-lock,Arcane Lock,Touch,False,Until dispelled,False,1 action,2,VSM,,,Abjuration
+16,arcane-sword,Arcane Sword,60 feet,False,Up to 1 minute,True,1 action,7,VSM,Force,,Evocation
+17,arcanists-magic-aura,Arcanist's Magic Aura,Touch,False,24 hours,False,1 action,2,VSM,,,Illusion
+18,astral-projection,Astral Projection,10 feet,False,Special,False,1 hour,9,VSM,,,Necromancy
+19,augury,Augury,Self,True,Instantaneous,False,1 minute,2,VSM,,,Divination
+20,awaken,Awaken,Touch,False,Instantaneous,False,8 hours,5,VSM,,,Transmutation
+21,bane,Bane,30 feet,False,Up to 1 minute,True,1 action,1,VSM,,,Enchantment
+22,banishment,Banishment,60 feet,False,Up to 1 minute,True,1 action,4,VSM,,,Abjuration
+23,barkskin,Barkskin,Touch,False,Up to 1 hour,True,1 action,2,VSM,,,Transmutation
+24,beacon-of-hope,Beacon of Hope,30 feet,False,Up to 1 minute,True,1 action,3,VS,,,Abjuration
+25,bestow-curse,Bestow Curse,Touch,False,Up to 1 minute,True,1 action,3,VS,,,Necromancy
+26,black-tentacles,Black Tentacles,90 feet,False,Up to 1 minute,True,1 action,4,VSM,Bludgeoning,cube20,Conjuration
+27,blade-barrier,Blade Barrier,90 feet,False,Up to 10 minutes,True,1 action,6,VS,Slashing,line100,Evocation
+28,bless,Bless,30 feet,False,Up to 1 minute,True,1 action,1,VSM,,,Enchantment
+29,blight,Blight,30 feet,False,Instantaneous,False,1 action,4,VS,Necrotic,,Necromancy
+30,blindness-deafness,Blindness/Deafness,30 feet,False,1 minute,False,1 action,2,V,,,Necromancy
+31,blink,Blink,Self,False,1 minute,False,1 action,3,VS,,,Transmutation
+32,blur,Blur,Self,False,Up to 1 minute,True,1 action,2,V,,,Illusion
+33,branding-smite,Branding Smite,Self,False,Up to 1 minute,True,1 bonus action,2,V,Radiant,,Evocation
+34,burning-hands,Burning Hands,Self,False,Instantaneous,False,1 action,1,VS,Fire,cone15,Evocation
+35,call-lightning,Call Lightning,120 feet,False,Up to 10 minutes,True,1 action,3,VS,Lightning,sphere5,Conjuration
+36,calm-emotions,Calm Emotions,60 feet,False,Up to 1 minute,True,1 action,2,VS,,sphere20,Enchantment
+37,chain-lightning,Chain Lightning,150 feet,False,Instantaneous,False,1 action,6,VSM,Lightning,,Evocation
+38,charm-person,Charm Person,30 feet,False,1 hour,False,1 action,1,VS,,,Enchantment
+39,chill-touch,Chill Touch,120 feet,False,1 round,False,1 action,0,VS,Necrotic,,Necromancy
+40,circle-of-death,Circle of Death,150 feet,False,Instantaneous,False,1 action,6,VSM,Necrotic,sphere60,Necromancy
+41,clairvoyance,Clairvoyance,1 mile,False,Up to 10 minutes,True,10 minutes,3,VSM,,,Divination
+42,clone,Clone,Touch,False,Instantaneous,False,1 hour,8,VSM,,,Necromancy
+43,cloudkill,Cloudkill,120 feet,False,Up to 10 minutes,True,1 action,5,VS,Poison,sphere20,Conjuration
+44,color-spray,Color Spray,Self,False,1 round,False,1 action,1,VSM,,cone15,Illusion
+45,command,Command,60 feet,False,1 round,False,1 action,1,V,,,Enchantment
+46,commune,Commune,Self,True,1 minute,False,1 minute,5,VSM,,,Divination
+47,commune-with-nature,Commune With Nature,Self,True,Instantaneous,False,1 minute,5,VS,,,Divination
+48,comprehend-languages,Comprehend Languages,Self,True,1 hour,False,1 action,1,VSM,,,Divination
+49,compulsion,Compulsion,30 feet,False,Up to 1 minute,True,1 action,4,VS,,,Enchantment
+50,cone-of-cold,Cone of Cold,Self,False,Instantaneous,False,1 action,5,VSM,Cold,cone60,Evocation
+51,confusion,Confusion,90 feet,False,Up to 1 minute,True,1 action,4,VSM,,sphere10,Enchantment
+52,conjure-animals,Conjure Animals,60 feet,False,Up to 1 hour,True,1 action,3,VS,,,Conjuration
+53,conjure-celestial,Conjure Celestial,90 feet,False,Up to 1 hour,True,1 minute,7,VS,,,Conjuration
+54,conjure-elemental,Conjure Elemental,90 feet,False,Up to 1 hour,True,1 minute,5,VSM,,cube10,Conjuration
+55,conjure-fey,Conjure Fey,90 feet,False,Up to 1 hour,True,1 minute,6,VS,,,Conjuration
+56,conjure-minor-elementals,Conjure Minor Elementals,90 feet,False,Up to 1 hour,True,1 minute,4,VS,,,Conjuration
+57,conjure-woodland-beings,Conjure Woodland Beings,60 feet,False,Up to 1 hour,True,1 action,4,VSM,,,Conjuration
+58,contact-other-plane,Contact Other Plane,Self,True,1 minute,False,1 minute,5,V,,,Divination
+59,contagion,Contagion,Touch,False,7 days,False,1 action,5,VS,,,Necromancy
+60,contingency,Contingency,Self,False,10 days,False,10 minutes,6,VSM,,,Evocation
+61,continual-flame,Continual Flame,Touch,False,Until dispelled,False,1 action,2,VSM,,,Evocation
+62,control-water,Control Water,300 feet,False,Up to 10 minutes,True,1 action,4,VSM,Bludgeoning,cube100,Transmutation
+63,control-weather,Control Weather,Self,False,Up to 8 hours,True,10 minutes,8,VSM,,,Transmutation
+64,counterspell,Counterspell,60 feet,False,Instantaneous,False,1 reaction,3,S,,,Abjuration
+65,create-food-and-water,Create Food and Water,30 feet,False,Instantaneous,False,1 action,3,VS,,,Conjuration
+66,create-or-destroy-water,Create or Destroy Water,30 feet,False,Instantaneous,False,1 action,1,VSM,,cube30,Transmutation
+67,create-undead,Create Undead,10 feet,False,Instantaneous,False,1 minute,6,VSM,,,Necromancy
+68,creation,Creation,30 feet,False,Special,False,1 minute,5,VSM,,cube5,Illusion
+69,cure-wounds,Cure Wounds,Touch,False,Instantaneous,False,1 action,1,VS,,,Evocation
+70,dancing-lights,Dancing Lights,120 feet,False,Up to 1 minute,True,1 action,0,VSM,,,Evocation
+71,darkness,Darkness,60 feet,False,Up to 10 minutes,True,1 action,2,VM,,sphere15,Evocation
+72,darkvision,Darkvision,Touch,False,8 hours,False,1 action,2,VSM,,,Transmutation
+73,daylight,Daylight,60 feet,False,1 hour,False,1 action,3,VS,,sphere60,Evocation
+74,death-ward,Death Ward,Touch,False,8 hours,False,1 action,4,VS,,,Abjuration
+75,delayed-blast-fireball,Delayed Blast Fireball,150 feet,False,Up to 1 minute,True,1 action,7,VSM,Fire,sphere20,Evocation
+76,demiplane,Demiplane,60 feet,False,1 hour,False,1 action,8,S,,,Conjuration
+77,detect-evil-and-good,Detect Evil and Good,Self,False,Up to 10 minutes,True,1 action,1,VS,,sphere30,Divination
+78,detect-magic,Detect Magic,Self,True,Up to 10 minutes,True,1 action,1,VS,,sphere30,Divination
+79,detect-poison-and-disease,Detect Poison and Disease,Self,True,Up to 10 minutes,True,1 action,1,VSM,,sphere30,Divination
+80,detect-thoughts,Detect Thoughts,Self,False,Up to 1 minute,True,1 action,2,VSM,,,Divination
+81,dimension-door,Dimension Door,500 feet,False,Instantaneous,False,1 action,4,V,Force,,Conjuration
+82,disguise-self,Disguise Self,Self,False,1 hour,False,1 action,1,VS,,,Illusion
+83,disintegrate,Disintegrate,60 feet,False,Instantaneous,False,1 action,6,VSM,Force,cube10,Transmutation
+84,dispel-evil-and-good,Dispel Evil and Good,Self,False,Up to 1 minute,True,1 action,5,VSM,,,Abjuration
+85,dispel-magic,Dispel Magic,120 feet,False,Instantaneous,False,1 action,3,VS,,,Abjuration
+86,divination,Divination,Self,True,Instantaneous,False,1 action,4,VSM,,,Divination
+87,divine-favor,Divine Favor,Self,False,Up to 1 minute,True,1 bonus action,1,VS,Radiant,,Evocation
+88,divine-word,Divine Word,30 feet,False,Instantaneous,False,1 bonus action,7,V,,,Evocation
+89,dominate-beast,Dominate Beast,60 feet,False,Up to 1 minute,True,1 action,4,VS,,,Enchantment
+90,dominate-monster,Dominate Monster,60 feet,False,Up to 1 hour,True,1 action,8,VS,,,Enchantment
+91,dominate-person,Dominate Person,60 feet,False,Up to 1 minute,True,1 action,5,VS,,,Enchantment
+92,dream,Dream,Special,False,8 hours,False,1 minute,5,VSM,Psychic,,Illusion
+93,druidcraft,Druidcraft,30 feet,False,Instantaneous,False,1 action,0,VS,,,Transmutation
+94,earthquake,Earthquake,500 feet,False,Up to 1 minute,True,1 action,8,VSM,,sphere100,Evocation
+95,eldritch-blast,Eldritch Blast,120 feet,False,Instantaneous,False,1 action,0,VS,Force,,Evocation
+96,enhance-ability,Enhance Ability,Touch,False,Up to 1 hour,True,1 action,2,VSM,,,Transmutation
+97,enlarge-reduce,Enlarge/Reduce,30 feet,False,Up to 1 minute,True,1 action,2,VSM,,,Transmutation
+98,entangle,Entangle,90 feet,False,Up to 1 minute,True,1 action,1,VS,,cube20,Conjuration
+99,enthrall,Enthrall,60 feet,False,1 minute,False,1 action,2,VS,,,Enchantment
+100,etherealness,Etherealness,Self,False,8 hours,False,1 action,7,VS,,,Transmutation
+101,expeditious-retreat,Expeditious Retreat,Self,False,Up to 10 minutes,True,1 bonus action,1,VS,,,Transmutation
+102,eyebite,Eyebite,Self,False,Up to 1 minute,True,1 action,6,VS,,,Necromancy
+103,fabricate,Fabricate,120 feet,False,Instantaneous,False,10 minutes,4,VS,,,Transmutation
+104,faerie-fire,Faerie Fire,60 feet,False,Up to 1 minute,True,1 action,1,V,,cube20,Evocation
+105,faithful-hound,Faithful Hound,30 feet,False,8 hours,False,1 action,4,VSM,Piercing,,Conjuration
+106,false-life,False Life,Self,False,1 hour,False,1 action,1,VSM,,,Necromancy
+107,fear,Fear,Self,False,Up to 1 minute,True,1 action,3,VSM,,cone30,Illusion
+108,feather-fall,Feather Fall,60 feet,False,1 minute,False,1 reaction,1,VM,,,Transmutation
+109,feeblemind,Feeblemind,150 feet,False,Instantaneous,False,1 action,8,VSM,Psychic,,Enchantment
+110,find-familiar,Find Familiar,10 feet,True,Instantaneous,False,1 hour,1,VSM,,,Conjuration
+111,find-steed,Find Steed,30 feet,False,Instantaneous,False,10 minutes,2,VS,,,Conjuration
+112,find-the-path,Find the Path,Self,False,Up to 24 hours,True,1 minute,6,VSM,,,Divination
+113,find-traps,Find Traps,120 feet,False,Instantaneous,False,1 action,2,VS,,,Divination
+114,finger-of-death,Finger of Death,60 feet,False,Instantaneous,False,1 action,7,VS,Necrotic,,Necromancy
+115,fire-bolt,Fire Bolt,120 feet,False,Instantaneous,False,1 action,0,VS,Fire,,Evocation
+116,fire-shield,Fire Shield,Self,False,10 minutes,False,1 action,4,VSM,Fire,sphere5,Evocation
+117,fire-storm,Fire Storm,150 feet,False,Instantaneous,False,1 action,7,VS,Fire,cube100,Evocation
+118,fireball,Fireball,150 feet,False,Instantaneous,False,1 action,3,VSM,Fire,sphere20,Evocation
+119,flame-blade,Flame Blade,Self,False,Up to 10 minutes,True,1 bonus action,2,VSM,Fire,,Evocation
+120,flame-strike,Flame Strike,60 feet,False,Instantaneous,False,1 action,5,VSM,Fire,cylinder40,Evocation
+121,flaming-sphere,Flaming Sphere,60 feet,False,Up to 1 minute,True,1 action,2,VSM,Fire,,Conjuration
+122,flesh-to-stone,Flesh to Stone,60 feet,False,Up to 1 minute,True,1 action,6,VSM,,,Transmutation
+123,floating-disk,Floating Disk,30 feet,True,1 hour,False,1 action,1,VSM,,,Conjuration
+124,fly,Fly,Touch,False,Up to 10 minutes,True,1 action,3,VSM,,,Transmutation
+125,fog-cloud,Fog Cloud,120 feet,False,Up to 1 hour,True,1 action,1,VS,,sphere20,Conjuration
+126,forbiddance,Forbiddance,Touch,True,24 hours,False,10 minutes,6,VSM,,cube40000,Abjuration
+127,forcecage,Forcecage,100 feet,False,1 hour,False,1 action,7,VSM,,cube20,Evocation
+128,foresight,Foresight,Touch,False,8 hours,False,1 minute,9,VSM,,,Divination
+129,freedom-of-movement,Freedom of Movement,Touch,False,1 hour,False,1 action,4,VSM,,,Abjuration
+130,freezing-sphere,Freezing Sphere,300 feet,False,Instantaneous,False,1 action,6,VSM,Cold,sphere60,Evocation
+131,gaseous-form,Gaseous Form,Touch,False,Up to 1 hour,True,1 action,3,VSM,,,Transmutation
+132,gate,Gate,60 feet,False,Up to 1 minute,True,1 action,9,VSM,,,Conjuration
+133,geas,Geas,60 feet,False,30 days,False,1 minute,5,V,,,Enchantment
+134,gentle-repose,Gentle Repose,Touch,True,10 days,False,1 action,2,VSM,,,Necromancy
+135,giant-insect,Giant Insect,30 feet,False,Up to 10 minutes,True,1 action,4,VS,,,Transmutation
+136,glibness,Glibness,Self,False,1 hour,False,1 action,8,V,,,Transmutation
+137,globe-of-invulnerability,Globe of Invulnerability,Self,False,Up to 1 minute,True,1 action,6,VSM,,sphere10,Abjuration
+138,glyph-of-warding,Glyph of Warding,Touch,False,Until dispelled,False,1 hour,3,VSM,,,Abjuration
+139,goodberry,Goodberry,Touch,False,Instantaneous,False,1 action,1,VSM,,,Transmutation
+140,grease,Grease,60 feet,False,1 minute,False,1 action,1,VSM,,cube10,Conjuration
+141,greater-invisibility,Greater Invisibility,Touch,False,Up to 1 minute,True,1 action,4,VS,,,Illusion
+142,greater-restoration,Greater Restoration,Touch,False,Instantaneous,False,1 action,5,VSM,,,Abjuration
+143,guardian-of-faith,Guardian of Faith,30 feet,False,8 hours,False,1 action,4,V,Radiant,cylinder10,Conjuration
+144,guards-and-wards,Guards and Wards,Touch,False,24 hours,False,10 minutes,6,VSM,,cube2500,Abjuration
+145,guidance,Guidance,Touch,False,Up to 1 minute,True,1 action,0,VS,,,Divination
+146,guiding-bolt,Guiding Bolt,120 feet,False,1 round,False,1 action,1,VS,Radiant,,Evocation
+147,gust-of-wind,Gust of Wind,Self,False,Up to 1 minute,True,1 action,2,VSM,,line60,Evocation
+148,hallow,Hallow,Touch,False,Until dispelled,False,24 hours,5,VSM,,sphere60,Evocation
+149,hallucinatory-terrain,Hallucinatory Terrain,300 feet,False,24 hours,False,10 minutes,4,VSM,,cube150,Illusion
+150,harm,Harm,60 feet,False,Instantaneous,False,1 action,6,VS,Necrotic,,Necromancy
+151,haste,Haste,30 feet,False,Up to 1 minute,True,1 action,3,VSM,,,Transmutation
+152,heal,Heal,60 feet,False,Instantaneous,False,1 action,6,VS,,,Evocation
+153,healing-word,Healing Word,60 feet,False,Instantaneous,False,1 bonus action,1,V,,,Evocation
+154,heat-metal,Heat Metal,60 feet,False,Up to 1 minute,True,1 action,2,VSM,Fire,,Transmutation
+155,hellish-rebuke,Hellish Rebuke,60 feet,False,Instantaneous,False,1 reaction,1,VS,Fire,,Evocation
+156,heroes-feast,Heroes' Feast,30 feet,False,Instantaneous,False,10 minutes,6,VSM,,,Conjuration
+157,heroism,Heroism,Touch,False,Up to 1 minute,True,1 action,1,VS,,,Enchantment
+158,hideous-laughter,Hideous Laughter,30 feet,False,Up to 1 minute,True,1 action,1,VSM,,,Enchantment
+159,hold-monster,Hold Monster,90 feet,False,Up to 1 minute,True,1 action,5,VSM,,,Enchantment
+160,hold-person,Hold Person,60 feet,False,Up to 1 minute,True,1 action,2,VSM,,,Enchantment
+161,holy-aura,Holy Aura,Self,False,Up to 1 minute,True,1 action,8,VSM,,sphere30,Abjuration
+162,hunters-mark,Hunter's Mark,90 feet,False,Up to 1 hour,True,1 bonus action,1,V,,,Divination
+163,hypnotic-pattern,Hypnotic Pattern,120 feet,False,Up to 1 minute,True,1 action,3,SM,,,Illusion
+164,ice-storm,Ice Storm,300 feet,False,Instantaneous,False,1 action,4,VSM,Bludgeoning,cylinder20,Evocation
+165,identify,Identify,Touch,True,Instantaneous,False,1 minute,1,VSM,,,Divination
+166,illusory-script,Illusory Script,Touch,True,10 days,False,1 minute,1,SM,,,Illusion
+167,imprisonment,Imprisonment,30 feet,False,Until dispelled,False,1 minute,9,VSM,,,Abjuration
+168,incendiary-cloud,Incendiary Cloud,150 feet,False,Up to 1 minute,True,1 action,8,VS,Fire,sphere20,Conjuration
+169,inflict-wounds,Inflict Wounds,Touch,False,Instantaneous,False,1 action,1,VS,Necrotic,,Necromancy
+170,insect-plague,Insect Plague,300 feet,False,Up to 10 minutes,True,1 action,5,VSM,Piercing,sphere20,Conjuration
+171,instant-summons,Instant Summons,Touch,True,Until dispelled,False,1 minute,6,VSM,,,Conjuration
+172,invisibility,Invisibility,Touch,False,Up to 1 hour,True,1 action,2,VSM,,,Illusion
+173,irresistible-dance,Irresistible Dance,30 feet,False,Up to 1 minute,True,1 action,6,V,,,Enchantment
+174,jump,Jump,Touch,False,1 minute,False,1 action,1,VSM,,,Transmutation
+175,knock,Knock,60 feet,False,Instantaneous,False,1 action,2,V,,,Transmutation
+176,legend-lore,Legend Lore,Self,False,Instantaneous,False,10 minutes,5,VSM,,,Divination
+177,lesser-restoration,Lesser Restoration,Touch,False,Instantaneous,False,1 action,2,VS,,,Abjuration
+178,levitate,Levitate,60 feet,False,Up to 10 minutes,True,1 action,2,VSM,,,Transmutation
+179,light,Light,Touch,False,1 hour,False,1 action,0,VM,,,Evocation
+180,lightning-bolt,Lightning Bolt,Self,False,Instantaneous,False,1 action,3,VSM,Lightning,line100,Evocation
+181,locate-animals-or-plants,Locate Animals or Plants,Self,True,Instantaneous,False,1 action,2,VSM,,,Divination
+182,locate-creature,Locate Creature,Self,False,Up to 1 hour,True,1 action,4,VSM,,,Divination
+183,locate-object,Locate Object,Self,False,Up to 10 minutes,True,1 action,2,VSM,,,Divination
+184,longstrider,Longstrider,Touch,False,1 hour,False,1 action,1,VSM,,,Transmutation
+185,mage-armor,Mage Armor,Touch,False,8 hours,False,1 action,1,VSM,,,Abjuration
+186,mage-hand,Mage Hand,30 feet,False,1 minute,False,1 action,0,VS,,,Conjuration
+187,magic-circle,Magic Circle,10 feet,False,1 hour,False,1 minute,3,VSM,,cylinder10,Abjuration
+188,magic-jar,Magic Jar,Self,False,Until dispelled,False,1 minute,6,VSM,,,Necromancy
+189,magic-missile,Magic Missile,120 feet,False,Instantaneous,False,1 action,1,VS,Force,,Evocation
+190,magic-mouth,Magic Mouth,30 feet,True,Until dispelled,False,1 minute,2,VSM,,,Illusion
+191,magic-weapon,Magic Weapon,Touch,False,Up to 1 hour,True,1 bonus action,2,VS,,,Transmutation
+192,magnificent-mansion,Magnificent Mansion,300 feet,False,24 hours,False,1 minute,7,VSM,,cube5,Conjuration
+193,major-image,Major Image,120 feet,False,Up to 10 minutes,True,1 action,3,VSM,,,Illusion
+194,mass-cure-wounds,Mass Cure Wounds,60 feet,False,Instantaneous,False,1 action,5,VS,,sphere30,Conjuration
+195,mass-heal,Mass Heal,60 feet,False,Instantaneous,False,1 action,9,VS,,,Conjuration
+196,mass-healing-word,Mass Healing Word,60 feet,False,Instantaneous,False,1 bonus action,3,V,,,Evocation
+197,mass-suggestion,Mass Suggestion,60 feet,False,24 hours,False,1 action,6,VM,,,Enchantment
+198,maze,Maze,60 feet,False,Up to 10 minutes,True,1 action,8,VS,,,Conjuration
+199,meld-into-stone,Meld Into Stone,Touch,True,8 hours,False,1 action,3,VS,,,Transmutation
+200,mending,Mending,Touch,False,Instantaneous,False,1 minute,0,VSM,,,Transmutation
+201,message,Message,120 feet,False,1 round,False,1 action,0,VSM,,,Transmutation
+202,meteor-swarm,Meteor Swarm,1 mile,False,Instantaneous,False,1 action,9,VS,Fire,sphere40,Evocation
+203,mind-blank,Mind Blank,Touch,False,24 hours,False,1 action,8,VS,,,Abjuration
+204,minor-illusion,Minor Illusion,30 feet,False,1 minute,False,1 action,0,SM,,,Illusion
+205,mirage-arcane,Mirage Arcane,Sight,False,10 days,False,10 minutes,7,VS,,cube5280,Illusion
+206,mirror-image,Mirror Image,Self,False,1 minute,False,1 action,2,VS,,,Illusion
+207,mislead,Mislead,Self,False,Up to 1 hour,True,1 action,5,S,,,Illusion
+208,misty-step,Misty Step,Self,False,Instantaneous,False,1 bonus action,2,V,,,Conjuration
+209,modify-memory,Modify Memory,30 feet,False,Up to 1 minute,True,1 action,5,VS,,,Enchantment
+210,moonbeam,Moonbeam,120 feet,False,Up to 1 minute,True,1 action,2,VSM,Radiant,cylinder5,Evocation
+211,move-earth,Move Earth,120 feet,False,Up to 2 hours,True,1 action,6,VSM,,cone40,Transmutation
+212,nondetection,Nondetection,Touch,False,8 hours,False,1 action,3,VSM,,,Abjuration
+213,pass-without-trace,Pass Without Trace,Self,False,Up to 1 hour,True,1 action,2,VSM,,,Abjuration
+214,passwall,Passwall,30 feet,False,1 hour,False,1 action,5,VSM,,,Transmutation
+215,phantasmal-killer,Phantasmal Killer,120 feet,False,Up to 1 minute,True,1 action,4,VS,Psychic,,Illusion
+216,phantom-steed,Phantom Steed,30 feet,True,1 hour,False,1 minute,3,VS,,,Illusion
+217,planar-ally,Planar Ally,60 feet,False,Instantaneous,False,10 minutes,6,VS,,,Conjuration
+218,planar-binding,Planar Binding,60 feet,False,24 hours,False,1 hour,5,VSM,,,Abjuration
+219,plane-shift,Plane Shift,Touch,False,Instantaneous,False,1 action,7,VSM,,,Conjuration
+220,plant-growth,Plant Growth,150 feet,False,Instantaneous,False,1 action,3,VS,,,Transmutation
+221,poison-spray,Poison Spray,10 feet,False,Instantaneous,False,1 action,0,VS,Poison,,Conjuration
+222,polymorph,Polymorph,60 feet,False,Up to 1 hour,True,1 action,4,VSM,,,Transmutation
+223,power-word-kill,Power Word Kill,60 feet,False,Instantaneous,False,1 action,9,V,,,Enchantment
+224,power-word-stun,Power Word Stun,60 feet,False,Instantaneous,False,1 action,8,V,,,Enchantment
+225,prayer-of-healing,Prayer of Healing,30 feet,False,Instantaneous,False,10 minutes,2,V,,,Evocation
+226,prestidigitation,Prestidigitation,10 feet,False,1 hour,False,1 action,0,VS,,,Transmutation
+227,prismatic-spray,Prismatic Spray,Self,False,Instantaneous,False,1 action,7,VS,,cone60,Evocation
+228,prismatic-wall,Prismatic Wall,60 feet,False,10 minutes,False,1 action,9,VS,,line90,Abjuration
+229,private-sanctum,Private Sanctum,120 feet,False,24 hours,False,10 minutes,4,VSM,,cube100,Abjuration
+230,produce-flame,Produce Flame,Self,False,10 minutes,False,1 action,0,VS,Fire,,Conjuration
+231,programmed-illusion,Programmed Illusion,120 feet,False,Until dispelled,False,1 action,6,VSM,,cube30,Illusion
+232,project-image,Project Image,500 miles,False,Up to 24 hours,True,1 action,7,VSM,,,Illusion
+233,protection-from-energy,Protection From Energy,Touch,False,Up to 1 hour,True,1 action,3,VS,,,Abjuration
+234,protection-from-evil-and-good,Protection from Evil and Good,Touch,False,Up to 10 minutes,True,1 action,1,VSM,,,Abjuration
+235,protection-from-poison,Protection from Poison,Touch,False,1 hour,False,1 action,2,VS,,,Abjuration
+236,purify-food-and-drink,Purify Food and Drink,10 feet,True,Instantaneous,False,1 action,1,VS,,,Transmutation
+237,raise-dead,Raise Dead,Touch,False,Instantaneous,False,1 hour,5,VSM,,,Necromancy
+238,ray-of-enfeeblement,Ray of Enfeeblement,60 feet,False,Up to 1 minute,True,1 action,2,VS,,,Necromancy
+239,ray-of-frost,Ray of Frost,60 feet,False,Instantaneous,False,1 action,0,VS,Cold,,Evocation
+240,regenerate,Regenerate,Touch,False,1 hour,False,1 minute,7,VSM,,,Transmutation
+241,reincarnate,Reincarnate,Touch,False,Instantaneous,False,1 hour,5,VSM,,,Transmutation
+242,remove-curse,Remove Curse,Touch,False,Instantaneous,False,1 action,3,VS,,,Abjuration
+243,resilient-sphere,Resilient Sphere,30 feet,False,Up to 1 minute,True,1 action,4,VSM,,,Evocation
+244,resistance,Resistance,Touch,False,Up to 1 minute,True,1 action,0,VSM,,,Abjuration
+245,resurrection,Resurrection,Touch,False,Instantaneous,False,1 hour,7,VSM,,,Necromancy
+246,reverse-gravity,Reverse Gravity,100 feet,False,Up to 1 minute,True,1 action,7,VSM,,cylinder50,Transmutation
+247,revivify,Revivify,Touch,False,Instantaneous,False,1 action,3,VSM,,,Conjuration
+248,rope-trick,Rope Trick,Touch,False,1 hour,False,1 action,2,VSM,,,Transmutation
+249,sacred-flame,Sacred Flame,60 feet,False,Instantaneous,False,1 action,0,VS,Radiant,,Evocation
+250,sanctuary,Sanctuary,30 feet,False,1 minute,False,1 bonus action,1,VSM,,,Abjuration
+251,scorching-ray,Scorching Ray,120 feet,False,Instantaneous,False,1 action,2,VS,Fire,,Evocation
+252,scrying,Scrying,Self,False,Up to 10 minutes,True,10 minutes,5,VSM,,,Divination
+253,secret-chest,Secret Chest,Touch,False,Instantaneous,False,1 action,4,VSM,,,Conjuration
+254,see-invisibility,See Invisibility,Self,False,1 hour,False,1 action,2,VSM,,,Divination
+255,seeming,Seeming,30 feet,False,8 hours,False,1 action,5,VS,,,Illusion
+256,sending,Sending,Unlimited,False,1 round,False,1 action,3,VSM,,,Evocation
+257,sequester,Sequester,Touch,False,Until dispelled,False,1 action,7,VSM,,,Transmutation
+258,shapechange,Shapechange,Self,False,Up to 1 hour,True,1 action,9,VSM,,,Transmutation
+259,shatter,Shatter,60 feet,False,Instantaneous,False,1 action,2,VSM,Thunder,sphere10,Evocation
+260,shield,Shield,Self,False,1 round,False,1 reaction,1,VS,,,Abjuration
+261,shield-of-faith,Shield of Faith,60 feet,False,Up to 10 minutes,True,1 bonus action,1,VSM,,,Abjuration
+262,shillelagh,Shillelagh,Touch,False,1 minute,False,1 bonus action,0,VSM,,,Transmutation
+263,shocking-grasp,Shocking Grasp,Touch,False,Instantaneous,False,1 action,0,VS,Lightning,,Evocation
+264,silence,Silence,120 feet,True,Up to 10 minutes,True,1 action,2,VS,,sphere20,Illusion
+265,silent-image,Silent Image,60 feet,False,Up to 10 minutes,True,1 action,1,VSM,,cube15,Illusion
+266,simulacrum,Simulacrum,Touch,False,Until dispelled,False,12 hours,7,VSM,,,Illusion
+267,sleep,Sleep,90 feet,False,1 minute,False,1 action,1,VSM,,sphere20,Enchantment
+268,sleet-storm,Sleet Storm,150 feet,False,Up to 1 minute,True,1 action,3,VSM,,cylinder40,Conjuration
+269,slow,Slow,120 feet,False,Up to 1 minute,True,1 action,3,VSM,,cube40,Transmutation
+270,spare-the-dying,Spare the Dying,Touch,False,Instantaneous,False,1 action,0,VS,,,Necromancy
+271,speak-with-animals,Speak with Animals,Self,True,10 minutes,False,1 action,1,VS,,,Divination
+272,speak-with-dead,Speak with Dead,10 feet,False,10 minutes,False,1 action,3,VSM,,,Necromancy
+273,speak-with-plants,Speak with Plants,Self,False,10 minutes,False,1 action,3,VS,,sphere30,Transmutation
+274,spider-climb,Spider Climb,Touch,False,Up to 1 hour,True,1 action,2,VSM,,,Transmutation
+275,spike-growth,Spike Growth,150 feet,False,Up to 10 minutes,True,1 action,2,VSM,,cylinder20,Transmutation
+276,spirit-guardians,Spirit Guardians,Self,False,Up to 10 minutes,True,1 action,3,VSM,,,Conjuration
+277,spiritual-weapon,Spiritual Weapon,60 feet,False,1 minute,False,1 bonus action,2,VS,Force,,Evocation
+278,stinking-cloud,Stinking Cloud,90 feet,False,Up to 1 minute,True,1 action,3,VSM,,sphere20,Conjuration
+279,stone-shape,Stone Shape,Touch,False,Instantaneous,False,1 action,4,VSM,,,Transmutation
+280,stoneskin,Stoneskin,Touch,False,Up to 1 hour,True,1 action,4,VSM,,,Abjuration
+281,storm-of-vengeance,Storm of Vengeance,Sight,False,Up to 1 minute,True,1 action,9,VS,Thunder,sphere360,Conjuration
+282,suggestion,Suggestion,30 feet,False,Up to 8 hours,True,1 action,2,VM,,,Enchantment
+283,sunbeam,Sunbeam,Self,False,Up to 1 minute,True,1 action,6,VSM,Radiant,line60,Evocation
+284,sunburst,Sunburst,150 feet,False,Instantaneous,False,1 action,8,VSM,Radiant,cylinder60,Evocation
+285,symbol,Symbol,Touch,False,Until dispelled,False,1 minute,7,VSM,,cube10,Abjuration
+286,telekinesis,Telekinesis,60 feet,False,Up to 10 minutes,True,1 action,5,VS,,sphere30,Transmutation
+287,telepathic-bond,Telepathic Bond,30 feet,True,1 hour,False,1 action,5,VSM,,,Divination
+288,teleport,Teleport,10 feet,False,Instantaneous,False,1 action,7,V,,cube10,Conjuration
+289,teleportation-circle,Teleportation Circle,10 feet,False,1 round,False,1 minute,5,VM,,sphere10,Conjuration
+290,thaumaturgy,Thaumaturgy,30 feet,False,1 minute,False,1 action,0,V,,,Transmutation
+291,thunderwave,Thunderwave,Self,False,Instantaneous,False,1 action,1,VS,Thunder,cube15,Evocation
+292,time-stop,Time Stop,Self,False,Instantaneous,False,1 action,9,V,,,Transmutation
+293,tiny-hut,Tiny Hut,Self,True,8 hours,False,1 minute,3,VSM,,sphere10,Evocation
+294,tongues,Tongues,Touch,False,1 hour,False,1 action,3,VM,,,Divination
+295,transport-via-plants,Transport via Plants,10 feet,False,1 round,False,1 action,6,VS,,,Conjuration
+296,tree-stride,Tree Stride,Self,False,Up to 1 minute,True,1 action,5,VS,,,Conjuration
+297,true-polymorph,True Polymorph,30 feet,False,Up to 1 hour,True,1 action,9,VSM,,,Transmutation
+298,true-resurrection,True Resurrection,Touch,False,Instantaneous,False,1 hour,9,VSM,,,Necromancy
+299,true-seeing,True Seeing,Touch,False,1 hour,False,1 action,6,VSM,,,Divination
+300,true-strike,True Strike,30 feet,False,Up to 1 round,True,1 action,0,S,,,Divination
+301,unseen-servant,Unseen Servant,60 feet,True,1 hour,False,1 action,1,VSM,,,Conjuration
+302,vampiric-touch,Vampiric Touch,Self,False,Up to 1 minute,True,1 action,3,VS,Necrotic,,Necromancy
+303,vicious-mockery,Vicious Mockery,60 feet,False,Instantaneous,False,1 action,0,V,Psychic,,Enchantment
+304,wall-of-fire,Wall of Fire,120 feet,False,Up to 1 minute,True,1 action,4,VSM,Fire,line60,Evocation
+305,wall-of-force,Wall of Force,120 feet,False,Up to 10 minutes,True,1 action,5,VSM,,,Evocation
+306,wall-of-ice,Wall of Ice,120 feet,False,Up to 10 minutes,True,1 action,6,VSM,Cold,sphere10,Evocation
+307,wall-of-stone,Wall of Stone,120 feet,False,Up to 10 minutes,True,1 action,5,VSM,,,Evocation
+308,wall-of-thorns,Wall of Thorns,120 feet,False,Up to 10 minutes,True,1 action,6,VSM,Piercing,line60,Conjuration
+309,warding-bond,Warding Bond,Touch,False,1 hour,False,1 action,2,VSM,,,Abjuration
+310,water-breathing,Water Breathing,30 feet,True,24 hours,False,1 action,3,VSM,,,Transmutation
+311,water-walk,Water Walk,30 feet,True,1 hour,False,1 action,3,VSM,,,Transmutation
+312,web,Web,60 feet,False,Up to 1 hour,True,1 action,2,VSM,,cube20,Conjuration
+313,weird,Weird,120 feet,False,Up to 1 minute,True,1 action,9,VS,,sphere30,Illusion
+314,wind-walk,Wind Walk,30 feet,False,8 hours,False,1 minute,6,VSM,,,Transmutation
+315,wind-wall,Wind Wall,120 feet,False,Up to 1 minute,True,1 action,3,VSM,Bludgeoning,line50,Evocation
+316,wish,Wish,Self,False,Instantaneous,False,1 action,9,V,,,Conjuration
+317,word-of-recall,Word of Recall,5 feet,False,Instantaneous,False,1 action,6,V,,sphere5,Conjuration
+318,zone-of-truth,Zone of Truth,60 feet,False,10 minutes,False,1 action,2,VS,,sphere15,Enchantment
