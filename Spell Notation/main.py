@@ -1,13 +1,14 @@
 import pygame
 
-from rendering import PointSequence, Point
-from algorithm import get_processed_spells
+from rendering import PointSequence, Point, int_color
+from algorithm import get_processed_spells, get_required_connection_indices
 
 pygame.init()
 
 def build_rune(x, y, r, spell: dict) -> PointSequence:
     """Build the rune sequence from a provided spell, center point, and radius"""
-    sequence = PointSequence.build_circle((x, y), r, 13)
+    num_points = 13
+    sequence = PointSequence.build_circle((x, y), r, num_points)
     conc = spell.get("concentration", False)
     rit = spell.get("ritual", False)
     if conc and rit:
@@ -17,9 +18,16 @@ def build_rune(x, y, r, spell: dict) -> PointSequence:
     elif rit:
         point_type = 0
     else:
-        return sequence
-    # Add the special center point
-    sequence.points.append(Point(x, y, special_point_type=point_type))
+        point_type = None
+    if point_type is not None:
+        # Add the special center point
+        sequence.points.append(Point(x, y, special_point_type=point_type))
+    # Get required connections and add them
+    connections = get_required_connection_indices(spell, num_points)
+    for i, (k, conn_list) in enumerate(connections.items()):
+        color = int_color(k)
+        for connection in conn_list:
+            sequence.connect_points(*connection, line_color=color)
     return sequence
 
 def main():
@@ -30,7 +38,7 @@ def main():
     center = (screen.width // 2, screen.height // 2)
 
     # Render a spell!
-    spell_name = "Detect Magic"
+    spell_name = "Fireball"
     df = get_processed_spells()
     try:
         spell = df[df["name"] == spell_name].iloc[0].to_dict()
@@ -60,4 +68,3 @@ if __name__ == "__main__":
 
 # AOE, Damage Type, and Duration can be zero, everything else is not
 
-# Dot in the center for concentration, circled for ritual

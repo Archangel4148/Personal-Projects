@@ -93,5 +93,11 @@ class PointSequence:
             raise ValueError(f"Point with id {idx_2} does not exist.")
         self.connections.append(Connection(p1, p2, line_thickness=line_width, color=line_color))
 
+def int_color(n: int) -> pygame.Color:
+    hue = (n * 137.508) % 360
+    color = pygame.Color(0)
+    color.hsla = (hue, 70, 60, 100)
+    return color
+
 if __name__ == "__main__":
     sequence = PointSequence.build_circle((100, 100), 100, 5)
