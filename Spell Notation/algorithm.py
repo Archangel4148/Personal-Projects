@@ -31,7 +31,7 @@ def get_ordered_attribute_lists(data) -> dict[str, list]:
 def get_spell_indices(order_lists: dict[str, list], spell_details: pd.DataFrame, skip_rows: list[str]) -> pd.DataFrame:
     """Convert spell details to index values"""
     all_dicts = []
-    for row in list(spell_details.iterrows())[:3]:
+    for row in list(spell_details.iterrows()):
         row_dict = row[1].to_dict()
         index_dict = {k: order_lists[k].index(str(v)) for k, v in row_dict.items() if
                       k in order_lists and k not in skip_rows}

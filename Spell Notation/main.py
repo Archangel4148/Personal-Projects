@@ -7,10 +7,17 @@ pygame.init()
 
 def build_rune(x, y, r, spell: dict) -> PointSequence:
     sequence = PointSequence.build_circle((x, y), r, 13)
-    if spell["concentration"]:
-        sequence.points.append(Point(x, y, special_point_type=0))
-    elif spell["ritual"]:
-        sequence.points.append(Point(x, y, special_point_type=1))
+    point_type = None
+    conc, rit = spell["concentration"], spell["ritual"]
+    if conc and rit:
+        point_type = 2
+    elif conc:
+        point_type = 1
+    elif rit:
+        point_type = 0
+
+    if point_type is not None:
+        sequence.points.append(Point(x, y, special_point_type=point_type))
     return sequence
 
 def main():
@@ -20,10 +27,12 @@ def main():
 
     center = (screen.width // 2, screen.height // 2)
 
-    # Create a circular sequence of points about the center of the screen
-    sequence = PointSequence.build_circle(center, 200, 13)
+    # Render a spell!
+    spell_name = "Alarm"
 
-    print(list(get_processed_spells().iterrows())[0].to_dict())
+    spell = list(get_processed_spells().iterrows())[spell_idx][1].to_dict()
+    print("Rendering spell:", spell["name"])
+    sequence = build_rune(center[0], center[1], 200, spell)
 
     while running:
         # Handle events
