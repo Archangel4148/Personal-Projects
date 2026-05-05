@@ -6,32 +6,38 @@ from algorithm import get_processed_spells
 pygame.init()
 
 def build_rune(x, y, r, spell: dict) -> PointSequence:
+    """Build the rune sequence from a provided spell, center point, and radius"""
     sequence = PointSequence.build_circle((x, y), r, 13)
-    point_type = None
-    conc, rit = spell["concentration"], spell["ritual"]
+    conc = spell.get("concentration", False)
+    rit = spell.get("ritual", False)
     if conc and rit:
         point_type = 2
     elif conc:
         point_type = 1
     elif rit:
         point_type = 0
-
-    if point_type is not None:
-        sequence.points.append(Point(x, y, special_point_type=point_type))
+    else:
+        return sequence
+    # Add the special center point
+    sequence.points.append(Point(x, y, special_point_type=point_type))
     return sequence
 
 def main():
-    screen = pygame.display.set_mode((1280, 720))
+    screen = pygame.display.set_mode((700, 700))
     clock = pygame.time.Clock()
     running = True
 
     center = (screen.width // 2, screen.height // 2)
 
     # Render a spell!
-    spell_name = "Alarm"
-
-    spell = list(get_processed_spells().iterrows())[spell_idx][1].to_dict()
-    print("Rendering spell:", spell["name"])
+    spell_name = "Detect Magic"
+    df = get_processed_spells()
+    try:
+        spell = df[df["name"] == spell_name].iloc[0].to_dict()
+        print("Rendering spell:", spell["name"])
+    except IndexError:
+        print(f"Invalid spell name, '{spell_name}'")
+        return
     sequence = build_rune(center[0], center[1], 200, spell)
 
     while running:

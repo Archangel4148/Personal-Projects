@@ -23,19 +23,20 @@ class Point:
         return self.x, self.y
     
     def draw(self, surface: pygame.Surface):
-        # Draw the point as a circle
-        pygame.draw.circle(surface, self.color, self.position, self.radius)
-
-        # Draw the "special point"
+        # Handle and draw any "special point"
         if self.special_point_type is not None:
             if self.special_point_type in (0, 2):
                 # Type 0: Hollow circle
+                pygame.draw.circle(surface, self.color, self.position, self.radius)
                 bg_color = surface.get_at((0, 0))
                 pygame.draw.circle(surface, bg_color, self.position, self.radius * 0.75)
 
             if self.special_point_type in (1, 2):
                 # Type 1: Small dot
-                pygame.draw.circle(surface, self.color, self.position, self.radius / 2.5)
+                pygame.draw.circle(surface, self.color, self.position, self.radius * 0.4)
+        else:
+            # Draw a standard point
+            pygame.draw.circle(surface, self.color, self.position, self.radius)
 
         # Draw the start point as a hollow circle
         if self.is_start_point:
