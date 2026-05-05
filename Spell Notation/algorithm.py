@@ -114,10 +114,7 @@ def get_processed_spells() -> DataFrame:
 
 def get_pairs_for_k(start_idx: int, k: int, num_points: int) -> list[tuple]:
     """Given k, list all pairs of indices k steps apart"""
-    return [
-        ((start_idx + i * k) % num_points, (start_idx + (i + 1) * k) % num_points)
-        for i in range(num_points)
-    ]
+    return [((start_idx + point) % num_points, (start_idx + point + k) % num_points) for point in range(num_points)]
 
 def get_required_connection_indices(spell: dict, num_points: int) -> dict[int, list[tuple[int, int]]]:
     """Given a spell, get the required connection indices for each attribute"""

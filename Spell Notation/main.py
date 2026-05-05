@@ -5,7 +5,7 @@ from algorithm import get_processed_spells, get_required_connection_indices
 
 pygame.init()
 
-def build_rune(x, y, r, spell: dict) -> PointSequence:
+def build_rune(x, y, r, spell: dict, color_by_k: bool = True) -> PointSequence:
     """Build the rune sequence from a provided spell, center point, and radius"""
     num_points = 13
     sequence = PointSequence.build_circle((x, y), r, num_points)
@@ -26,7 +26,10 @@ def build_rune(x, y, r, spell: dict) -> PointSequence:
     # Get required connections and add them
     connections = get_required_connection_indices(spell, num_points)
     for i, (k, conn_list) in enumerate(connections.items()):
-        color = int_color(k)
+        if color_by_k:
+            color = int_color(k)
+        else:
+            color = "black"
         for connection in conn_list:
             sequence.connect_points(*connection, line_color=color)
     return sequence
@@ -49,7 +52,7 @@ def main():
     except IndexError:
         print(f"Invalid spell name, '{spell_name}'")
         return
-    sequence = build_rune(center[0], center[1], 200, spell)
+    sequence = build_rune(center[0], center[1], 200, spell, color_by_k=True)
 
     while running:
         # Handle events
