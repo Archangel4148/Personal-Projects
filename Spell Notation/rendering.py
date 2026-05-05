@@ -12,6 +12,7 @@ class Point:
     point_index: int | None = None
     color: str = "black"
     radius: int = 10
+    special_point_type: int | None = None
 
     @property
     def is_start_point(self) -> bool:
@@ -24,7 +25,18 @@ class Point:
     def draw(self, surface: pygame.Surface):
         # Draw the point as a circle
         pygame.draw.circle(surface, self.color, self.position, self.radius)
-        
+
+        # Draw the "special point"
+        if self.special_point_type is not None:
+            if self.special_point_type in (0, 1):
+                # Type 0: hollow circle
+                bg_color = surface.get_at((0, 0))
+                pygame.draw.circle(surface, bg_color, self.position, self.radius * 0.75)
+
+                if self.special_point_type == 1:
+                    # Type 1: circled small dot
+                    pygame.draw.circle(surface, self.color, self.position, self.radius / 2)
+
         # Draw the start point as a hollow circle
         if self.is_start_point:
             bg_color = surface.get_at((0, 0))
@@ -79,7 +91,6 @@ class PointSequence:
         if p2 is None:
             raise ValueError(f"Point with id {idx_2} does not exist.")
         self.connections.append(Connection(p1, p2, line_thickness=line_width, color=line_color))
-    
 
 if __name__ == "__main__":
     sequence = PointSequence.build_circle((100, 100), 100, 5)
