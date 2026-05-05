@@ -9,8 +9,8 @@ def build_rune(x, y, r, spell: dict) -> PointSequence:
     """Build the rune sequence from a provided spell, center point, and radius"""
     num_points = 13
     sequence = PointSequence.build_circle((x, y), r, num_points)
-    conc = spell.get("concentration", False)
-    rit = spell.get("ritual", False)
+    conc = spell.get("concentration", "False") == "True"
+    rit = spell.get("ritual", "False") == "True"
     if conc and rit:
         point_type = 2
     elif conc:
@@ -22,6 +22,7 @@ def build_rune(x, y, r, spell: dict) -> PointSequence:
     if point_type is not None:
         # Add the special center point
         sequence.points.append(Point(x, y, special_point_type=point_type))
+    
     # Get required connections and add them
     connections = get_required_connection_indices(spell, num_points)
     for i, (k, conn_list) in enumerate(connections.items()):
@@ -43,6 +44,8 @@ def main():
     try:
         spell = df[df["name"] == spell_name].iloc[0].to_dict()
         print("Rendering spell:", spell["name"])
+        for k, v in spell.items():
+            print(k, ":", v)
     except IndexError:
         print(f"Invalid spell name, '{spell_name}'")
         return
