@@ -1,32 +1,44 @@
+import re
+import pandas as pd
 
-with open("raw_data.txt", "r") as f:
-    lines = f.readlines()
+with open("raw_data.txt", "r", encoding="utf-8") as f:
+    raw_text = f.read()
 
-clean_lines = []
-current_line = []
-for line in lines:
-    if "\t" in line and not "," in line:
-        if current_line:
-            clean_lines.append(current_line)
-        current_line = [line.split("\t")[0]]
-    else:
-        current_line.append(line.replace("\t", "").replace("\n", ""))
+# Regex to parse the data
+pattern = re.compile(
+    r"(\d+)\t([^\n]+).*?\n"  # rank + tountry
+    r"(UEFA|CONMEBOL|CONCACAF|AFC|CAF|OFC|Other)\n"  # confederation
+    r"([WLDR—\s\n]{5,15})\n"  # form
+    r"([\d,]+)(?:\t([^\n]*))?",  # rating + change
+    re.DOTALL,
+)
 
-headers = ["index", "team", ""]
-whole_clean_lines = [", ".join(line) for line in clean_lines]
+matches = pattern.findall(raw_text)
 
-# print("\n".join(clean_lines[:10]))
+cleaned_data = []
+for match in matches:
+    # Get parts
+    rank, country, confed, form_raw, points, change = match
+    form = "".join(form_raw.strip().splitlines())
 
-with open("new_data.txt", "w", encoding="utf-8") as g:
-    for line in clean_lines:
-        fline = line
-        if len(line) < 11:
-            fline.insert(3, "View")
-        g.write(", ".join(line))
+    # Handle missing change values
+    change_raw = change.strip().replace("—", "")
+    change_val =  change_raw if change_raw else None
 
-print(clean_lines[-5:-3])
+    # Put the data together
+    cleaned_data.append(
+        {
+            "Rank": int(rank),
+            "Team": country.strip(),
+            "Confederation": confed,
+            "Form": form,
+            "Rating": int(points.replace(",", "")),
+            "Change": change_val,
+        }
+    )
 
-print(set([len(l) for l in clean_lines]))
+# Create the data frame
+df = pd.DataFrame(cleaned_data)
+df.to_csv("football_ratings.csv")
 
-chunks = [lines[i:i + 10] for i in range(0, len(lines), 10)]
-print(chunks[:5])
+print(df.tail(10))
