@@ -1,0 +1,2488 @@
+1	Spain
+Spain
+2026 FIFA World Cup
+View
+UEFA
+D
+W
+W
+W
+W
+2,155	-10
+2	Argentina
+Argentina
+2026 FIFA World Cup
+View
+CONMEBOL
+L
+W
+D
+W
+W
+2,114	+1
+3	France
+France
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+D
+W
+W
+2,062	-19
+4	England
+England
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+W
+W
+W
+2,021	+1
+5	Brazil
+Brazil
+2026 FIFA World Cup
+View
+CONMEBOL
+L
+W
+W
+D
+L
+1,991	+3
+6	Portugal
+Portugal
+2026 FIFA World Cup
+View
+UEFA
+W
+L
+D
+W
+W
+1,986	+2
+7	Colombia
+Colombia
+2026 FIFA World Cup
+View
+CONMEBOL
+W
+W
+D
+D
+D
+1,982	+5
+8	Netherlands
+Netherlands
+2026 FIFA World Cup
+View
+UEFA
+W
+D
+W
+W
+W
+1,944	-17
+9	Ecuador
+Ecuador
+2026 FIFA World Cup
+View
+CONMEBOL
+W
+D
+D
+D
+D
+1,938	+3
+10	Germany
+Germany
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+W
+W
+W
+1,932	+7
+11	Norway
+Norway
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+W
+W
+W
+1,914	-3
+12	Croatia
+Croatia
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+W
+D
+W
+1,911	+3
+13	Turkey
+Turkey
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+D
+W
+W
+1,911	+5
+14	Japan
+Japan
+2026 FIFA World Cup
+View
+AFC
+W
+W
+W
+W
+L
+1,906	+28
+15	Belgium
+Belgium
+2026 FIFA World Cup
+View
+UEFA
+W
+D
+W
+D
+W
+1,893	+5
+16	Uruguay
+Uruguay
+2026 FIFA World Cup
+View
+CONMEBOL
+D
+W
+W
+L
+D
+1,892	+2
+17	Switzerland
+Switzerland
+2026 FIFA World Cup
+View
+UEFA
+D
+W
+D
+W
+W
+1,891	-3
+18	Mexico
+Mexico
+2026 FIFA World Cup
+View
+CONCACAF
+W
+W
+W
+D
+W
+1,875	+8
+19	Denmark
+Denmark
+View
+UEFA
+D
+W
+L
+D
+W
+1,869	+5
+20	Italy
+Italy
+View
+UEFA
+D
+W
+L
+W
+W
+1,869	+10
+21	Senegal
+Senegal
+2026 FIFA World Cup
+View
+CAF
+W
+W
+W
+W
+W
+1,867	-3
+22	Paraguay
+Paraguay
+2026 FIFA World Cup
+View
+CONMEBOL
+W
+D
+L
+W
+D
+1,833	+1
+23	Austria
+Austria
+2026 FIFA World Cup
+View
+UEFA
+D
+W
+L
+W
+W
+1,830	+12
+24	Morocco
+Morocco
+2026 FIFA World Cup
+View
+CAF
+L
+D
+W
+W
+W
+1,827	+3
+25	Canada
+Canada
+2026 FIFA World Cup
+View
+CONCACAF
+D
+D
+D
+W
+D
+1,788	-5
+26	Scotland
+Scotland
+2026 FIFA World Cup
+View
+UEFA
+W
+L
+W
+W
+W
+1,782	+12
+27	Ukraine
+Ukraine
+View
+UEFA
+L
+W
+L
+W
+W
+1,780	-5
+28	Australia
+Australia
+2026 FIFA World Cup
+View
+AFC
+W
+W
+W
+W
+W
+1,777	+3
+29	Iran
+Iran
+2026 FIFA World Cup
+View
+AFC
+W
+L
+D
+D
+L
+1,772	+8
+30	Nigeria
+Nigeria
+View
+CAF
+W
+W
+D
+W
+D
+1,770	+1
+31	Russia
+Russia
+View
+UEFA
+—
+—
+—
+—
+—
+1,770	+4
+32	Algeria
+Algeria
+2026 FIFA World Cup
+View
+CAF
+L
+W
+W
+W
+W
+1,760	+17
+33	South Korea
+South Korea
+2026 FIFA World Cup
+View
+AFC
+L
+W
+W
+W
+W
+1,758	+2
+34	Greece
+Greece
+View
+UEFA
+D
+W
+L
+L
+L
+1,744	-10
+35	Czechia
+Czechia
+2026 FIFA World Cup
+View
+UEFA
+D
+D
+W
+L
+D
+1,740	+7
+36	Serbia
+Serbia
+View
+UEFA
+W
+L
+W
+L
+L
+1,734	-8
+37	Panama
+Panama
+2026 FIFA World Cup
+View
+CONCACAF
+W
+W
+D
+W
+D
+1,730	-4
+38	United States
+United States
+2026 FIFA World Cup
+View
+CONCACAF
+L
+W
+D
+W
+W
+1,726	-7
+39	Venezuela
+Venezuela
+View
+CONMEBOL
+D
+W
+L
+L
+L
+1,722	-5
+40	Uzbekistan
+Uzbekistan
+2026 FIFA World Cup
+View
+AFC
+D
+W
+D
+W
+W
+1,718	-10
+41	Kosovo
+Kosovo
+View
+UEFA
+L
+W
+D
+W
+W
+1,715	+1
+42	Sweden
+Sweden
+2026 FIFA World Cup
+View
+UEFA
+W
+W
+D
+L
+L
+1,712	-2
+43	Poland
+Poland
+View
+UEFA
+L
+W
+W
+D
+W
+1,710	-1
+44	Chile
+Chile
+View
+CONMEBOL
+L
+W
+D
+L
+L
+1,708	-2
+45	Hungary
+Hungary
+View
+UEFA
+L
+W
+D
+W
+L
+1,707	+4
+46	Peru
+Peru
+View
+CONMEBOL
+L
+L
+D
+D
+L
+1,701	+6
+47	Ireland
+Ireland
+View
+UEFA
+D
+W
+W
+W
+L
+1,699	+5
+48	Egypt
+Egypt
+2026 FIFA World Cup
+View
+CAF
+D
+L
+W
+W
+D
+1,696	-3
+49	Ivory Coast
+Ivory Coast
+2026 FIFA World Cup
+View
+CAF
+L
+W
+W
+D
+W
+1,695	+19
+50	Slovenia
+Slovenia
+View
+UEFA
+D
+L
+D
+D
+L
+1,682	-3
+51	Wales
+Wales
+View
+UEFA
+D
+W
+W
+L
+W
+1,682	-9
+52	Jordan
+Jordan
+2026 FIFA World Cup
+View
+AFC
+D
+D
+L
+W
+W
+1,680	-5
+53	Slovakia
+Slovakia
+View
+UEFA
+L
+L
+W
+W
+L
+1,667	-7
+54	DR Congo
+DR Congo
+2026 FIFA World Cup
+View
+CAF
+W
+L
+W
+D
+W
+1,661	+6
+55	Georgia
+Georgia
+View
+UEFA
+L
+L
+L
+L
+W
+1,654	+4
+56	Israel
+Israel
+View
+UEFA
+W
+L
+L
+L
+W
+1,647	+13
+57	Romania
+Romania
+View
+UEFA
+L
+W
+L
+W
+D
+1,639	+9
+58	Bolivia
+Bolivia
+View
+CONMEBOL
+L
+W
+W
+L
+W
+1,633	-12
+59	Tunisia
+Tunisia
+2026 FIFA World Cup
+View
+CAF
+D
+W
+D
+D
+L
+1,628	-5
+60	Iraq
+Iraq
+2026 FIFA World Cup
+View
+AFC
+W
+L
+L
+W
+W
+1,618	+10
+61	Albania
+Albania
+View
+UEFA
+L
+L
+W
+W
+W
+1,616	-17
+62	Cameroon
+Cameroon
+View
+CAF
+W
+L
+L
+W
+W
+1,613	+7
+63	Costa Rica
+Costa Rica
+View
+CONCACAF
+L
+D
+D
+L
+W
+1,611	-21
+64	Northern Ireland
+Northern Ireland
+View
+UEFA
+L
+W
+L
+L
+W
+1,607	+6
+65	Bosnia and Herzegovina
+Bosnia and Herzegovina
+2026 FIFA World Cup
+View
+UEFA
+D
+D
+D
+W
+D
+1,595	+4
+66	North Macedonia
+North Macedonia
+View
+UEFA
+L
+L
+D
+D
+W
+1,589	-3
+67	Mali
+Mali
+View
+CAF
+L
+D
+D
+D
+D
+1,588	-8
+68	Cape Verde
+Cape Verde
+2026 FIFA World Cup
+View
+CAF
+D
+L
+D
+D
+W
+1,578	+2
+69	Honduras
+Honduras
+View
+CONCACAF
+D
+L
+W
+D
+W
+1,570	-1
+70	Saudi Arabia
+Saudi Arabia
+2026 FIFA World Cup
+View
+AFC
+D
+L
+W
+L
+W
+1,569	+3
+71	Iceland
+Iceland
+View
+UEFA
+D
+D
+L
+W
+D
+1,569	+7
+72	New Zealand
+New Zealand
+2026 FIFA World Cup
+View
+OFC
+W
+L
+L
+W
+W
+1,562	-1
+73	Haiti
+Haiti
+2026 FIFA World Cup
+View
+CONCACAF
+D
+L
+W
+W
+L
+1,548	-6
+74	United Arab Emirates
+United Arab Emirates
+View
+AFC
+D
+L
+D
+W
+D
+1,540	—
+75	Angola
+Angola
+View
+CAF
+D
+D
+L
+D
+D
+1,537	-6
+76	Finland
+Finland
+View
+UEFA
+D
+W
+L
+L
+W
+1,536	-4
+77	South Africa
+South Africa
+2026 FIFA World Cup
+View
+CAF
+L
+W
+L
+W
+W
+1,528	+10
+78	Burkina Faso
+Burkina Faso
+View
+CAF
+L
+W
+L
+W
+W
+1,526	-4
+79	Belarus
+Belarus
+View
+UEFA
+D
+D
+L
+L
+L
+1,525	+12
+80	Jamaica
+Jamaica
+View
+CONCACAF
+L
+W
+L
+W
+D
+1,517	-10
+81	Ghana
+Ghana
+2026 FIFA World Cup
+View
+CAF
+W
+W
+W
+D
+W
+1,510	+7
+82	Guatemala
+Guatemala
+View
+CONCACAF
+W
+L
+W
+D
+D
+1,504	-3
+83	Oman
+Oman
+View
+AFC
+W
+L
+W
+D
+L
+1,479	+20
+84	Syria
+Syria
+View
+AFC
+W
+L
+D
+D
+W
+1,479	-12
+85	Palestine
+Palestine
+View
+AFC
+L
+D
+D
+W
+D
+1,467	-2
+86	Guinea
+Guinea
+View
+CAF
+D
+W
+D
+W
+L
+1,463	-6
+87	Montenegro
+Montenegro
+View
+UEFA
+L
+W
+L
+L
+L
+1,460	+7
+88	Bulgaria
+Bulgaria
+View
+UEFA
+W
+W
+W
+L
+L
+1,458	-3
+89	Northern Cyprus
+Northern Cyprus
+View
+Other
+—
+—
+—
+—
+—
+1,457	—
+90	Luxembourg
+Luxembourg
+View
+UEFA
+W
+W
+L
+L
+L
+1,450	+17
+91	Curaçao
+Curaçao
+2026 FIFA World Cup
+View
+CONCACAF
+L
+L
+D
+W
+D
+1,434	+1
+92	Kazakhstan
+Kazakhstan
+View
+UEFA
+W
+W
+D
+D
+W
+1,431	+1
+93	Suriname
+Suriname
+View
+CONMEBOL
+L
+L
+W
+D
+D
+1,431	-9
+94	Benin
+Benin
+View
+CAF
+L
+L
+W
+L
+L
+1,428	-1
+95	China
+China
+View
+AFC
+L
+W
+W
+L
+L
+1,428	+5
+96	Kurdistan
+Kurdistan
+View
+Other
+—
+—
+—
+—
+—
+1,425	—
+97	Qatar
+Qatar
+2026 FIFA World Cup
+View
+AFC
+L
+D
+L
+W
+D
+1,421	-2
+98	Libya
+Libya
+View
+CAF
+D
+D
+D
+W
+W
+1,420	-5
+99	Gambia
+Gambia
+View
+CAF
+W
+L
+W
+W
+L
+1,419	-5
+100	Bahrain
+Bahrain
+View
+AFC
+W
+L
+L
+W
+L
+1,414	-4
+101	Gabon
+Gabon
+View
+CAF
+D
+L
+L
+L
+L
+1,401	-4
+102	Niger
+Niger
+View
+CAF
+W
+W
+W
+L
+L
+1,394	+1
+103	Uganda
+Uganda
+View
+CAF
+L
+D
+L
+L
+W
+1,394	—
+104	Equatorial Guinea
+Equatorial Guinea
+View
+CAF
+L
+L
+L
+D
+L
+1,391	+8
+105	Trinidad and Tobago
+Trinidad and Tobago
+View
+CONCACAF
+D
+L
+D
+D
+D
+1,388	-15
+106	Madagascar
+Madagascar
+View
+CAF
+L
+W
+W
+W
+L
+1,380	-2
+107	Armenia
+Armenia
+View
+UEFA
+L
+L
+L
+L
+W
+1,378	-1
+108	North Korea
+North Korea
+View
+AFC
+L
+D
+L
+L
+—
+1,375	—
+109	Zimbabwe
+Zimbabwe
+View
+CAF
+W
+L
+W
+L
+D
+1,372	+30
+110	Thailand
+Thailand
+View
+AFC
+W
+W
+W
+W
+L
+1,372	-4
+111	Zambia
+Zambia
+View
+CAF
+L
+D
+D
+L
+W
+1,371	—
+112	Faroe Islands
+Faroe Islands
+View
+UEFA
+L
+L
+W
+W
+W
+1,368	-13
+113	Kenya
+Kenya
+View
+CAF
+W
+D
+L
+W
+W
+1,363	+11
+114	Comoros
+Comoros
+View
+CAF
+L
+D
+D
+D
+L
+1,363	-12
+115	Indonesia
+Indonesia
+View
+AFC
+W
+L
+W
+L
+L
+1,362	+11
+116	Togo
+Togo
+View
+CAF
+D
+L
+W
+L
+L
+1,356	-3
+117	Sierra Leone
+Sierra Leone
+View
+CAF
+D
+W
+L
+W
+D
+1,354	+6
+118	Estonia
+Estonia
+View
+UEFA
+W
+L
+D
+L
+D
+1,352	+13
+119	Mozambique
+Mozambique
+View
+CAF
+L
+L
+L
+W
+L
+1,352	-20
+120	Vietnam
+Vietnam
+View
+AFC
+W
+W
+W
+W
+L
+1,351	+22
+121	Sudan
+Sudan
+View
+CAF
+L
+L
+W
+L
+L
+1,350	—
+122	Reunion
+Reunion
+View
+CAF
+—
+—
+—
+—
+—
+1,345	—
+123	El Salvador
+El Salvador
+View
+CONCACAF
+W
+D
+L
+L
+L
+1,342	+2
+124	Guadeloupe
+Guadeloupe
+View
+CONCACAF
+L
+L
+L
+W
+W
+1,338	—
+125	Rwanda
+Rwanda
+View
+CAF
+W
+W
+L
+L
+W
+1,337	+28
+126	Nicaragua
+Nicaragua
+View
+CONCACAF
+L
+W
+L
+L
+L
+1,333	-1
+127	Kuwait
+Kuwait
+View
+AFC
+L
+L
+D
+W
+L
+1,331	+4
+128	Zanzibar
+Zanzibar
+View
+CAF
+—
+—
+—
+—
+—
+1,321	—
+129	Azerbaijan
+Azerbaijan
+View
+UEFA
+D
+W
+L
+L
+L
+1,321	-19
+130	Mauritania
+Mauritania
+View
+CAF
+L
+L
+D
+D
+W
+1,317	+6
+131	Cyprus
+Cyprus
+View
+UEFA
+L
+W
+D
+D
+L
+1,314	+4
+132	Tanzania
+Tanzania
+View
+CAF
+W
+L
+L
+D
+D
+1,313	-27
+133	Martinique
+Martinique
+View
+CONCACAF
+L
+D
+D
+L
+L
+1,312	-19
+134	Latvia
+Latvia
+View
+UEFA
+D
+W
+W
+L
+L
+1,305	+4
+135	Namibia
+Namibia
+View
+CAF
+D
+L
+L
+L
+W
+1,303	-8
+136	Kyrgyzstan
+Kyrgyzstan
+View
+AFC
+L
+L
+D
+D
+D
+1,293	+2
+137	Malaysia
+Malaysia
+View
+AFC
+L
+W
+W
+W
+W
+1,293	-20
+138	Guyana
+Guyana
+View
+CONCACAF
+W
+W
+W
+W
+W
+1,292	+17
+139	Liberia
+Liberia
+View
+CAF
+D
+W
+D
+L
+W
+1,291	-6
+140	Ethiopia
+Ethiopia
+View
+CAF
+W
+W
+L
+W
+L
+1,291	+6
+141	Tajikistan
+Tajikistan
+View
+AFC
+D
+W
+W
+W
+D
+1,290	+6
+142	Lebanon
+Lebanon
+View
+AFC
+L
+L
+W
+W
+W
+1,288	-44
+143	Lithuania
+Lithuania
+View
+UEFA
+D
+L
+L
+L
+L
+1,286	-4
+144	New Caledonia
+New Caledonia
+View
+OFC
+L
+L
+W
+—
+—
+1,286	-8
+145	Burundi
+Burundi
+View
+CAF
+W
+W
+L
+L
+L
+1,285	+46
+146	Dominican Republic
+Dominican Republic
+View
+CONCACAF
+D
+D
+D
+W
+D
+1,283	-1
+147	Botswana
+Botswana
+View
+CAF
+W
+L
+L
+L
+L
+1,267	-18
+148	Moldova
+Moldova
+View
+UEFA
+L
+L
+D
+L
+L
+1,265	+3
+149	Malta
+Malta
+View
+UEFA
+L
+L
+L
+W
+L
+1,255	+19
+150	Guinea-Bissau
+Guinea-Bissau
+View
+CAF
+L
+L
+W
+D
+L
+1,248	+4
+151	Central African Republic
+Central African Republic
+View
+CAF
+W
+L
+L
+L
+D
+1,241	+3
+152	Cuba
+Cuba
+View
+CONCACAF
+D
+D
+W
+W
+L
+1,239	+10
+153	Malawi
+Malawi
+View
+CAF
+L
+L
+D
+W
+D
+1,235	-6
+154	French Guiana
+French Guiana
+View
+CONCACAF
+—
+—
+—
+—
+—
+1,223	—
+155	Mayotte
+Mayotte
+View
+CAF
+—
+—
+—
+—
+—
+1,216	—
+156	Turkmenistan
+Turkmenistan
+View
+AFC
+L
+W
+W
+L
+L
+1,209	-8
+157	Congo
+Congo
+View
+CAF
+L
+L
+D
+—
+—
+1,207	—
+158	Eritrea
+Eritrea
+View
+CAF
+W
+W
+—
+—
+—
+1,201	+62
+159	Lesotho
+Lesotho
+View
+CAF
+W
+D
+W
+L
+L
+1,198	-11
+160	Yemen
+Yemen
+View
+AFC
+W
+D
+W
+W
+W
+1,195	+44
+161	Tahiti
+Tahiti
+View
+OFC
+L
+—
+—
+—
+—
+1,176	—
+162	Philippines
+Philippines
+View
+AFC
+W
+D
+W
+W
+W
+1,169	+2
+163	Eswatini
+Eswatini
+View
+CAF
+L
+L
+L
+D
+L
+1,149	-62
+164	Saint Vincent and the Grenadines
+Saint Vincent and the Grenadines
+View
+CONCACAF
+W
+L
+W
+L
+L
+1,141	-30
+165	Puerto Rico
+Puerto Rico
+View
+CONCACAF
+W
+W
+W
+L
+—
+1,135	-3
+166	Papua New Guinea
+Papua New Guinea
+View
+OFC
+D
+W
+W
+—
+—
+1,135	—
+167	Singapore
+Singapore
+View
+AFC
+W
+W
+W
+D
+W
+1,134	-5
+168	India
+India
+View
+AFC
+L
+L
+W
+L
+L
+1,122	-6
+169	Hong Kong
+Hong Kong
+View
+AFC
+L
+L
+D
+W
+W
+1,122	+2
+170	Vanuatu
+Vanuatu
+View
+OFC
+D
+W
+W
+—
+—
+1,121	+7
+171	Bermuda
+Bermuda
+View
+CONCACAF
+D
+L
+L
+L
+L
+1,117	-2
+172	South Sudan
+South Sudan
+View
+CAF
+L
+W
+L
+D
+L
+1,109	-25
+173	Fiji
+Fiji
+View
+OFC
+D
+L
+L
+L
+L
+1,101	-7
+174	Grenada
+Grenada
+View
+CONCACAF
+L
+L
+W
+W
+—
+1,098	-21
+175	Andorra
+Andorra
+View
+UEFA
+L
+L
+D
+L
+L
+1,080	-1
+176	Belize
+Belize
+View
+CONCACAF
+L
+L
+W
+W
+L
+1,073	-32
+177	Mauritius
+Mauritius
+View
+CAF
+D
+D
+D
+L
+L
+1,073	-18
+178	Chad
+Chad
+View
+CAF
+L
+L
+L
+L
+L
+1,073	-47
+179	Solomon Islands
+Solomon Islands
+View
+OFC
+L
+L
+D
+L
+L
+1,054	-36
+180	Saint Martin
+Saint Martin
+View
+CONCACAF
+W
+W
+L
+W
+W
+1,042	+39
+181	Sao Tome and Principe
+Sao Tome and Principe
+View
+CAF
+L
+L
+W
+L
+L
+1,035	-21
+182	Saint Kitts and Nevis
+Saint Kitts and Nevis
+View
+CONCACAF
+W
+L
+L
+D
+L
+1,029	+24
+183	Gibraltar
+Gibraltar
+View
+UEFA
+L
+L
+L
+L
+L
+1,011	+5
+184	Somaliland
+Somaliland
+View
+Other
+—
+—
+—
+—
+—
+1,005	—
+185	Saint Lucia
+Saint Lucia
+View
+CONCACAF
+L
+L
+L
+W
+L
+1,003	-5
+186	Western Sahara
+Western Sahara
+View
+Other
+—
+—
+—
+—
+—
+996	—
+187	Myanmar
+Myanmar
+View
+AFC
+W
+W
+W
+L
+L
+993	+11
+188	Afghanistan
+Afghanistan
+View
+AFC
+L
+W
+L
+L
+D
+990	-33
+189	Somalia
+Somalia
+View
+CAF
+D
+D
+D
+L
+L
+979	+18
+190	Aruba
+Aruba
+View
+CONCACAF
+W
+W
+W
+D
+L
+978	-1
+191	Sint Maarten
+Sint Maarten
+View
+CONCACAF
+D
+W
+W
+D
+—
+975	+19
+192	Montserrat
+Montserrat
+View
+CONCACAF
+L
+W
+—
+—
+—
+971	—
+193	Greenland
+Greenland
+View
+CONCACAF
+—
+—
+—
+—
+—
+946	—
+194	Bangladesh
+Bangladesh
+View
+AFC
+L
+W
+D
+L
+L
+942	+10
+195	Djibouti
+Djibouti
+View
+CAF
+W
+L
+L
+L
+L
+940	+25
+196	Dominica
+Dominica
+View
+CONCACAF
+D
+L
+L
+L
+L
+934	-4
+197	Monaco
+Monaco
+View
+UEFA
+—
+—
+—
+—
+—
+903	—
+198	Barbados
+Barbados
+View
+CONCACAF
+L
+L
+L
+W
+L
+898	-23
+199	Liechtenstein
+Liechtenstein
+View
+UEFA
+L
+W
+L
+L
+L
+895	-4
+200	Antigua and Barbuda
+Antigua and Barbuda
+View
+CONCACAF
+L
+D
+L
+L
+—
+894	—
+201	Nepal
+Nepal
+View
+AFC
+L
+L
+L
+L
+L
+893	-26
+202	Pakistan
+Pakistan
+View
+AFC
+W
+W
+L
+L
+D
+880	+33
+203	Seychelles
+Seychelles
+View
+CAF
+L
+D
+L
+L
+L
+853	+11
+204	Cambodia
+Cambodia
+View
+AFC
+—
+—
+—
+—
+—
+849	+5
+205	Sri Lanka
+Sri Lanka
+View
+AFC
+W
+L
+L
+W
+D
+827	+45
+206	San Marino
+San Marino
+View
+UEFA
+L
+L
+L
+L
+L
+826	-10
+207	Taiwan
+Taiwan
+View
+AFC
+L
+L
+L
+L
+L
+821	-45
+208	Bonaire
+Bonaire
+View
+CONCACAF
+L
+W
+L
+L
+—
+816	-20
+209	Maldives
+Maldives
+View
+AFC
+L
+L
+W
+L
+L
+801	-35
+210	Cayman Islands
+Cayman Islands
+View
+CONCACAF
+W
+D
+W
+L
+L
+800	-5
+211	Chagos Islands
+Chagos Islands
+View
+Other
+—
+—
+—
+—
+—
+782	—
+212	Tuvalu
+Tuvalu
+View
+OFC
+—
+—
+—
+—
+—
+756	—
+213	British Virgin Islands
+British Virgin Islands
+View
+CONCACAF
+W
+D
+W
+W
+L
+743	+20
+214	Sint Eustatius
+Sint Eustatius
+View
+CONCACAF
+—
+—
+—
+—
+—
+737	—
+215	Laos
+Laos
+View
+AFC
+W
+L
+L
+L
+W
+734	+26
+216	Samoa
+Samoa
+View
+OFC
+—
+—
+—
+—
+—
+728	—
+217	Mongolia
+Mongolia
+View
+AFC
+—
+—
+—
+—
+—
+725	-2
+218	Saint Barthelemy
+Saint Barthelemy
+View
+CONCACAF
+—
+—
+—
+—
+—
+725	—
+219	East Timor
+East Timor
+View
+AFC
+W
+L
+L
+L
+L
+714	+41
+220	Guam
+Guam
+View
+AFC
+L
+L
+W
+L
+—
+705	-11
+221	Wallis and Futuna
+Wallis and Futuna
+View
+OFC
+—
+—
+—
+—
+—
+699	—
+222	Vatican
+Vatican
+View
+UEFA
+—
+—
+—
+—
+—
+692	—
+223	Saba
+Saba
+View
+CONCACAF
+—
+—
+—
+—
+—
+691	—
+224	Bahamas
+Bahamas
+View
+CONCACAF
+L
+L
+L
+L
+L
+685	-34
+225	Saint Pierre and Miquelon
+Saint Pierre and Miquelon
+View
+CONCACAF
+—
+—
+—
+—
+—
+677	—
+226	Turks and Caicos Islands
+Turks and Caicos Islands
+View
+CONCACAF
+W
+D
+—
+—
+—
+657	—
+227	Anguilla
+Anguilla
+View
+CONCACAF
+L
+W
+L
+W
+L
+646	+1
+228	Bhutan
+Bhutan
+View
+AFC
+W
+L
+L
+L
+L
+631	-5
+229	Tibet
+Tibet
+View
+Other
+—
+—
+—
+—
+—
+629	—
+230	US Virgin Islands
+US Virgin Islands
+View
+CONCACAF
+L
+W
+W
+D
+—
+628	+10
+231	Cook Islands
+Cook Islands
+View
+OFC
+—
+—
+—
+—
+—
+622	—
+232	Brunei
+Brunei
+View
+AFC
+L
+L
+L
+L
+L
+592	-41
+233	Macao
+Macao
+View
+AFC
+L
+L
+—
+—
+—
+588	-7
+234	Christmas Island
+Christmas Island
+View
+Other
+—
+—
+—
+—
+—
+578	—
+235	Falkland Islands
+Falkland Islands
+View
+Other
+—
+—
+—
+—
+—
+571	—
+236	FS Micronesia
+FS Micronesia
+View
+OFC
+—
+—
+—
+—
+—
+563	—
+237	Marshall Islands
+Marshall Islands
+View
+OFC
+L
+L
+—
+—
+—
+559	—
+238	Kiribati
+Kiribati
+View
+OFC
+—
+—
+—
+—
+—
+544	—
+239	Tonga
+Tonga
+View
+OFC
+—
+—
+—
+—
+—
+520	—
+240	Niue
+Niue
+View
+OFC
+—
+—
+—
+—
+—
+496	—
+241	Northern Mariana Islands
+Northern Mariana Islands
+View
+AFC
+—
+—
+—
+—
+—
+432	—
+242	Cocos Islands
+Cocos Islands
+View
+Other
+—
+—
+—
+—
+—
+422	—
+243	Palau
+Palau
+View
+OFC
+—
+—
+—
+—
+—
+402	—
+244	Eastern Samoa
+Eastern Samoa
+View
+OFC
+L
+L
+—
+—
+—
+369	-19
