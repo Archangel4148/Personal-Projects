@@ -1,7 +1,9 @@
 import numpy as np
 
+from framework.agents import RandomAgent
 from framework.base import GameModule, GameState, Action
 from framework.components import GridBoardComponent
+from framework.runner import GameRunner
 
 
 class TicTacToeModule(GameModule):
@@ -61,21 +63,13 @@ class TicTacToeModule(GameModule):
 if __name__ == '__main__':
     # Build and initialize a game module
     module = TicTacToeModule()
-    state = module.setup_initial_state()
+    players = [RandomAgent(), RandomAgent()]
 
-    # Show the available actions, make some moves, and show the reduced list of actions
-    print(module.get_legal_actions(state))
-    state = module.apply_action(state, Action(type="PLACE_MARKER", payload={"idx": 3}))
-    state = module.apply_action(state, Action(type="PLACE_MARKER", payload={"idx": 1}))
-    state = module.apply_action(state, Action(type="PLACE_MARKER", payload={"idx": 4}))
-    state = module.apply_action(state, Action(type="PLACE_MARKER", payload={"idx": 2}))
-    state = module.apply_action(state, Action(type="PLACE_MARKER", payload={"idx": 5}))
-    print(module.get_legal_actions(state))
+    runner = GameRunner(module, players)
 
-    # Check if the game has ended
-    print("Game Over? :", module.is_game_over(state))
-    print("Vectorized State :", module.vectorize_state(state))
+    results = runner.run_game()
+    print("Results :", results)
 
     # Show the final board
     print("\nBoard State:")
-    GridBoardComponent.print_board(state["board"], width=3)
+    GridBoardComponent.print_board(results["final_state"]["board"], width=3, display_map={-1: "X", 1: "O", 0: "-"})

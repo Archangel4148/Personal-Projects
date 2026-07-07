@@ -1,9 +1,7 @@
 from typing import Any, NewType
 
-from base import GameModule
-from framework.agents import Agent, RandomAgent
-from framework.components import GridBoardComponent
-from games.tic_tac_toe import TicTacToeModule
+from framework.agents import Agent
+from framework.base import GameModule
 
 GameResult = NewType("GameResult", dict[str, Any])
 
@@ -47,14 +45,3 @@ class GameRunner:
             "winner_indices": winners,
             "final_state": state,
         })
-
-if __name__ == '__main__':
-    # Run a game of Tic-Tac-Toe
-    game = TicTacToeModule()
-    agents = [RandomAgent(), RandomAgent()]
-    runner = GameRunner(game, agents)
-    results = runner.run_game()
-
-    print(results)
-    print("\nFinal Board:")
-    GridBoardComponent.print_board(results["final_state"]["board"], width=3)

@@ -28,7 +28,18 @@ class GridBoardComponent(GameComponent):
         return empty_val
 
     @staticmethod
-    def print_board(board: np.ndarray, width: int) -> None:
+    def iter_rows(board: np.ndarray, width: int) -> list[np.ndarray]:
+        reshaped = board.reshape(-1, width)
+        return [row for row in reshaped]
+
+    @staticmethod
+    def iter_columns(board: np.ndarray, width: int) -> list[np.ndarray]:
+        reshaped = board.reshape(-1, width)
+        return [col for col in reshaped.T]
+
+    @classmethod
+    def print_board(cls, board: np.ndarray, width: int, display_map: dict[int, str] | None = None) -> None:
         """Prints each row of the provided board"""
-        for row in range(0, board.size, width):
-            print(" ".join(map(str, board[row: row + width])))
+        print_map = (lambda val: display_map.get(val, str(val))) if display_map else str
+        for row in cls.iter_rows(board, width):
+            print(" ".join(map(print_map, row)))
