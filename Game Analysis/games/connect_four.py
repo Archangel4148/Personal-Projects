@@ -51,24 +51,15 @@ def generate_connect_four_lines(width: int = 7, height: int = 6) -> list[list[in
 
 
 class ConnectFourModule(GameModule):
-    def __init__(self):
-        self.board_width: int = 0
-        self.board_height: int = 0
+    def __init__(self, board_width: int = 7, board_height: int = 6):
+        self.board_width = board_width
+        self.board_height = board_height
+
+        # Calculate combinations once on creation
+        self.win_combinations = generate_connect_four_lines(self.board_width, self.board_height)
 
     def setup_initial_state(self, config: dict | None = None) -> GameState:
         """Set up the empty board, and set it to turn 1 (player 1)"""
-
-        # Set the board dimensions
-        if config:
-            self.board_width = config.get("board_width", 7)
-            self.board_height = config.get("board_height", 6)
-        else:
-            self.board_width = 7
-            self.board_height = 6
-
-        # Generate the possible win combinations for the given board
-        self.win_combinations = generate_connect_four_lines(self.board_width, self.board_height)
-
         return GameState({
             "board": GridBoardComponent.create_board(self.board_width, self.board_height, 0),
             "turn_flag": 1,
@@ -121,7 +112,7 @@ class ConnectFourModule(GameModule):
 if __name__ == '__main__':
     # Set up a game
     width, height = 7, 6
-    module = ConnectFourModule()
+    module = ConnectFourModule(width, height)
     players = [RandomAgent(), RandomAgent()]
 
     runner = GameRunner(module, players)
