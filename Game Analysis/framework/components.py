@@ -1,4 +1,5 @@
 from abc import ABC
+from random import shuffle
 
 import numpy as np
 
@@ -43,3 +44,25 @@ class GridBoardComponent(GameComponent):
         print_map = (lambda val: display_map.get(val, str(val))) if display_map else str
         for row in cls.iter_rows(board, width):
             print(" ".join(map(print_map, row)))
+
+
+class CardStackComponent(GameComponent):
+    """Handles low-level data structure management for decks, hands, and discard piles"""
+
+    @staticmethod
+    def create_deck(size: int=52):
+        """Build a flat numpy array representing a deck of the given size"""
+        return np.arange(size, dtype=np.int8)
+
+    @staticmethod
+    def shuffle(deck: np.ndarray) -> np.ndarray:
+        """Shuffle the provided deck"""
+        shuffle(deck)
+        return deck
+
+    @staticmethod
+    def transfer_card(from_stack: list, to_stack: list, index: int = 0):
+        """Transfer card {index} from one stack to another"""
+        if from_stack:
+            card = from_stack.pop(index)
+            to_stack.append(card)

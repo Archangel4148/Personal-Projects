@@ -18,7 +18,7 @@ class GameModule(ABC):
     """The standard representation of a game"""
 
     @abstractmethod
-    def setup_initial_state(self, config: dict | None = None) -> GameState:
+    def setup_initial_state(self, config: dict) -> GameState:
         """Initialize the module to the starting state"""
         pass
 

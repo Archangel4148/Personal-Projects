@@ -15,11 +15,14 @@ class GameRunner:
         self.game = game_module
         self.agents = agents
 
-    def run_game(self, config: dict[str, Any] | None = None) -> GameResult:
+    def run_game(self, config: dict[str, Any] | None = None, action_limit: int | None = None) -> GameResult:
         """Execute a single complete game, returning a summary of the results"""
-        state = self.game.setup_initial_state(config)
+        if config:
+            state = self.game.setup_initial_state(config)
+        else:
+            state = self.game.setup_initial_state({})
         actions_taken = 0
-
+        action_limit_reached = False
         # Main game loop
         while True:
             # Check if the game is over
@@ -39,9 +42,14 @@ class GameRunner:
             state = self.game.apply_action(state, chosen_action)
             actions_taken += 1
 
+            if action_limit and actions_taken >= action_limit:
+                action_limit_reached = True
+                break
+
         # Return the results
         return GameResult({
             "actions_taken": actions_taken,
             "winner_indices": winners,
             "final_state": state,
+            "action_limit_reached": action_limit_reached,
         })

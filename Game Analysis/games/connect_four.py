@@ -118,9 +118,11 @@ if __name__ == '__main__':
     runner = GameRunner(module, players)
 
     # Run the game
-    results = runner.run_game(config={"board_width": width, "board_height": height})
+    for i in range(3):
+        print(f"\n\n======GAME {i+1}======")
+        results = runner.run_game(config={"board_width": width, "board_height": height})
 
-    # Display the results
-    print("Results:", results)
-    print("\nFinal Board:")
-    GridBoardComponent.print_board(results["final_state"]["board"], width, display_map={1: "X", -1: "O", 0: "-"})
+        # Display the results
+        print("Results:", results)
+        print("\nFinal Board:")
+        GridBoardComponent.print_board(results["final_state"]["board"], width, display_map={1: "X", -1: "O", 0: "-"})
