@@ -1,0 +1,19 @@
+import vgamepad as vg
+
+XBOX_BUTTONS = {
+    "left_bumper": vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_SHOULDER,
+    "right_bumper": vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_SHOULDER,
+    "left_stick": vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_THUMB,
+    "right_stick": vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_THUMB,
+    "btn_a": vg.XUSB_BUTTON.XUSB_GAMEPAD_A,
+    "btn_b": vg.XUSB_BUTTON.XUSB_GAMEPAD_B,
+    "btn_x": vg.XUSB_BUTTON.XUSB_GAMEPAD_X,
+    "btn_y": vg.XUSB_BUTTON.XUSB_GAMEPAD_Y,
+    "dpad_up": vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP,
+    "dpad_down": vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN,
+    "dpad_left": vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT,
+    "dpad_right": vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT,
+    "start": vg.XUSB_BUTTON.XUSB_GAMEPAD_START,
+    "back": vg.XUSB_BUTTON.XUSB_GAMEPAD_BACK
+}
+

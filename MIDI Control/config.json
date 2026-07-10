@@ -1,0 +1,36 @@
+{
+  "buffer_ms": 15,
+  "pan_speed": 400,
+  "inventory_toggle_trigger": "btn_y",
+  "close_inventory_trigger": "btn_b",
+  "sustain_pedal_trigger": "right_stick",
+  "single_notes": {
+    "C3": "move_forward",
+    "D3": "move_left",
+    "E3": "move_back",
+    "F3": "move_right",
+    "G3": "btn_a",
+    "C4": "look_left",
+    "D4": "look_down",
+    "E4": "look_up",
+    "F4": "look_right",
+    "Db4": "right_trigger",
+    "Eb4": "left_trigger",
+    "B3": "left_bumper",
+    "Gb4": "right_bumper",
+    "Ab4": "dpad_down"
+  },
+  "chords": {
+    "C3,E3,G3": "btn_y",
+    "C3,F3,A3": "btn_x",
+    "C2,E2,G2": "exit_program"
+  },
+  "inventory_notes": {
+    "C4": "dpad_left",
+    "D4": "dpad_down",
+    "E4": "dpad_up",
+    "F4": "dpad_right",
+    "Db4": "btn_a",
+    "Eb4": "btn_x"
+  }
+}
