@@ -7,11 +7,11 @@ from framework.runner import GameRunner
 
 
 class WarModule(GameModule):
-    WAR_BURN_COUNT = 3
 
     def setup_initial_state(self, config: dict | None = None) -> GameState:
         """Set up the deck and deal to each player"""
         num_players = config.get("num_players", 2)
+        self._burn_count = config.get("burn_count", 3)
 
         self._seen_states = set()
 
@@ -128,9 +128,9 @@ class WarModule(GameModule):
 
         # Tied for Winner
         else:
-            # Every player in the war burns WAR_BURN_COUNT cards face-down
+            # Every player in the war burns cards face-down
             still_alive = set(highest_rollers)
-            for _ in range(self.WAR_BURN_COUNT):
+            for _ in range(self._burn_count):
                 for p in range(state["num_players"]):
                     if p in still_alive:
                         # If they can't play a burn card, they forfeit mid-war
@@ -215,26 +215,29 @@ class WarModule(GameModule):
 
 
 if __name__ == '__main__':
-    # Build and initialize a game module
+    # Run games of War for each player count, and show stats
     module = WarModule()
-    num_players = 10
-    players = [RandomAgent() for _ in range(num_players)]
+    for p in range(2, 11):
+        num_players = p
+        war_burn_count = 3
+        players = [RandomAgent() for _ in range(num_players)]
 
-    runner = GameRunner(module, players)
+        runner = GameRunner(module, players)
 
-    # Run a bunch of games, and track statistics
-    iterations = 1000
-    cycles, rounds, wars = 0, 0, 0
-    for _ in range(iterations):
-        results = runner.run_game(config={"num_players": num_players})
-        if results["final_state"]["cycle_found"]:
-            cycles += 1
-        else:
-            rounds += results["final_state"]["rounds_played"]
-            wars += results["final_state"]["war_count"]
+        # Run a bunch of games, and track statistics
+        iterations = 100
+        cycles, rounds, wars = 0, 0, 0
+        for _ in range(iterations):
+            results = runner.run_game(config={"num_players": num_players, "burn_count": war_burn_count})
+            if results["final_state"]["cycle_found"]:
+                cycles += 1
+            else:
+                rounds += results["final_state"]["rounds_played"]
+                wars += results["final_state"]["war_count"]
 
-    # Display statistics
-    print("Total iterations:", iterations)
-    print("Average game length:", rounds / iterations)
-    print("Average number of wars:", wars / iterations)
-    print(f"Infinite cycle games: {cycles} ({cycles / iterations * 100:.2f}%)")
+        # Display statistics
+        print("\n\n=== PLAYER COUNT:", p, "===")
+        print("Total iterations:", iterations)
+        print(f"Average game length: {rounds / (iterations - cycles):.2f}")
+        print(f"Average number of wars: {wars / (iterations - cycles):.2f}")
+        print(f"Infinite cycle games: {cycles} ({cycles / iterations * 100:.2f}%)")
