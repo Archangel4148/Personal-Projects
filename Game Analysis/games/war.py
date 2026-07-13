@@ -76,14 +76,20 @@ class WarModule(GameModule):
         return new_state
 
     def _resolve_battle(self, state: GameState):
-        battlers = state["eligible_battlers"]
-
+        battlers = [p for p in state["eligible_battlers"] if state[f"player_{p}_stake"]]
         if not battlers:
-            # Everyone failed a required play; game should already be over
-            state["waiting_to_flip"] = []
+            # Give everything to whoever has cards left in their hand
+            survivors = [i for i in range(state["num_players"]) if state[f"player_{i}_hand"]]
+            winner = survivors[0] if survivors else 0
+            for i in range(state["num_players"]):
+                while state[f"player_{i}_stake"]:
+                    CardStackComponent.transfer_card(state[f"player_{i}_stake"], state[f"player_{winner}_hand"])
+
+            state["eligible_battlers"] = [i for i in range(state["num_players"]) if state[f"player_{i}_hand"]]
+            state["waiting_to_flip"] = state["eligible_battlers"].copy()
+            state["rounds_played"] += 1
             return
 
-        # If a player ran out of cards mid-war, the other player wins!
         if len(battlers) == 1:
             winner = battlers[0]
             for i in range(state["num_players"]):
@@ -122,23 +128,32 @@ class WarModule(GameModule):
 
         # Tied for Winner
         else:
-            state["eligible_battlers"] = highest_rollers
-
             # Every player in the war burns WAR_BURN_COUNT cards face-down
             still_alive = set(highest_rollers)
             for _ in range(self.WAR_BURN_COUNT):
                 for p in range(state["num_players"]):
                     if p in still_alive:
-                        # If they can't play a burn card, they forfeit
+                        # If they can't play a burn card, they forfeit mid-war
                         if not self._play_required_card(state, p):
                             still_alive.discard(p)
 
-            # Set the state so any remaining players will resolve the war on the next turn
             state["eligible_battlers"] = list(still_alive)
 
+            # If 0 or 1 players survived the burn phase, resolve it immediately
             if len(still_alive) <= 1:
-                self._resolve_battle(state)
+                # Find a winner to give stakes to
+                survivors = list(still_alive) if still_alive else [i for i in range(state["num_players"]) if
+                                                                   state[f"player_{i}_hand"]]
+                winner = survivors[0] if survivors else 0
+
+                for i in range(state["num_players"]):
+                    while state[f"player_{i}_stake"]:
+                        CardStackComponent.transfer_card(state[f"player_{i}_stake"], state[f"player_{winner}_hand"])
+
+                state["eligible_battlers"] = [i for i in range(state["num_players"]) if state[f"player_{i}_hand"]]
+                state["waiting_to_flip"] = state["eligible_battlers"].copy()
             else:
+                # The surviving players must flip their next card to resolve the tie.
                 state["waiting_to_flip"] = list(still_alive).copy()
 
             state["war_count"] += 1
@@ -158,21 +173,18 @@ class WarModule(GameModule):
         )
         return True
 
-    def _check_for_cycle(self, state: GameState, verbose: bool = False) -> GameState:
-        key = (
-            tuple(state["player_0_hand"]),
-            tuple(state["player_1_hand"]),
-            tuple(state["player_0_stake"]),
-            tuple(state["player_1_stake"]),
-            tuple(state["eligible_battlers"]),
-            tuple(state["waiting_to_flip"]),
-        )
+    def _check_for_cycle(self, state: GameState) -> GameState:
+        state_list = []
+        for i in range(state["num_players"]):
+            state_list.append(tuple(state[f"player_{i}_hand"]))
+            state_list.append(tuple(state[f"player_{i}_stake"]))
+
+        state_list.append(tuple(state["eligible_battlers"]))
+        state_list.append(tuple(state["waiting_to_flip"]))
+
+        key = tuple(state_list)
 
         if key in self._seen_states:
-            if verbose:
-                print(f"Cycle detected!")
-                print(f"P0: {state['player_0_hand']}")
-                print(f"P1: {state['player_1_hand']}")
             state["cycle_found"] = True
             self._seen_states.clear()
             return state
@@ -205,7 +217,8 @@ class WarModule(GameModule):
 if __name__ == '__main__':
     # Build and initialize a game module
     module = WarModule()
-    players = [RandomAgent(), RandomAgent()]
+    num_players = 10
+    players = [RandomAgent() for _ in range(num_players)]
 
     runner = GameRunner(module, players)
 
@@ -213,7 +226,7 @@ if __name__ == '__main__':
     iterations = 1000
     cycles, rounds, wars = 0, 0, 0
     for _ in range(iterations):
-        results = runner.run_game()
+        results = runner.run_game(config={"num_players": num_players})
         if results["final_state"]["cycle_found"]:
             cycles += 1
         else:
