@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 
 from framework.agents import RandomAgent
@@ -10,6 +8,7 @@ from framework.runner import GameRunner
 
 class WarModule(GameModule):
     WAR_BURN_COUNT = 3
+
     def setup_initial_state(self, config: dict | None = None) -> GameState:
         """Set up the deck and deal to each player"""
         num_players = config.get("num_players", 2)
@@ -37,6 +36,9 @@ class WarModule(GameModule):
             "num_players": num_players,
             "eligible_battlers": all_players.copy(),
             "waiting_to_flip": all_players.copy(),
+            "rounds_played": 0,
+            "war_count": 0,
+            "cycle_found": False,
         })
 
     def get_current_player_idx(self, state: GameState) -> int:
@@ -69,7 +71,7 @@ class WarModule(GameModule):
             self._resolve_battle(new_state)
 
         # Check for cycles (to detect infinite games)
-        self._check_for_cycle(new_state)
+        new_state = self._check_for_cycle(new_state)
 
         return new_state
 
@@ -105,10 +107,14 @@ class WarModule(GameModule):
         # Single Winner:
         if len(highest_rollers) == 1:
             winner = highest_rollers[0]
-            # Collect everyone's stake pile and give it all to the winner
-            for i in range(state["num_players"]):
-                while state[f"player_{i}_stake"]:
-                    CardStackComponent.transfer_card(state[f"player_{i}_stake"], state[f"player_{winner}_hand"])
+            # Collect everyone's stake and give it all to the winner
+            cards_left = True
+            while cards_left:
+                cards_left = False
+                for i in range(state["num_players"]):
+                    if state[f"player_{i}_stake"]:
+                        CardStackComponent.transfer_card(state[f"player_{i}_stake"], state[f"player_{winner}_hand"])
+                        cards_left = True
 
             # Reset the round data for the next turn
             state["eligible_battlers"] = [i for i in range(state["num_players"]) if state[f"player_{i}_hand"]]
@@ -119,22 +125,25 @@ class WarModule(GameModule):
             state["eligible_battlers"] = highest_rollers
 
             # Every player in the war burns WAR_BURN_COUNT cards face-down
-            still_alive = []
-            for p in highest_rollers:
-                alive = True
-                for _ in range(self.WAR_BURN_COUNT):
-                    if not self._play_required_card(state, p):
-                        alive = False
-                if alive:
-                    still_alive.append(p)
+            still_alive = set(highest_rollers)
+            for _ in range(self.WAR_BURN_COUNT):
+                for p in range(state["num_players"]):
+                    if p in still_alive:
+                        # If they can't play a burn card, they forfeit
+                        if not self._play_required_card(state, p):
+                            still_alive.discard(p)
 
             # Set the state so any remaining players will resolve the war on the next turn
-            state["eligible_battlers"] = still_alive
+            state["eligible_battlers"] = list(still_alive)
 
             if len(still_alive) <= 1:
                 self._resolve_battle(state)
             else:
-                state["waiting_to_flip"] = still_alive.copy()
+                state["waiting_to_flip"] = list(still_alive).copy()
+
+            state["war_count"] += 1
+
+        state["rounds_played"] += 1
 
     @staticmethod
     def _play_required_card(state: GameState, player: int) -> bool:
@@ -149,7 +158,7 @@ class WarModule(GameModule):
         )
         return True
 
-    def _check_for_cycle(self, state: GameState, verbose: bool = False):
+    def _check_for_cycle(self, state: GameState, verbose: bool = False) -> GameState:
         key = (
             tuple(state["player_0_hand"]),
             tuple(state["player_1_hand"]),
@@ -164,12 +173,18 @@ class WarModule(GameModule):
                 print(f"Cycle detected!")
                 print(f"P0: {state['player_0_hand']}")
                 print(f"P1: {state['player_1_hand']}")
-            raise RuntimeError("Cycle Detected")
+            state["cycle_found"] = True
+            self._seen_states.clear()
+            return state
 
         self._seen_states.add(key)
+        return state
 
     def is_game_over(self, state: GameState) -> tuple[bool, list[int]]:
         """The game is over if there is only one player remaining with any cards (hand or stake)"""
+        if state["cycle_found"]:
+            # If the game has entered a cycle, there is no winner
+            return True, []
         active_players = [i for i in range(state["num_players"]) if
                           state[f"player_{i}_hand"] or state[f"player_{i}_stake"]]
 
@@ -188,26 +203,25 @@ class WarModule(GameModule):
 
 
 if __name__ == '__main__':
-    random.seed(1)
     # Build and initialize a game module
     module = WarModule()
     players = [RandomAgent(), RandomAgent()]
 
     runner = GameRunner(module, players)
 
+    # Run a bunch of games, and track statistics
     iterations = 1000
-    cycle_count = 0
-    action_count = [0, 0]
+    cycles, rounds, wars = 0, 0, 0
     for _ in range(iterations):
-        try:
-            results = runner.run_game()
-            action_count[0] += results["actions_taken"]
-            action_count[1] += 1
-        except RuntimeError:
-            # Cycle found!
-            cycle_count += 1
+        results = runner.run_game()
+        if results["final_state"]["cycle_found"]:
+            cycles += 1
+        else:
+            rounds += results["final_state"]["rounds_played"]
+            wars += results["final_state"]["war_count"]
 
-
-    print(f"{cycle_count}/{iterations} ({cycle_count / iterations * 100}%)")
-    if action_count[1]:
-        print(f"Average Action Count (for valid games): {action_count[0] / action_count[1]:.3f}")
+    # Display statistics
+    print("Total iterations:", iterations)
+    print("Average game length:", rounds / iterations)
+    print("Average number of wars:", wars / iterations)
+    print(f"Infinite cycle games: {cycles} ({cycles / iterations * 100:.2f}%)")
