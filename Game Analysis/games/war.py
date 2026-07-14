@@ -1,8 +1,11 @@
+from typing import Hashable
+
 import numpy as np
 
-from framework.agents import RandomAgent
+from framework.agents import Agent, RandomAgent
 from framework.base import GameModule, GameState, Action
 from framework.components import CardStackComponent
+from framework.observers import CycleObserver, GameObserver
 from framework.runner import GameRunner
 
 
@@ -10,6 +13,9 @@ class WarModule(GameModule):
 
     def setup_initial_state(self, config: dict | None = None) -> GameState:
         """Set up the deck and deal to each player"""
+        if config is None:
+            raise ValueError("No config provided; require arguments 'num_players' and 'burn_count'.")
+
         num_players = config.get("num_players", 2)
         self._burn_count = config.get("burn_count", 3)
 
@@ -69,9 +75,6 @@ class WarModule(GameModule):
         # If there are no players waiting to flip, a battle begins
         if len(new_state["waiting_to_flip"]) == 0:
             self._resolve_battle(new_state)
-
-        # Check for cycles (to detect infinite games)
-        new_state = self._check_for_cycle(new_state)
 
         return new_state
 
@@ -173,24 +176,17 @@ class WarModule(GameModule):
         )
         return True
 
-    def _check_for_cycle(self, state: GameState) -> GameState:
-        state_list = []
+    def hash_state(self, state: GameState) -> Hashable:
+        result = []
+
         for i in range(state["num_players"]):
-            state_list.append(tuple(state[f"player_{i}_hand"]))
-            state_list.append(tuple(state[f"player_{i}_stake"]))
+            result.append(tuple(state[f"player_{i}_hand"]))
+            result.append(tuple(state[f"player_{i}_stake"]))
 
-        state_list.append(tuple(state["eligible_battlers"]))
-        state_list.append(tuple(state["waiting_to_flip"]))
+        result.append(tuple(state["eligible_battlers"]))
+        result.append(tuple(state["waiting_to_flip"]))
 
-        key = tuple(state_list)
-
-        if key in self._seen_states:
-            state["cycle_found"] = True
-            self._seen_states.clear()
-            return state
-
-        self._seen_states.add(key)
-        return state
+        return tuple(result)
 
     def is_game_over(self, state: GameState) -> tuple[bool, list[int]]:
         """The game is over if there is only one player remaining with any cards (hand or stake)"""
@@ -217,20 +213,22 @@ class WarModule(GameModule):
 if __name__ == '__main__':
     # Run games of War for each player count, and show stats
     module = WarModule()
-    for p in range(2, 11):
+    for p in range(3,4):
         num_players = p
         war_burn_count = 3
-        players = [RandomAgent() for _ in range(num_players)]
+        players: list[Agent] = [RandomAgent() for _ in range(num_players)]
+        observers: list[GameObserver] = [CycleObserver(module.hash_state)]
 
-        runner = GameRunner(module, players)
+        runner = GameRunner(game_module=module, agents=players, observers=observers)
 
         # Run a bunch of games, and track statistics
-        iterations = 100
-        cycles, rounds, wars = 0, 0, 0
+        iterations = 1000
+        cycles, cycle_len, rounds, wars = 0, 0, 0, 0
         for _ in range(iterations):
             results = runner.run_game(config={"num_players": num_players, "burn_count": war_burn_count})
-            if results["final_state"]["cycle_found"]:
+            if results["cycle_found"]:
                 cycles += 1
+                cycle_len += results["cycle_length"]
             else:
                 rounds += results["final_state"]["rounds_played"]
                 wars += results["final_state"]["war_count"]
@@ -241,3 +239,5 @@ if __name__ == '__main__':
         print(f"Average game length: {rounds / (iterations - cycles):.2f}")
         print(f"Average number of wars: {wars / (iterations - cycles):.2f}")
         print(f"Infinite cycle games: {cycles} ({cycles / iterations * 100:.2f}%)")
+        if cycles > 0:
+            print(f"Average cycle length: {cycle_len / cycles:.2f}")

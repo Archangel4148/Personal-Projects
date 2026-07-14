@@ -2,7 +2,7 @@ from typing import Any, NewType
 
 from framework.agents import Agent
 from framework.base import GameModule
-from framework.observers import GameObserver, GameSummaryObserver
+from framework.observers import GameObserver, GameSummaryObserver, ObserverDirective
 
 GameResult = NewType("GameResult", dict[str, Any])
 
@@ -53,11 +53,17 @@ class GameRunner:
             new_state = self.game.apply_action(state, chosen_action)
             actions_taken += 1
 
-            # Notify observers after each action
+            # Notify observers after each action, and handle any directives
+            should_stop = False
             for observer in self.observers:
-                observer.after_action(previous_state=state, action=chosen_action, new_state=new_state)
+                signal = observer.after_action(previous_state=state, action=chosen_action, action_number=actions_taken, new_state=new_state)
+                if signal == ObserverDirective.TERMINATE:
+                    should_stop = True
 
             state = new_state
+
+            if should_stop:
+                break
 
             if action_limit and actions_taken >= action_limit:
                 action_limit_reached = True

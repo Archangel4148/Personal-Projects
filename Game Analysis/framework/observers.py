@@ -1,9 +1,14 @@
 import copy
 from abc import ABC
+from enum import Enum, auto
 from typing import Any
 
 from framework.base import GameState, Action
 
+
+class ObserverDirective(Enum):
+    CONTINUE = auto()
+    TERMINATE = auto()
 
 class GameObserver(ABC):
     """Base class for observing game execution.
@@ -29,10 +34,11 @@ class GameObserver(ABC):
             self,
             previous_state: GameState,
             action: Action,
+            action_number: int,
             new_state: GameState
-    ) -> None:
+    ) -> ObserverDirective:
         """Called immediately after an action is applied."""
-        pass
+        return ObserverDirective.CONTINUE
 
     def on_game_end(
             self,
@@ -60,8 +66,9 @@ class GameSummaryObserver(GameObserver):
         self.final_state = None
         self.winners = []
 
-    def after_action(self, previous_state, action, new_state):
+    def after_action(self, previous_state, action, action_number, new_state):
         self.actions_taken += 1
+        return ObserverDirective.CONTINUE
 
     def on_game_end(self, final_state, winners):
         self.final_state = final_state
@@ -85,8 +92,9 @@ class StateRecorder(GameObserver):
         self.states.clear()
         self.states.append(copy.deepcopy(initial_state))
 
-    def after_action(self, previous_state, action, new_state):
+    def after_action(self, previous_state, action, action_number, new_state):
         self.states.append(copy.deepcopy(new_state))
+        return ObserverDirective.CONTINUE
 
     def get_results(self):
         return {
@@ -107,10 +115,56 @@ class ActionRecorder(GameObserver):
     def before_action(self, state: GameState, current_player: int, legal_actions: list[Action]) -> None:
         self.current_player = current_player
 
-    def after_action(self, previous_state, action, new_state):
+    def after_action(self, previous_state, action, action_number, new_state):
         self.actions.append({"player": self.current_player, "action": action})
+        return ObserverDirective.CONTINUE
 
     def get_results(self):
         return {
             "action_history": self.actions
+        }
+
+
+class CycleObserver(GameObserver):
+
+    def __init__(self, hash_state_func):
+        self.hash_state_func = hash_state_func
+        self.seen_states = {}
+        self.step = 0
+        self.cycle_found = False
+        self.cycle_length = None
+        self.cycle_state = None
+
+    def on_game_start(self, initial_state):
+        self.seen_states.clear()
+        self.cycle_found = False
+        self.step = 0
+        self.cycle_length = None
+        self.cycle_state = None
+
+    def after_action(self, previous_state, action, action_number, new_state):
+
+        key = self.hash_state_func(new_state)
+        self.step += 1
+
+        if key in self.seen_states:
+            # A cycle exists; store result and terminate early!
+            self.cycle_found = True
+            self.cycle_length = self.step - self.seen_states[key]
+            self.cycle_state = key
+
+            print(
+                f"step={self.step}, "
+                f"first_seen={self.seen_states[key]}, "
+                f"cycle_length={self.cycle_length}"
+            )
+            return ObserverDirective.TERMINATE
+
+        self.seen_states[key] = self.step
+        return ObserverDirective.CONTINUE
+
+    def get_results(self):
+        return {
+            "cycle_found": self.cycle_found,
+            "cycle_length": self.cycle_length
         }

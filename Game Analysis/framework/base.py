@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, NewType
+from typing import Any, Hashable, NewType
 
 import numpy as np
 
@@ -45,4 +45,8 @@ class GameModule(ABC):
     @abstractmethod
     def vectorize_state(self, state: GameState) -> np.ndarray:
         """Dump the state into a numerical vector"""
+        pass
+
+    @abstractmethod
+    def hash_state(self, state: GameState) -> Hashable:
         pass
