@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Hashable, NewType
@@ -16,6 +17,12 @@ class Action:
 
 class GameModule(ABC):
     """The standard representation of a game"""
+
+    @property
+    def name(self) -> str:
+        class_name = self.__class__.__name__
+        cleaned_name = class_name.replace("Module", "")
+        return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', cleaned_name)
 
     @abstractmethod
     def setup_initial_state(self, config: dict) -> GameState:

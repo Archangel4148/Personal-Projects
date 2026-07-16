@@ -1,3 +1,5 @@
+from typing import Hashable
+
 import numpy as np
 
 from framework.agents import RandomAgent
@@ -58,6 +60,9 @@ class TicTacToeModule(GameModule):
     def vectorize_state(self, state: GameState) -> np.ndarray:
         # Dump the turn and board into a 10x1 vector (first value is the turn)
         return np.insert(state["board"], 0, state["turn_flag"])
+
+    def hash_state(self, state: GameState) -> Hashable:
+        return tuple([state["board"], state["turn_flag"]])
 
 
 if __name__ == '__main__':
