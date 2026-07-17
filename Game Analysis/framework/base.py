@@ -57,3 +57,9 @@ class GameModule(ABC):
     @abstractmethod
     def state_key(self, state: GameState) -> Hashable:
         pass
+
+class GridGameModule(GameModule, ABC):
+    @abstractmethod
+    def board_dimensions(self) -> tuple[int, int]:
+        """Return the dimensions of the grid (width, height)"""
+        pass

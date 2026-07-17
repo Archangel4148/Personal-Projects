@@ -3,12 +3,12 @@ from typing import Hashable
 import numpy as np
 
 from framework.agents import RandomAgent
-from framework.base import GameModule, GameState, Action
+from framework.base import GameModule, GameState, Action, GridGameModule
 from framework.components import GridBoardComponent
 from framework.runner import GameRunner
 
 
-class TicTacToeModule(GameModule):
+class TicTacToeModule(GridGameModule):
     WIN_COMBINATIONS = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Horizontal rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Vertical columns
@@ -63,6 +63,10 @@ class TicTacToeModule(GameModule):
 
     def state_key(self, state: GameState) -> Hashable:
         return tuple([tuple(list(map(int, state["board"]))), state["turn_flag"]])
+
+    def board_dimensions(self) -> tuple[int, int]:
+        """rows, columns"""
+        return 3, 3
 
 
 if __name__ == '__main__':

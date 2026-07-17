@@ -3,7 +3,7 @@ from typing import Hashable
 import numpy as np
 
 from framework.agents import RandomAgent
-from framework.base import GameModule, GameState, Action
+from framework.base import GameModule, GameState, Action, GridGameModule
 from framework.components import GridBoardComponent
 from framework.runner import GameRunner
 
@@ -52,7 +52,7 @@ def generate_connect_four_lines(width: int = 7, height: int = 6) -> list[list[in
     return lines
 
 
-class ConnectFourModule(GameModule):
+class ConnectFourModule(GridGameModule):
     def __init__(self, board_width: int = 7, board_height: int = 6):
         self.board_width = board_width
         self.board_height = board_height
@@ -112,6 +112,10 @@ class ConnectFourModule(GameModule):
 
     def state_key(self, state: GameState) -> Hashable:
         return tuple([tuple(list(map(int, state["board"]))), state["turn_flag"]])
+
+    def board_dimensions(self) -> tuple[int, int]:
+        """rows, columns"""
+        return 6, 7
 
 
 if __name__ == '__main__':

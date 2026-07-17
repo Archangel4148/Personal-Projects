@@ -12,7 +12,8 @@ from pyvis.network import Network
 from framework.base import GameModule, GameState, Action
 from framework.state_analysis.reduction import StateEquivalence, SymmetryEquivalence
 from framework.state_analysis.rendering import GameDisplayData, StateVisualizationWindow
-from framework.state_analysis.transforms import IdentityTransform
+from framework.state_analysis.transforms import FlipOverHorizontalAxis, FlipOverVerticalAxis, \
+    Rotate180, Rotate90, Rotate270, Transpose, FlipOverAntiDiagonal
 from games.tic_tac_toe import TicTacToeModule
 
 
@@ -195,13 +196,13 @@ class StateGraphVisualizer:
         self.graph = graph
 
     def render(self, window_title: str = "Game State Visualization", width: int = 800, height: int = 800, hpad: int = 0,
-               vpad: int = 0):
+               vpad: int = 0, use_physics: bool = True):
         """Create and update the visualization window"""
 
         if self.graph is None:
             raise ValueError("State graph must be initialized.")
 
-        network_html = self.build_network_html(height=height, width=width)
+        network_html = self.build_network_html(height=height, width=width, use_physics=use_physics)
 
         # Build display data
         display_data = GameDisplayData(
@@ -229,7 +230,7 @@ class StateGraphVisualizer:
         ]
         return node_ids, clean_edges
 
-    def build_network_html(self, height: int = 800, width: int = 800) -> str:
+    def build_network_html(self, height: int = 800, width: int = 800, use_physics: bool = True) -> str:
         network = Network(height=height, width=width, directed=True)
 
         node_ids = {
@@ -270,7 +271,7 @@ class StateGraphVisualizer:
             central_gravity=0.3,
             spring_length=100,
         )
-        network.toggle_physics(False)
+        network.toggle_physics(use_physics)
 
         return network.generate_html()
 
@@ -378,9 +379,17 @@ class StateGraphAnalyzer:
 def main():
     # Build the state graph
     game = TicTacToeModule()
-    equivalence = SymmetryEquivalence()
+    equivalence = SymmetryEquivalence(
+        FlipOverHorizontalAxis(),
+        FlipOverVerticalAxis(),
+        Rotate90(),
+        Rotate180(),
+        Rotate270(),
+        Transpose(),
+        FlipOverAntiDiagonal(),
+    )
     builder = StateGraphBuilder(game=game, equivalence=equivalence)
-    graph = builder.traverse_states(max_depth=20)
+    graph = builder.traverse_states(max_depth=2)
 
     # Analyze the state graph
     analyzer = StateGraphAnalyzer(graph)
@@ -388,8 +397,8 @@ def main():
     stats.print_summary()
 
     # Visualize the state graph
-    # visualizer = StateGraphVisualizer(graph)
-    # visualizer.render()
+    visualizer = StateGraphVisualizer(graph)
+    visualizer.render(hpad=35, vpad=40, use_physics=True)
 
 
 if __name__ == '__main__':
