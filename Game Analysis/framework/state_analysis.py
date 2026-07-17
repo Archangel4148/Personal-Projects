@@ -1,21 +1,19 @@
 from __future__ import annotations
 
+import math
 import sys
+from collections import defaultdict
 from collections.abc import Hashable
 from dataclasses import dataclass
 
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication
+from PyQt6.QtWidgets import QApplication
 from pyvis.network import Network
 
 from framework.base import GameModule, GameState, Action
+from framework.state_analysis.reduction import StateEquivalence, SymmetryEquivalence
+from framework.state_analysis.rendering import GameDisplayData, StateVisualizationWindow
+from framework.state_analysis.transforms import IdentityTransform
 from games.tic_tac_toe import TicTacToeModule
-
-
-@dataclass(frozen=True, kw_only=True)
-class GameDisplayData:
-    game_name: str
-    html_data: str
 
 
 @dataclass
@@ -24,7 +22,7 @@ class NodeData:
     depth: int
     is_terminal: bool
     is_root: bool = False
-    winner: object | None = None
+    winner: str | None = None
 
 
 @dataclass
@@ -40,42 +38,174 @@ class StateGraph:
     edges: list[EdgeData]
 
 
-class StateVisualizationWindow(QWidget):
-    def __init__(self, display_data: GameDisplayData):
-        super().__init__()
+@dataclass
+class StateGraphStatistics:
+    # Existing Metrics
+    total_states: int
+    average_branching_factor: float
+    state_density: float
+    graph_diameter: float
+    dead_end_count: int
+    unreachable_state_count: int
 
-        self.display_data = display_data
+    # Decision Space Metrics
+    min_branching_factor: float
+    max_branching_factor: float
+    branching_factor_std_dev: float
+    max_depth: int
 
-        self.setWindowTitle("Game State Visualization")
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-        self.browser = QWebEngineView()
-        layout.addWidget(self.browser)
+    # Topological Metrics
+    reconvergent_node_count: int
+    has_cycles: bool
 
-    def update_visualization(self):
-        """Update the visualization to the provided game"""
-        self.setWindowTitle(f"{self.display_data.game_name} Visualization")
-        html_content = self.display_data.html_data
-        self.browser.setHtml(html_content)
+    # Game Balance Metrics
+    terminal_state_distribution: dict[str, int]
+    average_depth_to_terminal: dict[str, float]
+
+    def print_summary(self) -> None:
+        """Prints a structured dashboard of the state graph statistics."""
+        border = "=" * 50
+        section_border = "-" * 50
+
+        print(border)
+        print(f"{'STATE GRAPH ANALYSIS REPORT':^50}")
+        print(border)
+
+        print("\n[ General Graph Metrics ]")
+        print(f"  Total States (Nodes):      {self.total_states:,}")
+        print(f"  State Density (Nodes/Edge): {self.state_density:.4f}")
+        print(f"  Graph Diameter (Proxy):     {self.graph_diameter:.1f}")
+        print(f"  Dead Ends (Non-terminal):   {self.dead_end_count:,}")
+        print(f"  Unreachable States:         {self.unreachable_state_count:,}")
+
+        print(section_border)
+
+        print("\n[ Decision Space & Complexity ]")
+        print(f"  Max Depth Reached:          {self.max_depth:,}")
+        print(f"  Average Branching Factor:   {self.average_branching_factor:.2f}")
+        print(f"  Min Branching Factor:       {self.min_branching_factor:.1f}")
+        print(f"  Max Branching Factor:       {self.max_branching_factor:.1f}")
+        print(f"  Branching Std Deviation:    {self.branching_factor_std_dev:.2f}")
+
+        print(section_border)
+
+        print("\n[ Topology & Structure ]")
+        print(f"  Reconvergent Nodes (In>1):  {self.reconvergent_node_count:,}")
+        print(f"  Has Cycles:                 {'Yes (Looping Detected)' if self.has_cycles else 'No (DAG / Tree)'}")
+
+        print(section_border)
+
+        print("\n[ Game Balance & Outcomes ]")
+        print("  Terminal State Distribution:")
+        if self.terminal_state_distribution:
+            for winner, count in self.terminal_state_distribution.items():
+                pct = (count / sum(self.terminal_state_distribution.values())) * 100
+                print(f"    - Winner '{winner}': {count:,} ({pct:.1f}%)")
+        else:
+            print("    No terminal states recorded.")
+
+        print("\n  Average Depth to Terminal:")
+        if self.average_depth_to_terminal:
+            for winner, avg_depth in self.average_depth_to_terminal.items():
+                print(f"    - Winner '{winner}': {avg_depth:.2f} plies")
+        else:
+            print("    N/A")
+
+        print(border)
 
 
-class StateAnalyzer:
-    def __init__(self, game_module: GameModule):
-        self.game_module = game_module
+class StateGraphBuilder:
+    def __init__(
+            self,
+            game: GameModule,
+            equivalence: StateEquivalence,
+    ):
+        self.game_module = game
+        self.equivalence = equivalence
 
-    def visualize_states(self, traversal_depth: int = 1):
+    def traverse_states(self, max_depth: int) -> StateGraph:
+        print(f"Beginning state traversal with maximum depth {max_depth}")
+        game = self.game_module
+
+        # Start with only the initial state
+        initial_state = game.setup_initial_state(config={})
+        canonical = self.equivalence.canonical(initial_state, game)
+        initial_key = game.state_key(canonical)
+
+        nodes: dict[Hashable, NodeData] = {
+            initial_key: NodeData(
+                state=canonical,
+                depth=0,
+                is_terminal=game.is_game_over(initial_state)[0],
+                is_root=True,
+            )
+        }
+        edges: list[EdgeData] = []
+
+        current_depth_states = {initial_key: initial_state}
+
+        # Search up to maximum depth
+        for depth in range(max_depth):
+            if current_depth_states:
+                print(f"Processing depth {depth + 1}")
+            next_depth_states = {}
+
+            for state_key, state in current_depth_states.items():
+                # Do not search ended games
+                if game.is_game_over(state)[0]:
+                    continue
+
+                # Take each available action, adding any new states encountered to the list
+                for action in game.get_legal_actions(state):
+                    new_state = game.apply_action(state, action)
+                    canonical = self.equivalence.canonical(new_state, game)
+                    new_key = game.state_key(canonical)
+
+                    # Record the connection
+                    edges.append(
+                        EdgeData(
+                            source=state_key,
+                            target=new_key,
+                            action=action,
+                        )
+                    )
+
+                    if new_key not in nodes:
+                        is_terminal, winner_idx = game.is_game_over(new_state)
+                        new_node = NodeData(
+                            state=self.equivalence.canonical(new_state, game),
+                            depth=depth + 1,
+                            is_terminal=is_terminal,
+                        )
+                        if winner_idx:
+                            new_node.winner = str(winner_idx)
+
+                        nodes[new_key] = new_node
+
+                        next_depth_states[new_key] = new_state
+
+            current_depth_states = next_depth_states
+
+        state_graph = StateGraph(nodes=nodes, edges=edges)
+        return state_graph
+
+
+class StateGraphVisualizer:
+    def __init__(self, graph: StateGraph):
+        self.graph = graph
+
+    def render(self, window_title: str = "Game State Visualization", width: int = 800, height: int = 800, hpad: int = 0,
+               vpad: int = 0):
         """Create and update the visualization window"""
-        width, height = 800, 800
-        hpad, vpad = 25, 40
 
-        # Build network
-        graph = self.traverse_states(max_depth=traversal_depth)
+        if self.graph is None:
+            raise ValueError("State graph must be initialized.")
 
-        network_html = self.build_network_html(state_graph=graph, height=height)
+        network_html = self.build_network_html(height=height, width=width)
 
         # Build display data
         display_data = GameDisplayData(
-            game_name=self.game_module.name,
+            window_title=window_title,
             html_data=network_html,
         )
 
@@ -86,61 +216,6 @@ class StateAnalyzer:
         window.update_visualization()
         window.show()
         sys.exit(app.exec())
-
-    def traverse_states(self, max_depth: int) -> StateGraph:
-        game = self.game_module
-
-        # Start with only the initial state
-        initial_state = game.setup_initial_state(config={})
-        initial_hash = game.hash_state(initial_state)
-
-        nodes: dict[Hashable, NodeData] = {
-            initial_hash: NodeData(
-                state=initial_state,
-                depth=0,
-                is_terminal=game.is_game_over(initial_state)[0],
-                is_root=True,
-            )
-        }
-        edges: list[EdgeData] = []
-
-        current_depth_states = {initial_hash: initial_state}
-
-        # Search up to maximum depth
-        for depth in range(max_depth):
-            next_depth_states = {}
-
-            for hashed_state, state in current_depth_states.items():
-                # Do not search ended games
-                if game.is_game_over(state)[0]:
-                    continue
-
-                # Take each available action, adding any new states encountered to the list
-                for action in game.get_legal_actions(state):
-                    new_state = game.apply_action(state, action)
-                    new_hash = game.hash_state(new_state)
-
-                    # Record the connection
-                    edges.append(
-                        EdgeData(
-                            source=hashed_state,
-                            target=new_hash,
-                            action=action,
-                        )
-                    )
-
-                    if new_hash not in nodes:
-                        nodes[new_hash] = NodeData(
-                            state=new_state,
-                            depth=depth + 1,
-                            is_terminal=game.is_game_over(new_state)[0],
-                        )
-
-                        next_depth_states[new_hash] = new_state
-
-            current_depth_states = next_depth_states
-
-        return StateGraph(nodes=nodes, edges=edges)
 
     @staticmethod
     def build_graph_features(
@@ -154,18 +229,16 @@ class StateAnalyzer:
         ]
         return node_ids, clean_edges
 
-    @staticmethod
-    def build_network_html(state_graph: StateGraph, height: int = 800,
-                           width: int = 800) -> str:
+    def build_network_html(self, height: int = 800, width: int = 800) -> str:
         network = Network(height=height, width=width, directed=True)
 
         node_ids = {
-            state_hash: i
-            for i, state_hash in enumerate(state_graph.nodes)
+            state_key: i
+            for i, state_key in enumerate(self.graph.nodes)
         }
 
         # Nodes
-        for state_hash, data in state_graph.nodes.items():
+        for state_key, data in self.graph.nodes.items():
             if data.is_root:
                 color = "lightgreen"
             elif data.is_terminal:
@@ -174,18 +247,18 @@ class StateAnalyzer:
                 color = "lightblue"
 
             network.add_node(
-                node_ids[state_hash],
-                # label=str(data.state),
+                node_ids[state_key],
                 title=(
                     f"Depth: {data.depth}\n"
-                    f"Terminal: {data.is_terminal}"
+                    f"Terminal: {data.is_terminal}\n"
+                    f"Winner: {data.winner if data.winner else 'None'}"
                 ),
                 size=30 if data.is_terminal else 10,
                 color=color,
             )
 
         # Edges
-        for edge in state_graph.edges:
+        for edge in self.graph.edges:
             network.add_edge(
                 node_ids[edge.source],
                 node_ids[edge.target],
@@ -202,11 +275,121 @@ class StateAnalyzer:
         return network.generate_html()
 
 
-def main():
-    game = TicTacToeModule()
-    analyzer = StateAnalyzer(game)
+class StateGraphAnalyzer:
+    def __init__(self, graph: StateGraph):
+        self.graph = graph
 
-    analyzer.visualize_states(traversal_depth=5)
+    def analyze(self) -> StateGraphStatistics:
+        if not self.graph:
+            raise ValueError("No graph has been traversed yet. Run traverse_states first.")
+        print("Beginning state analysis")
+        graph = self.graph
+        nodes = graph.nodes
+        edges = graph.edges
+
+        total_states = len(nodes)
+        if total_states == 0:  # Handle empty graphs
+            return StateGraphStatistics()
+
+        out_degrees = defaultdict(int)
+        in_degrees = defaultdict(int)
+
+        # Find node in/out degrees (reconvergence and branching)
+        for node_hash in nodes:
+            out_degrees[node_hash] = 0
+            in_degrees[node_hash] = 0
+
+        for edge in edges:
+            out_degrees[edge.source] += 1
+            in_degrees[edge.target] += 1
+
+        # Only count branching factor for non-terminal nodes
+        non_terminal_branching = [
+            count for node_hash, count in out_degrees.items()
+            if not nodes[node_hash].is_terminal
+        ]
+
+        if non_terminal_branching:
+            min_branching = min(non_terminal_branching)
+            max_branching = max(non_terminal_branching)
+            avg_branching = sum(non_terminal_branching) / len(non_terminal_branching)
+
+            # Standard deviation
+            variance = sum((x - avg_branching) ** 2 for x in non_terminal_branching) / len(non_terminal_branching)
+            branching_std_dev = math.sqrt(variance)
+        else:
+            min_branching = max_branching = avg_branching = branching_std_dev = 0.0
+
+        state_density = total_states / len(edges) if len(edges) > 0 else 0.0
+
+        dead_end_count = sum(
+            1 for node_hash, count in out_degrees.items()
+            if count == 0 and not nodes[node_hash].is_terminal
+        )
+
+        # Find any unreachable nodes (besides the root)
+        unreachable_count = sum(
+            1 for node_hash, count in in_degrees.items()
+            if count == 0 and not nodes[node_hash].is_root
+        )
+
+        # Count transpositions (states with multiple paths to them)
+        reconvergent_node_count = sum(1 for count in in_degrees.values() if count > 1)
+
+        max_depth = 0
+        terminal_distribution = defaultdict(int)
+        depths_per_winner = defaultdict(list)
+        for node in nodes.values():
+            if node.depth > max_depth:
+                max_depth = node.depth
+
+            if node.is_terminal:
+                winner_key = node.winner if node.winner is not None else "Draw/None"
+                terminal_distribution[winner_key] += 1
+                depths_per_winner[winner_key].append(node.depth)
+
+        # Average depth to win/loss
+        avg_depth_to_terminal = {
+            winner: sum(depths) / len(depths)
+            for winner, depths in depths_per_winner.items()
+        }
+
+        # This is a simplified estimation! (Full cycle checking would be expensive)
+        has_cycles = any(nodes[edge.target].depth <= nodes[edge.source].depth for edge in edges)
+
+        return StateGraphStatistics(
+            total_states=total_states,
+            average_branching_factor=avg_branching,
+            state_density=state_density,
+            graph_diameter=float(max_depth),  # Using max depth reached as tree-diameter proxy
+            dead_end_count=dead_end_count,
+            unreachable_state_count=unreachable_count,
+            min_branching_factor=min_branching,
+            max_branching_factor=max_branching,
+            branching_factor_std_dev=branching_std_dev,
+            max_depth=max_depth,
+            reconvergent_node_count=reconvergent_node_count,
+            has_cycles=has_cycles,
+            terminal_state_distribution=dict(terminal_distribution),
+            average_depth_to_terminal=avg_depth_to_terminal
+        )
+
+
+def main():
+    # Build the state graph
+    game = TicTacToeModule()
+    equivalence = SymmetryEquivalence()
+    builder = StateGraphBuilder(game=game, equivalence=equivalence)
+    graph = builder.traverse_states(max_depth=20)
+
+    # Analyze the state graph
+    analyzer = StateGraphAnalyzer(graph)
+    stats = analyzer.analyze()
+    stats.print_summary()
+
+    # Visualize the state graph
+    # visualizer = StateGraphVisualizer(graph)
+    # visualizer.render()
 
 
 if __name__ == '__main__':

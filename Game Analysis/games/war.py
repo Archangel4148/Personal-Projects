@@ -176,7 +176,7 @@ class WarModule(GameModule):
         )
         return True
 
-    def hash_state(self, state: GameState) -> Hashable:
+    def state_key(self, state: GameState) -> Hashable:
         result = []
 
         for i in range(state["num_players"]):
@@ -217,7 +217,7 @@ if __name__ == '__main__':
         num_players = p
         war_burn_count = 3
         players: list[Agent] = [RandomAgent() for _ in range(num_players)]
-        observers: list[GameObserver] = [CycleObserver(module.hash_state)]
+        observers: list[GameObserver] = [CycleObserver(module.state_key)]
 
         runner = GameRunner(game_module=module, agents=players, observers=observers)
 

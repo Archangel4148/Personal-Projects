@@ -61,7 +61,7 @@ class TicTacToeModule(GameModule):
         # Dump the turn and board into a 10x1 vector (first value is the turn)
         return np.insert(state["board"], 0, state["turn_flag"])
 
-    def hash_state(self, state: GameState) -> Hashable:
+    def state_key(self, state: GameState) -> Hashable:
         return tuple([tuple(list(map(int, state["board"]))), state["turn_flag"]])
 
 

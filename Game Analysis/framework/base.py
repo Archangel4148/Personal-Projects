@@ -55,5 +55,5 @@ class GameModule(ABC):
         pass
 
     @abstractmethod
-    def hash_state(self, state: GameState) -> Hashable:
+    def state_key(self, state: GameState) -> Hashable:
         pass
