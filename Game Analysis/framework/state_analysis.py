@@ -14,6 +14,7 @@ from framework.state_analysis.reduction import StateEquivalence, SymmetryEquival
 from framework.state_analysis.rendering import GameDisplayData, StateVisualizationWindow
 from framework.state_analysis.transforms import FlipOverHorizontalAxis, FlipOverVerticalAxis, \
     Rotate180, Rotate90, Rotate270, Transpose, FlipOverAntiDiagonal
+from games.connect_four import ConnectFourModule
 from games.tic_tac_toe import TicTacToeModule
 
 
@@ -37,6 +38,7 @@ class EdgeData:
 class StateGraph:
     nodes: dict[Hashable, NodeData]
     edges: list[EdgeData]
+    game: GameModule | None = None  # Optional: allows nice rendering!
 
 
 @dataclass
@@ -124,7 +126,7 @@ class StateGraphBuilder:
         self.game_module = game
         self.equivalence = equivalence
 
-    def traverse_states(self, max_depth: int) -> StateGraph:
+    def traverse_states(self, max_depth: int, include_module: bool = False) -> StateGraph:
         print(f"Beginning state traversal with maximum depth {max_depth}")
         game = self.game_module
 
@@ -187,7 +189,7 @@ class StateGraphBuilder:
 
             current_depth_states = next_depth_states
 
-        state_graph = StateGraph(nodes=nodes, edges=edges)
+        state_graph = StateGraph(nodes=nodes, edges=edges, game=self.game_module if include_module else None)
         return state_graph
 
 
@@ -247,13 +249,15 @@ class StateGraphVisualizer:
             else:
                 color = "lightblue"
 
+            if self.graph.game is not None:
+                title_str = f"{self.graph.game.render_state(data.state)}\n"
+            else:
+                title_str = ""
+            title_str += f"Depth: {data.depth}\nTerminal: {data.is_terminal}\nWinner: {data.winner if data.winner else 'None'}"
+
             network.add_node(
                 node_ids[state_key],
-                title=(
-                    f"Depth: {data.depth}\n"
-                    f"Terminal: {data.is_terminal}\n"
-                    f"Winner: {data.winner if data.winner else 'None'}"
-                ),
+                title=title_str,
                 size=30 if data.is_terminal else 10,
                 color=color,
             )
@@ -378,18 +382,18 @@ class StateGraphAnalyzer:
 
 def main():
     # Build the state graph
-    game = TicTacToeModule()
+    game = ConnectFourModule()
     equivalence = SymmetryEquivalence(
-        FlipOverHorizontalAxis(),
+        # FlipOverHorizontalAxis(),
         FlipOverVerticalAxis(),
-        Rotate90(),
-        Rotate180(),
-        Rotate270(),
-        Transpose(),
-        FlipOverAntiDiagonal(),
+        # Rotate90(),
+        # Rotate180(),
+        # Rotate270(),
+        # Transpose(),
+        # FlipOverAntiDiagonal(),
     )
     builder = StateGraphBuilder(game=game, equivalence=equivalence)
-    graph = builder.traverse_states(max_depth=2)
+    graph = builder.traverse_states(max_depth=2, include_module=True)
 
     # Analyze the state graph
     analyzer = StateGraphAnalyzer(graph)

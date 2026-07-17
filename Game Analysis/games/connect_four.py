@@ -3,7 +3,7 @@ from typing import Hashable
 import numpy as np
 
 from framework.agents import RandomAgent
-from framework.base import GameModule, GameState, Action, GridGameModule
+from framework.base import GameState, Action, GridGameModule
 from framework.components import GridBoardComponent
 from framework.runner import GameRunner
 
@@ -117,6 +117,8 @@ class ConnectFourModule(GridGameModule):
         """rows, columns"""
         return 6, 7
 
+    def board_display_map(self) -> dict[int, str]:
+        return {1: "X", -1: "O", 0: "-"}
 
 if __name__ == '__main__':
     # Set up a game
@@ -128,10 +130,11 @@ if __name__ == '__main__':
 
     # Run the game
     for i in range(3):
-        print(f"\n\n======GAME {i+1}======")
+        print(f"\n\n======GAME {i + 1}======")
         results = runner.run_game(config={"board_width": width, "board_height": height})
 
         # Display the results
         print("Results:", results)
         print("\nFinal Board:")
-        GridBoardComponent.print_board(results["final_state"]["board"], width, display_map={1: "X", -1: "O", 0: "-"})
+        display = module.render_state(results["final_state"])
+        print(display)

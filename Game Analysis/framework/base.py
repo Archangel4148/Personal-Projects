@@ -5,6 +5,8 @@ from typing import Any, Hashable, NewType
 
 import numpy as np
 
+from framework.components import GridBoardComponent
+
 GameState = NewType("GameState", dict[str, Any])
 
 
@@ -58,8 +60,19 @@ class GameModule(ABC):
     def state_key(self, state: GameState) -> Hashable:
         pass
 
+    def render_state(self, state: GameState) -> str:
+        return str(state)
+
 class GridGameModule(GameModule, ABC):
     @abstractmethod
     def board_dimensions(self) -> tuple[int, int]:
         """Return the dimensions of the grid (width, height)"""
         pass
+
+    @abstractmethod
+    def board_display_map(self) -> dict[int, str]:
+        ...
+
+    def render_state(self, state: GameState) -> str:
+        rows, cols = self.board_dimensions()
+        return GridBoardComponent.render_board(np.array(state["board"]), cols, self.board_display_map())

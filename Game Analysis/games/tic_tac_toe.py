@@ -3,7 +3,7 @@ from typing import Hashable
 import numpy as np
 
 from framework.agents import RandomAgent
-from framework.base import GameModule, GameState, Action, GridGameModule
+from framework.base import GameState, Action, GridGameModule
 from framework.components import GridBoardComponent
 from framework.runner import GameRunner
 
@@ -68,6 +68,9 @@ class TicTacToeModule(GridGameModule):
         """rows, columns"""
         return 3, 3
 
+    def board_display_map(self) -> dict[int, str]:
+        return {-1: "X", 1: "O", 0: "-"}
+
 
 if __name__ == '__main__':
     # Build and initialize a game module
@@ -81,4 +84,5 @@ if __name__ == '__main__':
 
     # Show the final board
     print("\nBoard State:")
-    GridBoardComponent.print_board(results["final_state"]["board"], width=3, display_map={-1: "X", 1: "O", 0: "-"})
+    display = module.render_state(results["final_state"])
+    print(display)

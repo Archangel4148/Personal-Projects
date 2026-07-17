@@ -39,18 +39,20 @@ class GridBoardComponent(GameComponent):
         return [col for col in reshaped.T]
 
     @classmethod
-    def print_board(cls, board: np.ndarray, width: int, display_map: dict[int, str] | None = None) -> None:
+    def render_board(cls, board: np.ndarray, width: int, display_map: dict[int, str] | None = None) -> str:
         """Prints each row of the provided board"""
         print_map = (lambda val: display_map.get(val, str(val))) if display_map else str
+        render = ""
         for row in cls.iter_rows(board, width):
-            print(" ".join(map(print_map, row)))
+            render += " ".join(map(print_map, row)) + "\n"
+        return render
 
 
 class CardStackComponent(GameComponent):
     """Handles low-level data structure management for decks, hands, and discard piles"""
 
     @staticmethod
-    def create_deck(size: int=52):
+    def create_deck(size: int = 52):
         """Build a flat numpy array representing a deck of the given size"""
         return np.arange(size, dtype=np.int8)
 
