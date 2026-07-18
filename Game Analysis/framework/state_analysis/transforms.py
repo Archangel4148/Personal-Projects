@@ -134,3 +134,11 @@ class SwapPlayersTransform(StateTransform):
         new_state["turn_flag"] = 1 - state["turn_flag"]
 
         return new_state
+
+class PermuteGroupsTransform(StateTransform):
+    def transform(self, state, game):
+        new_state = deepcopy(state)
+
+        new_state["groups"] = tuple(sorted(list(new_state["groups"])))
+
+        return new_state

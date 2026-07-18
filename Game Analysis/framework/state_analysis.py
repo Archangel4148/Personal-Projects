@@ -12,9 +12,10 @@ from pyvis.network import Network
 from framework.base import GameModule, GameState, Action
 from framework.state_analysis.reduction import StateEquivalence, SymmetryEquivalence
 from framework.state_analysis.rendering import GameDisplayData, StateVisualizationWindow
-from framework.state_analysis.transforms import FlipOverHorizontalAxis, FlipOverVerticalAxis, \
+from framework.state_analysis.transforms import FlipOverHorizontalAxis, FlipOverVerticalAxis, PermuteGroupsTransform, \
     Rotate180, Rotate90, Rotate270, Transpose, FlipOverAntiDiagonal
 from games.connect_four import ConnectFourModule
+from games.nim import NimModule
 from games.tic_tac_toe import TicTacToeModule
 
 
@@ -240,12 +241,27 @@ class StateGraphVisualizer:
             for i, state_key in enumerate(self.graph.nodes)
         }
 
+        terminal_palette = ["#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#bcbd22", "#17becf"]
+        outcome_colors: dict[str, str] = {}
+        palette_index = 0
+
         # Nodes
         for state_key, data in self.graph.nodes.items():
             if data.is_root:
                 color = "lightgreen"
             elif data.is_terminal:
-                color = "red"
+                # Fallback label if data.winner is None (indicating a draw)
+                outcome = data.winner if data.winner is not None else "Draw"
+                
+                # Dynamically assign a color from the palette if it's the first time seeing this outcome
+                if outcome not in outcome_colors:
+                    if outcome == "Draw":
+                        outcome_colors[outcome] = "#7f7f7f"  # Give draws a neutral gray color
+                    else:
+                        outcome_colors[outcome] = terminal_palette[palette_index % len(terminal_palette)]
+                        palette_index += 1
+                
+                color = outcome_colors[outcome]
             else:
                 color = "lightblue"
 
@@ -360,7 +376,7 @@ class StateGraphAnalyzer:
         }
 
         # This is a simplified estimation! (Full cycle checking would be expensive)
-        has_cycles = any(nodes[edge.target].depth <= nodes[edge.source].depth for edge in edges)
+        has_cycles = any(edge.source == edge.target for edge in edges)
 
         return StateGraphStatistics(
             total_states=total_states,
@@ -382,18 +398,19 @@ class StateGraphAnalyzer:
 
 def main():
     # Build the state graph
-    game = ConnectFourModule()
+    game = NimModule()
     equivalence = SymmetryEquivalence(
         # FlipOverHorizontalAxis(),
-        FlipOverVerticalAxis(),
+        # FlipOverVerticalAxis(),
         # Rotate90(),
         # Rotate180(),
         # Rotate270(),
         # Transpose(),
         # FlipOverAntiDiagonal(),
+        PermuteGroupsTransform()
     )
     builder = StateGraphBuilder(game=game, equivalence=equivalence)
-    graph = builder.traverse_states(max_depth=2, include_module=True)
+    graph = builder.traverse_states(max_depth=20, include_module=True)
 
     # Analyze the state graph
     analyzer = StateGraphAnalyzer(graph)
@@ -402,7 +419,7 @@ def main():
 
     # Visualize the state graph
     visualizer = StateGraphVisualizer(graph)
-    visualizer.render(hpad=35, vpad=40, use_physics=True)
+    visualizer.render(width=1920, height=1080, hpad=35, vpad=40, use_physics=True)
 
 
 if __name__ == '__main__':
