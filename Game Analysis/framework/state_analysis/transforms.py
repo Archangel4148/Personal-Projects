@@ -3,6 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
+import numpy as np
+
 from framework.base import GameState, GameModule, GridGameModule
 
 
@@ -20,7 +22,7 @@ class IdentityTransform(StateTransform):
 class GridBoardTransform(StateTransform, ABC):
 
     @abstractmethod
-    def transform_board(self, board: list[int], rows: int, cols: int) -> list[int]:
+    def transform_board(self, board: list[int], rows: int, cols: int) -> np.ndarray:
         ...
 
     def transform(self, state: GameState, game: GridGameModule) -> GameState:
@@ -39,24 +41,14 @@ class GridBoardTransform(StateTransform, ABC):
 
 class FlipOverHorizontalAxis(GridBoardTransform):
     def transform_board(self, board, rows, cols):
-        result = []
-
-        for r in reversed(range(rows)):
-            start = r * cols
-            result.extend(board[start:start + cols])
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return board[::-1, :].ravel()
 
 
 class FlipOverVerticalAxis(GridBoardTransform):
     def transform_board(self, board, rows, cols):
-        result = []
-
-        for r in range(rows):
-            row = board[r * cols:(r + 1) * cols]
-            result.extend(reversed(row))
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return board[:, ::-1].ravel()
 
 
 class Rotate90(GridBoardTransform):
@@ -64,18 +56,15 @@ class Rotate90(GridBoardTransform):
         if rows != cols:
             raise ValueError("Rotate90 requires square board")
 
-        result = []
-
-        for c in range(cols):
-            for r in reversed(range(rows)):
-                result.append(board[r * cols + c])
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return np.rot90(board, k=-1).ravel()  # clockwise
 
 
 class Rotate180(GridBoardTransform):
     def transform_board(self, board, rows, cols):
-        return list(reversed(board))
+        board = np.asarray(board).reshape(rows, cols)
+        return np.rot90(board, k=2).ravel()
+        # or simply: return board[::-1].ravel()
 
 
 class Rotate270(GridBoardTransform):
@@ -83,13 +72,8 @@ class Rotate270(GridBoardTransform):
         if rows != cols:
             raise ValueError("Rotate270 requires square board")
 
-        result = []
-
-        for c in reversed(range(cols)):
-            for r in range(rows):
-                result.append(board[r * cols + c])
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return np.rot90(board, k=1).ravel()  # counter-clockwise
 
 
 class Transpose(GridBoardTransform):
@@ -97,13 +81,8 @@ class Transpose(GridBoardTransform):
         if rows != cols:
             raise ValueError("Transpose requires square board")
 
-        result = []
-
-        for c in range(cols):
-            for r in range(rows):
-                result.append(board[r * cols + c])
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return board.T.ravel()
 
 
 class FlipOverAntiDiagonal(GridBoardTransform):
@@ -111,15 +90,8 @@ class FlipOverAntiDiagonal(GridBoardTransform):
         if rows != cols:
             raise ValueError("Anti-diagonal flip requires square board")
 
-        result = []
-
-        for r in range(rows):
-            for c in range(cols):
-                result.append(
-                    board[(cols - 1 - c) * cols + (rows - 1 - r)]
-                )
-
-        return result
+        board = np.asarray(board).reshape(rows, cols)
+        return np.fliplr(np.flipud(board)).T.ravel()
 
 
 class SwapPlayersTransform(StateTransform):

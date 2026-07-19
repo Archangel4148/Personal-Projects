@@ -14,6 +14,7 @@ from framework.state_analysis.reduction import StateEquivalence, SymmetryEquival
 from framework.state_analysis.rendering import GameDisplayData, StateVisualizationWindow
 from framework.state_analysis.transforms import FlipOverHorizontalAxis, FlipOverVerticalAxis, PermuteGroupsTransform, \
     Rotate180, Rotate90, Rotate270, Transpose, FlipOverAntiDiagonal
+from games.chopsticks import ChopsticksModule, SortHandsTransform
 from games.connect_four import ConnectFourModule
 from games.nim import NimModule
 from games.tic_tac_toe import TicTacToeModule
@@ -23,6 +24,7 @@ from games.tic_tac_toe import TicTacToeModule
 class NodeData:
     state: GameState
     depth: int
+    current_player: int | None
     is_terminal: bool
     is_root: bool = False
     winner: str | None = None
@@ -44,25 +46,18 @@ class StateGraph:
 
 @dataclass
 class StateGraphStatistics:
-    # Existing Metrics
     total_states: int
     average_branching_factor: float
     state_density: float
-    graph_diameter: float
+    max_depth_reached: float
     dead_end_count: int
     unreachable_state_count: int
-
-    # Decision Space Metrics
     min_branching_factor: float
     max_branching_factor: float
     branching_factor_std_dev: float
     max_depth: int
-
-    # Topological Metrics
     reconvergent_node_count: int
     has_cycles: bool
-
-    # Game Balance Metrics
     terminal_state_distribution: dict[str, int]
     average_depth_to_terminal: dict[str, float]
 
@@ -76,9 +71,9 @@ class StateGraphStatistics:
         print(border)
 
         print("\n[ General Graph Metrics ]")
-        print(f"  Total States (Nodes):      {self.total_states:,}")
+        print(f"  Total States (Nodes):       {self.total_states:,}")
         print(f"  State Density (Nodes/Edge): {self.state_density:.4f}")
-        print(f"  Graph Diameter (Proxy):     {self.graph_diameter:.1f}")
+        print(f"  Max Depth Reached:          {self.max_depth_reached:.1f}")
         print(f"  Dead Ends (Non-terminal):   {self.dead_end_count:,}")
         print(f"  Unreachable States:         {self.unreachable_state_count:,}")
 
@@ -140,6 +135,7 @@ class StateGraphBuilder:
             initial_key: NodeData(
                 state=canonical,
                 depth=0,
+                current_player=game.get_current_player_idx(initial_state),
                 is_terminal=game.is_game_over(initial_state)[0],
                 is_root=True,
             )
@@ -179,6 +175,7 @@ class StateGraphBuilder:
                         new_node = NodeData(
                             state=self.equivalence.canonical(new_state, game),
                             depth=depth + 1,
+                            current_player=None if is_terminal else game.get_current_player_idx(new_state),
                             is_terminal=is_terminal,
                         )
                         if winner_idx:
@@ -186,7 +183,7 @@ class StateGraphBuilder:
 
                         nodes[new_key] = new_node
 
-                        next_depth_states[new_key] = new_state
+                        next_depth_states[new_key] = canonical
 
             current_depth_states = next_depth_states
 
@@ -234,7 +231,7 @@ class StateGraphVisualizer:
         return node_ids, clean_edges
 
     def build_network_html(self, height: int = 800, width: int = 800, use_physics: bool = True) -> str:
-        network = Network(height=height, width=width, directed=True)
+        network = Network(height=height, width=width, directed=True, bgcolor="#111111", font_color="white")
 
         node_ids = {
             state_key: i
@@ -269,7 +266,7 @@ class StateGraphVisualizer:
                 title_str = f"{self.graph.game.render_state(data.state)}\n"
             else:
                 title_str = ""
-            title_str += f"Depth: {data.depth}\nTerminal: {data.is_terminal}\nWinner: {data.winner if data.winner else 'None'}"
+            title_str += f"Depth: {data.depth}\nCurrent Player: {data.current_player}\nTerminal: {data.is_terminal}\nWinner: {data.winner if data.winner else 'None'}"
 
             network.add_node(
                 node_ids[state_key],
@@ -299,6 +296,40 @@ class StateGraphVisualizer:
 class StateGraphAnalyzer:
     def __init__(self, graph: StateGraph):
         self.graph = graph
+
+    @staticmethod
+    def has_cycle(graph: StateGraph) -> bool:
+        adjacency = defaultdict(list)
+
+        for edge in graph.edges:
+            adjacency[edge.source].append(edge.target)
+
+        WHITE = 0  # unseen
+        GRAY = 1   # currently exploring
+        BLACK = 2  # finished
+
+        color = {node: WHITE for node in graph.nodes}
+
+        def dfs(node):
+            color[node] = GRAY
+
+            for neighbor in adjacency[node]:
+                if color[neighbor] == GRAY:
+                    # Back edge = cycle
+                    return True
+
+                if color[neighbor] == WHITE:
+                    if dfs(neighbor):
+                        return True
+
+            color[node] = BLACK
+            return False
+
+        return any(
+            dfs(node)
+            for node in graph.nodes
+            if color[node] == WHITE
+        )
 
     def analyze(self) -> StateGraphStatistics:
         if not self.graph:
@@ -376,13 +407,13 @@ class StateGraphAnalyzer:
         }
 
         # This is a simplified estimation! (Full cycle checking would be expensive)
-        has_cycles = any(edge.source == edge.target for edge in edges)
+        has_cycles = self.has_cycle(graph)
 
         return StateGraphStatistics(
             total_states=total_states,
             average_branching_factor=avg_branching,
             state_density=state_density,
-            graph_diameter=float(max_depth),  # Using max depth reached as tree-diameter proxy
+            max_depth_reached=float(max_depth),  # Using max depth reached as tree-diameter proxy
             dead_end_count=dead_end_count,
             unreachable_state_count=unreachable_count,
             min_branching_factor=min_branching,
@@ -398,7 +429,7 @@ class StateGraphAnalyzer:
 
 def main():
     # Build the state graph
-    game = NimModule()
+    game = ChopsticksModule()
     equivalence = SymmetryEquivalence(
         # FlipOverHorizontalAxis(),
         # FlipOverVerticalAxis(),
@@ -407,10 +438,11 @@ def main():
         # Rotate270(),
         # Transpose(),
         # FlipOverAntiDiagonal(),
-        PermuteGroupsTransform()
+        # PermuteGroupsTransform()
+        SortHandsTransform()
     )
     builder = StateGraphBuilder(game=game, equivalence=equivalence)
-    graph = builder.traverse_states(max_depth=20, include_module=True)
+    graph = builder.traverse_states(max_depth=100, include_module=True)
 
     # Analyze the state graph
     analyzer = StateGraphAnalyzer(graph)
