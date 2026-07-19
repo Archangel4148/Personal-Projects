@@ -1,12 +1,9 @@
-
-
-
 from copy import deepcopy
 from typing import Hashable
 
 import numpy as np
 
-from framework.agents import Agent, RandomAgent
+from framework.agents import RandomAgent
 from framework.base import Action, GameModule, GameState
 from framework.runner import GameRunner
 from framework.state_analysis.transforms import StateTransform
@@ -138,7 +135,7 @@ class ChopsticksModule(GameModule):
         return np.array(values)
     
     def state_key(self, state: GameState) -> Hashable:
-        return (tuple(tuple(hands) for hands in state["groups"]), self.get_current_player_idx,)
+        return (tuple(tuple(hands) for hands in state["groups"]), self.get_current_player_idx(state),)
 
     def render_state(self, state: GameState) -> str:
         lines = []
@@ -170,14 +167,10 @@ if __name__ == "__main__":
 
     state = game.setup_initial_state(config={
         "num_players": 2,
-        # "groups_per_player": 3,
         "points_per_group": 1
     })
-    # print(state, "\n")
-    # actions = game.get_legal_actions(state)
-    # print(actions, "\n")
 
-    agents: list[Agent] = [RandomAgent(), RandomAgent()]
+    agents: list = [RandomAgent(), RandomAgent()]
     runner = GameRunner(game, agents)
     results = runner.run_game()
     print(results)

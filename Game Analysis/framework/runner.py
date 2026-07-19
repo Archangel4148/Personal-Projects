@@ -17,7 +17,7 @@ class GameRunner:
         self.agents = agents
         self.observers = [GameSummaryObserver(), *(observers or [])]
 
-    def run_game(self, config: dict[str, Any] | None = None, action_limit: int | None = None) -> GameResult:
+    def run_game(self, config: dict[str, Any] | None = None, action_limit: int | None = None, verbose: bool = False) -> GameResult:
         """Execute a single complete game, returning a summary of the results"""
         if config:
             state = self.game.setup_initial_state(config)
@@ -44,6 +44,8 @@ class GameRunner:
             # Have the current agent choose an action
             legal_actions = self.game.get_legal_actions(state)
             chosen_action = current_agent.choose_action(state, legal_actions)
+            if verbose:
+                print(current_agent, "chose action:", chosen_action)
 
             # Notify observers before each action
             for observer in self.observers:

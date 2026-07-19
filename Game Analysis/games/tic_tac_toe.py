@@ -2,7 +2,7 @@ from typing import Hashable
 
 import numpy as np
 
-from framework.agents import RandomAgent
+from framework.agents import Agent, RandomAgent
 from framework.base import GameState, Action, GridGameModule
 from framework.components import GridBoardComponent
 from framework.runner import GameRunner
@@ -75,7 +75,7 @@ class TicTacToeModule(GridGameModule):
 if __name__ == '__main__':
     # Build and initialize a game module
     module = TicTacToeModule()
-    players = [RandomAgent(), RandomAgent()]
+    players: list[Agent] = [RandomAgent(), RandomAgent()]
 
     runner = GameRunner(module, players)
 

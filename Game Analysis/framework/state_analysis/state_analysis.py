@@ -122,8 +122,9 @@ class StateGraphBuilder:
         self.game_module = game
         self.equivalence = equivalence
 
-    def traverse_states(self, max_depth: int, include_module: bool = False) -> StateGraph:
-        print(f"Beginning state traversal with maximum depth {max_depth}")
+    def traverse_states(self, max_depth: int, include_module: bool = False, verbose=False) -> StateGraph:
+        if verbose:
+            print(f"Beginning state traversal with maximum depth {max_depth}")
         game = self.game_module
 
         # Start with only the initial state
@@ -146,7 +147,7 @@ class StateGraphBuilder:
 
         # Search up to maximum depth
         for depth in range(max_depth):
-            if current_depth_states:
+            if verbose and current_depth_states:
                 print(f"Processing depth {depth + 1}")
             next_depth_states = {}
 
