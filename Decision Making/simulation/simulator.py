@@ -8,9 +8,6 @@ from rendering.renderer import Renderer
 from simulation.end_conditions import EndCondition
 from simulation.world import World
 
-if TYPE_CHECKING:
-    from simulation.agent import Agent
-
 
 class Simulator(ABC):
 

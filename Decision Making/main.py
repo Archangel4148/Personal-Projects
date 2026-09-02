@@ -7,8 +7,8 @@ from simulation.world import World
 
 def main():
     # Create and populate the world
-    agents = [LazyAgent(name=f"Agent {i+1}") for i in range(3)]
-    world = World(agents=agents, name="Titan")
+    agents = [LazyAgent(name=f"Agent {i+1}", position=(20 * i, 20 * i)) for i in range(3)]
+    world = World(entities=agents, name="Titan", bounds=(100, 100))
 
     # Create a renderer to draw the state
     renderer = PrintRenderer()

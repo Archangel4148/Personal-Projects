@@ -3,19 +3,21 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 from simulation.actions import Action, NoOpAction
+from simulation.entity import Entity
 
 if TYPE_CHECKING:
     from simulation.world import World
 
 
-class Agent(ABC):
+class Agent(Entity, ABC):
 
-    def __init__(self, name: str = "Unnamed Agent") -> None:
-        self.name = name
+    def __init__(self, name: str = "Unnamed Agent", position: tuple[float, float] = (0.0, 0.0)) -> None:
+        super().__init__(name, position)
 
     @abstractmethod
-    def observe(self, world: "World") -> None:
+    def observe(self, world: World) -> None:
         """Observe the world, and update memory/state (read-only, this should not touch the world)"""
+        # TODO: Eventually, this should evolve into the agent having senses that each can observe the world, and the agent relies on those, not the world itself
         ...
 
     @abstractmethod
