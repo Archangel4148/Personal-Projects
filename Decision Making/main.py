@@ -1,7 +1,7 @@
 from rendering.renderer import PrintRenderer
 from simulation.agent import LazyAgent
 from simulation.end_conditions import TimeLimitCondition
-from simulation.simulator import InstantSimulator
+from simulation.simulator import InstantSimulator, TpsSimulator
 from simulation.world import World
 
 
@@ -17,7 +17,7 @@ def main():
     end_conditions = [TimeLimitCondition(time_limit=10)]
 
     # Create a simulator to run the simulation
-    simulator = InstantSimulator(world=world, end_conditions=end_conditions, renderer=renderer)
+    simulator = TpsSimulator(world=world, end_conditions=end_conditions, tps=2, renderer=renderer)
 
     # Run the simulation
     simulator.run()

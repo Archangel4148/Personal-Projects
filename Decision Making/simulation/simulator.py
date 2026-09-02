@@ -57,3 +57,30 @@ class InstantSimulator(Simulator):
         # Step until the world ends (no delays)
         while not self.should_end():
             self.step()
+
+
+class TpsSimulator(Simulator):
+    def __init__(self, world: World, end_conditions: Sequence[EndCondition], tps: float, renderer: Renderer | None = None) -> None:
+        super().__init__(world, end_conditions, renderer)
+
+        if tps <= 0:
+            raise ValueError("TPS must be greater than zero")
+
+        self.tps = tps
+
+    def run(self) -> None:
+            from time import perf_counter, sleep
+
+            tick_duration = 1 / self.tps
+            while not self.should_end():
+                # Track start time
+                start = perf_counter()
+
+                # Perform the step
+                self.step()
+
+                # Sleep for the remaining time to ensure accurate TPS
+                elapsed = perf_counter() - start
+                remaining = tick_duration - elapsed
+                if remaining > 0:
+                    sleep(remaining)
