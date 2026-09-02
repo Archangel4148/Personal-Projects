@@ -1,6 +1,4 @@
-from __future__ import annotations
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
 
 from abc import ABC, abstractmethod
 
@@ -17,10 +15,9 @@ class Simulator(ABC):
         self.renderer = renderer
 
     def should_end(self) -> bool:
-        return any(
-            condition.should_end(self.world)
-            for condition in self.end_conditions
-        )
+        if self.renderer and self.renderer.requests_stop():
+            return True
+        return any(condition.should_end(self.world) for condition in self.end_conditions)
     
     def step(self) -> None:
         # Update the world state
@@ -55,6 +52,10 @@ class InstantSimulator(Simulator):
         while not self.should_end():
             self.step()
 
+        # Hold on the final frame
+        if self.renderer:
+            self.renderer.keep_alive(self.world)
+
 
 class TpsSimulator(Simulator):
     def __init__(self, world: World, end_conditions: Sequence[EndCondition], tps: float, renderer: Renderer | None = None) -> None:
@@ -81,3 +82,7 @@ class TpsSimulator(Simulator):
                 remaining = tick_duration - elapsed
                 if remaining > 0:
                     sleep(remaining)
+
+            # Hold on the final frame
+            if self.renderer:
+                self.renderer.keep_alive(self.world)

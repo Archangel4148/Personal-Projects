@@ -1,9 +1,13 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import math
+import random
 from typing import TYPE_CHECKING
 
-from simulation.actions import Action, NoOpAction
-from simulation.entity import Entity
+from simulation.actions import Action, MoveAction, NoOpAction
+from simulation.combat import Attack, AttackEntityAction, CombatEntity, DamageableEntity
+from simulation.entity import Entity, EntityID, MovableEntity
+from tools.math import distance, step_towards
 
 if TYPE_CHECKING:
     from simulation.world import World
@@ -35,3 +39,24 @@ class LazyAgent(Agent):
     def choose_action(self) -> Action:
         """Just takes a blank no-op action"""
         return NoOpAction()
+
+
+class RandomMoveAgent(Agent, MovableEntity):
+    """An agent that takes a MoveAction in a random direction each tick"""
+
+    def __init__(self, step_distance: float, name: str = "Unnamed Random Move Agent", position: tuple[float, float] = (0, 0)) -> None:
+        super().__init__(name, position)
+
+        self._step = step_distance
+
+    @property
+    def max_speed(self) -> float:
+        return self._step
+
+    def observe(self, world: World) -> None:
+        pass
+
+    def choose_action(self) -> Action:
+        # Choose a random direction to move in
+        angle = random.random() * 2 * math.pi
+        return MoveAction(dx=self._step * math.cos(angle), dy=self._step * math.sin(angle))
