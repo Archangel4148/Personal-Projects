@@ -19,10 +19,6 @@ class Simulator(ABC):
         self.end_conditions = end_conditions
         self.renderer = renderer
 
-    @property
-    def _agents(self) -> list[Agent]:
-        return self.world.agents
-
     def should_end(self) -> bool:
         return any(
             condition.should_end(self.world)
@@ -31,11 +27,20 @@ class Simulator(ABC):
     
     def step(self) -> None:
         # Update the world state
-        self.world.update()
+        self.world.update_environment()
 
-        # Update all agents
-        for agent in self._agents:
-            agent.update(self.world)
+        # All agents observe the world
+        for agent in self.world.agents:
+            agent.observe(self.world)
+
+        # All agents choose actions
+        actions = {agent: agent.choose_action() for agent in self.world.agents}
+
+        # Resolve actions
+        self.world.resolve_actions(actions)
+
+        # Increment time
+        self.world.advance_time()
 
         if self.renderer:
             # Render the new simulation state

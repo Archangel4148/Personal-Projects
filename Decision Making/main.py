@@ -1,13 +1,13 @@
 from rendering.renderer import PrintRenderer
-from simulation.agent import Agent
+from simulation.agent import LazyAgent
 from simulation.end_conditions import TimeLimitCondition
-from simulation.simulator import InstantSimulator, Simulator
+from simulation.simulator import InstantSimulator
 from simulation.world import World
 
 
 def main():
     # Create and populate the world
-    agents = [Agent(name=f"Agent {i+1}") for i in range(3)]
+    agents = [LazyAgent(name=f"Agent {i+1}") for i in range(3)]
     world = World(agents=agents, name="Titan")
 
     # Create a renderer to draw the state
