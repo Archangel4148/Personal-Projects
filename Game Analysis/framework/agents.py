@@ -40,7 +40,8 @@ class SolvedGraphAgent(Agent):
         canonical_key = self.game.state_key(canonical_state)
         
         # Look up the pre-calculated optimal next state
-        next_state_key = self.solver.optimal_moves.get(canonical_key)
+        best_move_keys = self.solver.optimal_moves[canonical_key]
+        next_state_key = random.choice(best_move_keys)
         
         # If the state exists in the database, find the winning action
         if next_state_key is not None:

@@ -430,17 +430,17 @@ class StateGraphAnalyzer:
 
 def main():
     # Build the state graph
-    game = ChopsticksModule()
+    game = TicTacToeModule()
     equivalence = SymmetryEquivalence(
-        # FlipOverHorizontalAxis(),
-        # FlipOverVerticalAxis(),
-        # Rotate90(),
-        # Rotate180(),
-        # Rotate270(),
-        # Transpose(),
-        # FlipOverAntiDiagonal(),
+        FlipOverHorizontalAxis(),
+        FlipOverVerticalAxis(),
+        Rotate90(),
+        Rotate180(),
+        Rotate270(),
+        Transpose(),
+        FlipOverAntiDiagonal(),
         # PermuteGroupsTransform()
-        SortHandsTransform()
+        # SortHandsTransform()
     )
     builder = StateGraphBuilder(game=game, equivalence=equivalence)
     graph = builder.traverse_states(max_depth=100, include_module=True)
