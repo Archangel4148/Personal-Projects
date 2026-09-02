@@ -1,5 +1,9 @@
+
 from abc import ABC
 
 
-class Action:
+class Action(ABC):
+    ...
+
+class NoOpAction(Action):
     pass

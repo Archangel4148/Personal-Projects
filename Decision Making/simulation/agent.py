@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from simulation.actions import Action
+from simulation.actions import Action, NoOpAction
 
 if TYPE_CHECKING:
     from simulation.world import World
@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 class Agent(ABC):
 
-    def __init__(self, name="Unnamed Agent") -> None:
+    def __init__(self, name: str = "Unnamed Agent") -> None:
         self.name = name
 
     @abstractmethod
@@ -28,9 +28,8 @@ class LazyAgent(Agent):
     """A boring agent that does nothing"""
 
     def observe(self, world: World) -> None:
-        """"""
         pass
 
     def choose_action(self) -> Action:
         """Just takes a blank no-op action"""
-        return Action()
+        return NoOpAction()
