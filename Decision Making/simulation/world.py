@@ -5,7 +5,7 @@ from simulation.actions import Action, MoveAction
 from simulation.agent import Agent
 from simulation.combat import CombatEntity, AttackEntityAction, DamageableEntity, resolve_combat
 from simulation.entity import Entity, EntityID, MovableEntity, UpdatableEntity
-from tools.math import clamp_magnitude
+from tools.math_helpers import clamp_magnitude
 
 class World:
 

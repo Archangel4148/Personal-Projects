@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from simulation.actions import Action
 from simulation.entity import Entity, EntityID
-from tools.math import distance
+from tools.math_helpers import distance
 
 @dataclass(frozen=True)
 class Attack:
@@ -39,14 +39,14 @@ class AttackEntityAction(Action):
 
 
 def resolve_combat(attacker: CombatEntity, target: DamageableEntity, attack_id: str):
-        # Get the incoming attack
-        attack = attacker.get_attack(attack_id)
-        if attack is None:
-            return
+    # Get the incoming attack
+    attack = attacker.get_attack(attack_id)
+    if attack is None:
+        return
 
-        # Handle attack range
-        if distance(attacker.position, target.position) > attack.range:
-            return
+    # Handle attack range
+    if distance(attacker.position, target.position) > attack.range:
+        return
 
-        # If the target is in range, they take damage
-        target.take_damage(attack.damage)
+    # If the target is in range, they take damage
+    target.take_damage(attack.damage)

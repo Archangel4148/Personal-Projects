@@ -1,5 +1,5 @@
 from scenarios.predator_vs_prey import PredatorVsPrey
-from rendering.pygame import PygameRenderer
+from rendering.pygame_renderer import PygameRenderer
 from simulation.simulator import InstantSimulator, TpsSimulator
 
 
@@ -12,7 +12,6 @@ def main():
 
     # Create a renderer to draw the state
     renderer = PygameRenderer(window_size=scenario.bounds, bg_color=(255, 255, 255))
-
 
     # Create a simulator to run the simulation
     simulator = TpsSimulator(world=world, end_conditions=scenario.end_conditions, tps=scenario.tps, renderer=renderer)
