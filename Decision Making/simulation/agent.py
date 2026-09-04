@@ -8,6 +8,8 @@ from simulation.actions import Action
 from simulation.entity import Entity, MovableEntity
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from rendering.overlay import OverlayPrimitive
     from simulation.world import World
 
 class Agent(Entity):
@@ -24,6 +26,9 @@ class Agent(Entity):
     def choose_action(self) -> Action:
         """Based on the current state/observations, choose an action to take"""
         return self.brain.choose_action(self)
+
+    def overlays(self) -> Sequence[OverlayPrimitive]:
+        return self.brain.overlays(self)
 
 
 class RandomMoveAgent(Agent, MovableEntity):

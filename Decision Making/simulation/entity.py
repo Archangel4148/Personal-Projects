@@ -6,6 +6,8 @@ import uuid
 from rendering.appearance import Appearance
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from rendering.overlay import OverlayPrimitive
     from simulation.world import World
 
 EntityID = NewType("EntityID", uuid.UUID)
@@ -19,6 +21,10 @@ class Entity:
 
         # Give each Entity a unique ID
         self.id = EntityID(uuid.uuid4())
+
+    def overlays(self) -> Sequence[OverlayPrimitive]:
+        """Overlay primitives to draw with this entity. Empty by default."""
+        return ()
 
     @property
     def pos_x(self) -> float:

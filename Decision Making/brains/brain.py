@@ -11,6 +11,7 @@ from simulation.entity import MovableEntity
 from brains.senses.sense import Sense
 
 if TYPE_CHECKING:
+    from rendering.overlay import OverlayPrimitive
     from simulation.world import World
     from simulation.agent import Agent
 
@@ -31,6 +32,12 @@ class Brain(ABC):
 
     def choose_action(self, agent: Agent) -> Action:
         return NoOpAction()
+
+    def overlays(self, agent: Agent) -> Sequence[OverlayPrimitive]:
+        primitives: list[OverlayPrimitive] = []
+        for sense in self.senses:
+            primitives.extend(sense.overlay_primitives(agent))
+        return primitives
 
 
 def wander(agent: MovableEntity) -> MoveAction:
