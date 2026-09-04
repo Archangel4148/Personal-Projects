@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, NewType
 import uuid
 
+from rendering.appearance import Appearance
+
 if TYPE_CHECKING:
     from simulation.world import World
 
@@ -10,9 +12,10 @@ EntityID = NewType("EntityID", uuid.UUID)
 
 class Entity:
     """An object that exists in the world."""
-    def __init__(self, name: str = "Unnamed Entity", position: tuple[float, float] = (0.0, 0.0)) -> None:
+    def __init__(self, name: str = "Unnamed Entity", position: tuple[float, float] = (0.0, 0.0), appearance: Appearance | None = None) -> None:
         self.name = name
         self.position = position
+        self.appearance = appearance or Appearance(color=(180, 180, 180))
 
         # Give each Entity a unique ID
         self.id = EntityID(uuid.uuid4())

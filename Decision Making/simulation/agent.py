@@ -3,6 +3,7 @@ from abc import ABC
 from typing import TYPE_CHECKING
 
 from brains.brain import Brain, RandomMovementBrain
+from rendering.appearance import Appearance
 from simulation.actions import Action
 from simulation.entity import Entity, MovableEntity
 
@@ -11,8 +12,8 @@ if TYPE_CHECKING:
 
 class Agent(Entity):
 
-    def __init__(self, brain: Brain, name: str = "Unnamed Agent", position: tuple[float, float] = (0.0, 0.0)) -> None:
-        super().__init__(name, position)
+    def __init__(self, brain: Brain, name: str = "Unnamed Agent", position: tuple[float, float] = (0.0, 0.0), appearance: Appearance | None = None) -> None:
+        super().__init__(name=name, position=position, appearance=appearance)
 
         self.brain = brain
 
@@ -28,11 +29,12 @@ class Agent(Entity):
 class RandomMoveAgent(Agent, MovableEntity):
     """An agent that takes a MoveAction in a random direction each tick"""
 
-    def __init__(self, step_distance: float, name: str = "Unnamed Random Move Agent", position: tuple[float, float] = (0.0, 0.0)) -> None:
+    def __init__(self, step_distance: float, name: str = "Unnamed Random Move Agent", position: tuple[float, float] = (0.0, 0.0), appearance: Appearance | None = None) -> None:
         super().__init__(
             brain=RandomMovementBrain(senses=[]), 
             name=name, 
-            position=position
+            position=position,
+            appearance=appearance
         )
 
         self._step = step_distance

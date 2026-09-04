@@ -3,6 +3,7 @@ import random
 
 from brains.brain import Brain, wander
 from brains.senses.sense import EntitySense
+from rendering.appearance import Appearance
 from scenarios.scenario_base import Scenario
 from simulation.actions import Action, MoveAction
 from simulation.agent import Agent, RandomMoveAgent
@@ -54,7 +55,8 @@ class HunterAgent(Agent, CombatEntity, MovableEntity):
         super().__init__(
             brain=HunterBrain(senses=[EntitySense(range=200)]),  # This hunter can perfectly sense every Entity in the world
             name=name,
-            position=position
+            position=position,
+            appearance=Appearance(color=(255, 0, 0), size=7.0)
         )
         self._max_speed = max_speed
         self.attack = attack
@@ -69,7 +71,7 @@ class HunterAgent(Agent, CombatEntity, MovableEntity):
 class HelplessPreyAgent(RandomMoveAgent, DamageableEntity):
 
     def __init__(self, hp: float, max_hp: float, step_distance: float, name: str = "Helpless Prey", position: tuple[float, float] = (0, 0)) -> None:
-        super().__init__(step_distance, name, position)
+        super().__init__(step_distance, name, position, appearance=Appearance(color=(0, 255, 255), size=5.0))
         self.hp = hp
         self.max_hp = max_hp
 

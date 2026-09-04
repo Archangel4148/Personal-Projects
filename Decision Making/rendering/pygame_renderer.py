@@ -1,5 +1,6 @@
 import pygame
 
+from rendering.appearance import EntityShape
 from rendering.renderer import Renderer
 from simulation.world import World
 
@@ -33,12 +34,15 @@ class PygameRenderer(Renderer):
         # TODO: Have custom "DrawMethod" information for each entity
         for entity in world.entities:
             x, y = entity.position
-            pygame.draw.circle(
-                self.screen,
-                (255, 0, 0),
-                (x, y),
-                5,
-            )
+            look = entity.appearance
+
+            if look.shape == EntityShape.CIRCLE:
+                pygame.draw.circle(
+                    self.screen,
+                    look.color,
+                    (x, y),
+                    look.size,
+                )
 
         # Show the completed frame
         pygame.display.flip()
