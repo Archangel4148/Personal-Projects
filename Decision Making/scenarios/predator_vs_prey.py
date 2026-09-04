@@ -1,10 +1,10 @@
 from collections.abc import Sequence
 import random
 
-from brains.brain import Brain
+from brains.brain import Brain, wander
 from brains.senses.sense import EntitySense
 from scenarios.scenario_base import Scenario
-from simulation.actions import Action, MoveAction, NoOpAction
+from simulation.actions import Action, MoveAction
 from simulation.agent import Agent, RandomMoveAgent
 from simulation.combat import Attack, AttackEntityAction, CombatEntity, DamageableEntity
 from simulation.entity import Entity, MovableEntity
@@ -23,9 +23,8 @@ class HunterBrain(Brain):
             and entity.id != agent.id
         ]
 
-        # If there are no valid targets, do nothing
         if not valid_targets:
-            return NoOpAction()
+            return wander(agent)
 
         # Find the nearest valid target
         prey = min(
@@ -53,7 +52,7 @@ class HunterAgent(Agent, CombatEntity, MovableEntity):
 
     def __init__(self, max_speed: float, attack: Attack, name: str = "Unnamed Hunter Agent", position: tuple[float, float] = (0, 0)) -> None:
         super().__init__(
-            brain=HunterBrain(senses=[EntitySense()]),  # This hunter can perfectly sense every Entity in the world
+            brain=HunterBrain(senses=[EntitySense(range=200)]),  # This hunter can perfectly sense every Entity in the world
             name=name,
             position=position
         )

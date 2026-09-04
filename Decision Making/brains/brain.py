@@ -33,13 +33,17 @@ class Brain(ABC):
         return NoOpAction()
 
 
+def wander(agent: MovableEntity) -> MoveAction:
+    """Take a max_speed step in a random direction"""
+    angle = random.random() * 2 * math.pi
+    return MoveAction(
+        dx=agent.max_speed * math.cos(angle),
+        dy=agent.max_speed * math.sin(angle),
+    )
+
+
 class RandomMovementBrain(Brain):
 
     def choose_action(self, agent: Agent):
         assert isinstance(agent, MovableEntity)
-        angle = random.random() * 2 * math.pi
-
-        return MoveAction(
-            dx=agent.max_speed * math.cos(angle),
-            dy=agent.max_speed * math.sin(angle),
-        )
+        return wander(agent)
