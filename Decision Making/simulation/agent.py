@@ -9,8 +9,7 @@ from simulation.entity import Entity, MovableEntity
 if TYPE_CHECKING:
     from simulation.world import World
 
-
-class Agent(Entity, ABC):
+class Agent(Entity):
 
     def __init__(self, brain: Brain, name: str = "Unnamed Agent", position: tuple[float, float] = (0.0, 0.0)) -> None:
         super().__init__(name, position)

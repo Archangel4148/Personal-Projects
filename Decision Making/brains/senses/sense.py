@@ -1,4 +1,4 @@
-
+from __future__ import annotations
 from typing import TYPE_CHECKING
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
@@ -15,3 +15,8 @@ class Sense(ABC):
     def perceive(self, world: World, agent: Agent) -> Sequence[object]:
         """Return information currently available to the agent."""
         ...
+
+class EntitySense(Sense):
+    """An 'omniscient' sense that simply observes all entities in the world"""
+    def perceive(self, world: World, agent: Agent):
+        return world.entities

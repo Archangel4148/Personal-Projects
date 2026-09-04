@@ -1,21 +1,20 @@
 from collections.abc import Sequence
-import math
 import random
 
 from brains.brain import Brain
+from brains.senses.sense import EntitySense
 from scenarios.scenario_base import Scenario
 from simulation.actions import Action, MoveAction, NoOpAction
 from simulation.agent import Agent, RandomMoveAgent
 from simulation.combat import Attack, AttackEntityAction, CombatEntity, DamageableEntity
-from simulation.entity import Entity, EntityID, MovableEntity
-from simulation.world import World
+from simulation.entity import Entity, MovableEntity
 from tools.math_helpers import distance, step_towards
 
 
-class HunterBrain(Brain[HunterAgent]):
+class HunterBrain(Brain):
 
-
-    def choose_action(self, agent: Agent ) -> Action:
+    def choose_action(self, agent: Agent) -> Action:
+        assert isinstance(agent, HunterAgent)
         # Get all valid entities that are known
         valid_targets = [
             entity
@@ -53,43 +52,17 @@ class HunterBrain(Brain[HunterAgent]):
 class HunterAgent(Agent, CombatEntity, MovableEntity):
 
     def __init__(self, max_speed: float, attack: Attack, name: str = "Unnamed Hunter Agent", position: tuple[float, float] = (0, 0)) -> None:
-        super().__init__(name=name, position=position)
+        super().__init__(
+            brain=HunterBrain(senses=[EntitySense()]),  # This hunter can perfectly sense every Entity in the world
+            name=name,
+            position=position
+        )
         self._max_speed = max_speed
         self.attack = attack
-
-        self.prey_id: EntityID | None = None
-        self.prey_pos: tuple[float, float] | None = None
 
     @property
     def max_speed(self) -> float:
         return self._max_speed
-
-    def observe(self, world: World) -> None:
-        # Find the nearest valid target
-        valid_targets = [e for e in world.entities if isinstance(e, DamageableEntity) and e.id != self.id]
-
-        if not valid_targets:
-            self.prey_id = None
-            self.prey_pos = None
-        else:
-            prey = min(valid_targets, key=lambda t: distance(self.position, t.position))
-            self.prey_id = prey.id
-            self.prey_pos = prey.position
-    
-    def choose_action(self) -> Action:
-        if self.prey_pos and self.prey_id is not None:
-            distance_to_prey = distance(self.position, self.prey_pos)
-
-            # Within range, attack!
-            if distance_to_prey < self.attack.range:
-                return AttackEntityAction(self.prey_id, self.attack.id)
-
-            # Out of range, move towards prey
-            return MoveAction(*step_towards(from_pos=self.position, to_pos=self.prey_pos, max_step=self.max_speed))
-
-        # If there is no valid prey, move randomly:
-        angle = random.random() * 2 * math.pi
-        return MoveAction(dx=self._max_speed * math.cos(angle), dy=self._max_speed * math.sin(angle))
 
     def get_attack(self, attack_id: str) -> Attack | None:
         return self.attack if self.attack.id == attack_id else None
@@ -109,7 +82,6 @@ class HelplessPreyAgent(RandomMoveAgent, DamageableEntity):
         self.hp -= amount
 
 
-
 class PredatorVsPrey(Scenario):
     name: str = "Predator vs Prey"
     bounds: tuple[int, int] = (800, 600)
@@ -125,5 +97,5 @@ class PredatorVsPrey(Scenario):
                 name="Wolf"
             )
         ]
-        prey = [HelplessPreyAgent(hp=1, max_hp=1, step_distance=8, name=f"Agent {i+1}", position=(random.randint(0, width), random.randint(0, height))) for i in range(self.prey_count)]
+        prey = [HelplessPreyAgent(hp=1, max_hp=1, step_distance=6, name=f"Agent {i+1}", position=(random.randint(0, width), random.randint(0, height))) for i in range(self.prey_count)]
         return hunter + prey
