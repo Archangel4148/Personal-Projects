@@ -1,0 +1,557 @@
+{
+  "tomato": {
+    "id": "tomato",
+    "name": "Tomato",
+    "cropBonus": "Water Retain",
+    "size": "single",
+    "color": "#e85d4c",
+    "code": "T",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 4,
+      "withBonus": 3,
+      "isReharvestable": true,
+      "reharvestCooldown": 2,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 23,
+      "cropStar": 34,
+      "seed": 40,
+      "seedStar": 60,
+      "hasPreserve": true,
+      "preserve": 34,
+      "preserveStar": 51
+    },
+    "costs": {
+      "zekiPrice": 80,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 3,
+      "seedsPerConversion": 2,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 30,
+      "preserveProcessMinutes": 27
+    }
+  },
+  "potato": {
+    "id": "potato",
+    "name": "Potato",
+    "cropBonus": "Water Retain",
+    "size": "single",
+    "color": "#c4a35a",
+    "code": "P",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 5,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 45,
+      "cropStar": 67,
+      "seed": 20,
+      "seedStar": 30,
+      "hasPreserve": true,
+      "preserve": 68,
+      "preserveStar": 102
+    },
+    "costs": {
+      "zekiPrice": 40,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 84,
+      "preserveProcessMinutes": 54
+    }
+  },
+  "rice": {
+    "id": "rice",
+    "name": "Rice",
+    "cropBonus": "Harvest Increase",
+    "size": "single",
+    "color": "#f5f0d8",
+    "code": "R",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 3,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 27,
+      "cropStar": 40,
+      "seed": 11,
+      "seedStar": 16,
+      "hasPreserve": false,
+      "preserve": 0,
+      "preserveStar": 0
+    },
+    "costs": {
+      "zekiPrice": 23,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 0,
+      "seedProcessMinutes": 42,
+      "preserveProcessMinutes": 0
+    }
+  },
+  "wheat": {
+    "id": "wheat",
+    "name": "Wheat",
+    "cropBonus": "Harvest Increase",
+    "size": "single",
+    "color": "#e8c547",
+    "code": "W",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 4,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 33,
+      "cropStar": 49,
+      "seed": 12,
+      "seedStar": 18,
+      "hasPreserve": false,
+      "preserve": 0,
+      "preserveStar": 0
+    },
+    "costs": {
+      "zekiPrice": 25,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 0,
+      "seedProcessMinutes": 42,
+      "preserveProcessMinutes": 0
+    }
+  },
+  "carrot": {
+    "id": "carrot",
+    "name": "Carrot",
+    "cropBonus": "Weed Prevention",
+    "size": "single",
+    "color": "#f08a24",
+    "code": "C",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 3,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 23,
+      "cropStar": 34,
+      "seed": 7,
+      "seedStar": 10,
+      "hasPreserve": true,
+      "preserve": 34,
+      "preserveStar": 51
+    },
+    "costs": {
+      "zekiPrice": 15,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 18,
+      "preserveProcessMinutes": 27
+    }
+  },
+  "onion": {
+    "id": "onion",
+    "name": "Onion",
+    "cropBonus": "Weed Prevention",
+    "size": "single",
+    "color": "#b07cc6",
+    "code": "O",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 4,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 30,
+      "cropStar": 45,
+      "seed": 10,
+      "seedStar": 15,
+      "hasPreserve": true,
+      "preserve": 45,
+      "preserveStar": 67
+    },
+    "costs": {
+      "zekiPrice": 20,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 24,
+      "preserveProcessMinutes": 36
+    }
+  },
+  "cotton": {
+    "id": "cotton",
+    "name": "Cotton",
+    "cropBonus": "Quality Increase",
+    "size": "single",
+    "color": "#f7f7f2",
+    "code": "Co",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 5,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 45,
+      "cropStar": 67,
+      "seed": 20,
+      "seedStar": 30,
+      "hasPreserve": false,
+      "preserve": 0,
+      "preserveStar": 0
+    },
+    "costs": {
+      "zekiPrice": 40,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 3,
+      "cropsPerPreserve": 0,
+      "seedProcessMinutes": 36,
+      "preserveProcessMinutes": 0
+    }
+  },
+  "blueberry": {
+    "id": "blueberry",
+    "name": "Blueberry",
+    "cropBonus": "Harvest Increase",
+    "size": "bush",
+    "color": "#3d5aad",
+    "code": "B",
+    "growthInfo": {
+      "base": 6,
+      "growthTime": 9,
+      "withBonus": 9,
+      "isReharvestable": true,
+      "reharvestCooldown": 3,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 39,
+      "cropStar": 58,
+      "seed": 112,
+      "seedStar": 168,
+      "hasPreserve": true,
+      "preserve": 59,
+      "preserveStar": 88
+    },
+    "costs": {
+      "zekiPrice": 0,
+      "guildPrice": 45,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 4,
+      "seedsPerConversion": 2,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 81,
+      "preserveProcessMinutes": 47.25
+    }
+  },
+  "apple": {
+    "id": "apple",
+    "name": "Apple",
+    "cropBonus": "Harvest Increase",
+    "size": "tree",
+    "color": "#c0392b",
+    "code": "A",
+    "growthInfo": {
+      "base": 16,
+      "growthTime": 12,
+      "withBonus": 24,
+      "isReharvestable": true,
+      "reharvestCooldown": 6,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 64,
+      "cropStar": 96,
+      "seed": 700,
+      "seedStar": 1050,
+      "hasPreserve": true,
+      "preserve": 96,
+      "preserveStar": 144
+    },
+    "costs": {
+      "zekiPrice": 0,
+      "guildPrice": 280,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 10,
+      "seedsPerConversion": 1,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 142,
+      "preserveProcessMinutes": 76
+    }
+  },
+  "corn": {
+    "id": "corn",
+    "name": "Corn",
+    "cropBonus": "Harvest Increase",
+    "size": "single",
+    "color": "#f4d03f",
+    "code": "Cr",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 5,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 40,
+      "cropStar": 60,
+      "seed": 15,
+      "seedStar": 22,
+      "hasPreserve": true,
+      "preserve": 60,
+      "preserveStar": 90
+    },
+    "costs": {
+      "zekiPrice": 30,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 48,
+      "preserveProcessMinutes": 48
+    }
+  },
+  "spicy-pepper": {
+    "id": "spicy-pepper",
+    "name": "Spicy Pepper",
+    "cropBonus": "Quality Increase",
+    "size": "bush",
+    "color": "#d35400",
+    "code": "S",
+    "growthInfo": {
+      "base": 6,
+      "growthTime": 6,
+      "withBonus": 9,
+      "isReharvestable": true,
+      "reharvestCooldown": 3,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 32,
+      "cropStar": 48,
+      "seed": 85,
+      "seedStar": 127,
+      "hasPreserve": true,
+      "preserve": 48,
+      "preserveStar": 72
+    },
+    "costs": {
+      "zekiPrice": 170,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 4,
+      "seedsPerConversion": 2,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 100,
+      "preserveProcessMinutes": 38.5
+    }
+  },
+  "napa-cabbage": {
+    "id": "napa-cabbage",
+    "name": "Napa Cabbage",
+    "cropBonus": "Water Retain",
+    "size": "single",
+    "color": "#a8e6a1",
+    "code": "Cb",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 6,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 40,
+      "cropStar": 60,
+      "seed": 10,
+      "seedStar": 15,
+      "hasPreserve": true,
+      "preserve": 60,
+      "preserveStar": 90
+    },
+    "costs": {
+      "zekiPrice": 20,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 6,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 48,
+      "preserveProcessMinutes": 48
+    }
+  },
+  "bok-choy": {
+    "id": "bok-choy",
+    "name": "Bok Choy",
+    "cropBonus": "Weed Prevention",
+    "size": "single",
+    "color": "#7dcea0",
+    "code": "Bk",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 3,
+      "withBonus": 3,
+      "isReharvestable": false,
+      "reharvestCooldown": 0,
+      "reharvestLimit": 0
+    },
+    "goldValues": {
+      "crop": 30,
+      "cropStar": 45,
+      "seed": 15,
+      "seedStar": 22,
+      "hasPreserve": true,
+      "preserve": 45,
+      "preserveStar": 67
+    },
+    "costs": {
+      "zekiPrice": 30,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 72,
+      "preserveProcessMinutes": 36
+    }
+  },
+  "rockhopper-pumpkin": {
+    "id": "rockhopper-pumpkin",
+    "name": "Rockhopper Pumpkin",
+    "cropBonus": "Quality Increase",
+    "size": "bush",
+    "color": "#e67e22",
+    "code": "Pm",
+    "growthInfo": {
+      "base": 2,
+      "growthTime": 9,
+      "withBonus": 3,
+      "isReharvestable": true,
+      "reharvestCooldown": 2,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 88,
+      "cropStar": 132,
+      "seed": 25,
+      "seedStar": 37,
+      "hasPreserve": true,
+      "preserve": 101,
+      "preserveStar": 151
+    },
+    "costs": {
+      "zekiPrice": 0,
+      "guildPrice": 0,
+      "potionPrice": 500
+    },
+    "conversion": {
+      "cropsPerSeed": 1,
+      "seedsPerConversion": 4,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 100,
+      "preserveProcessMinutes": 31.5
+    }
+  },
+  "batterfly-bean": {
+    "id": "batterfly-bean",
+    "name": "Batterfly Bean",
+    "cropBonus": "Harvest Increase",
+    "size": "bush",
+    "color": "#58d68d",
+    "code": "Bt",
+    "growthInfo": {
+      "base": 6,
+      "growthTime": 6,
+      "withBonus": 9,
+      "isReharvestable": true,
+      "reharvestCooldown": 2,
+      "reharvestLimit": 3
+    },
+    "goldValues": {
+      "crop": 28,
+      "cropStar": 42,
+      "seed": 90,
+      "seedStar": 135,
+      "hasPreserve": true,
+      "preserve": 41,
+      "preserveStar": 61
+    },
+    "costs": {
+      "zekiPrice": 0,
+      "guildPrice": 0,
+      "potionPrice": 0
+    },
+    "conversion": {
+      "cropsPerSeed": 2,
+      "seedsPerConversion": 1,
+      "cropsPerPreserve": 1,
+      "seedProcessMinutes": 85,
+      "preserveProcessMinutes": 33
+    }
+  }
+}

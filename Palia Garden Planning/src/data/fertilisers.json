@@ -1,0 +1,72 @@
+{
+  "harvest-boost": {
+    "id": "harvest-boost",
+    "name": "Harvest Boost",
+    "effect": "Harvest Increase",
+    "color": "#f1c40f",
+    "code": "Hb",
+    "costs": {
+      "zekiBatchPrice": 0,
+      "zekiBatchCount": 0,
+      "guildBatchPrice": 10,
+      "guildBatchCount": 50,
+      "goldSellValue": 5
+    }
+  },
+  "speedy-gro": {
+    "id": "speedy-gro",
+    "name": "Speedy Gro",
+    "effect": "Speed Increase",
+    "color": "#5dade2",
+    "code": "Sg",
+    "costs": {
+      "zekiBatchPrice": 0,
+      "zekiBatchCount": 0,
+      "guildBatchPrice": 10,
+      "guildBatchCount": 50,
+      "goldSellValue": 5
+    }
+  },
+  "quality-up": {
+    "id": "quality-up",
+    "name": "Quality Up",
+    "effect": "Quality Increase",
+    "color": "#f5b7b1",
+    "code": "Qu",
+    "costs": {
+      "zekiBatchPrice": 0,
+      "zekiBatchCount": 0,
+      "guildBatchPrice": 0,
+      "guildBatchCount": 0,
+      "goldSellValue": 2
+    }
+  },
+  "hydrate-pro": {
+    "id": "hydrate-pro",
+    "name": "Hydrate Pro",
+    "effect": "Water Retain",
+    "color": "#85c1e9",
+    "code": "Hp",
+    "costs": {
+      "zekiBatchPrice": 40,
+      "zekiBatchCount": 20,
+      "guildBatchPrice": 0,
+      "guildBatchCount": 0,
+      "goldSellValue": 1
+    }
+  },
+  "weed-block": {
+    "id": "weed-block",
+    "name": "Weed Block",
+    "effect": "Weed Prevention",
+    "color": "#82e0aa",
+    "code": "Wb",
+    "costs": {
+      "zekiBatchPrice": 40,
+      "zekiBatchCount": 20,
+      "guildBatchPrice": 0,
+      "guildBatchCount": 0,
+      "goldSellValue": 1
+    }
+  }
+}
